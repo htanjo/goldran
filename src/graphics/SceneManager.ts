@@ -26,6 +26,16 @@ export default class SceneManager {
 
   private totalLoaded: number = 0;
 
+  private frame: number = 0;
+
+  private previousFrame: number = 0;
+
+  private nextFrame: number = 0;
+
+  private previousAnimationTime: number = 0;
+
+  private smoothAnimationDone: boolean = true;
+
   private emitter: EventTarget;
 
   public constructor(scene: Scene) {
@@ -57,9 +67,67 @@ export default class SceneManager {
   }
 
   public applyFrame(frame: number) {
-    this.scene.animationGroups.forEach((animationGroup) => {
-      animationGroup.goToFrame(frame);
-    });
+    const currentTime = Date.now();
+
+    // For continuous updates, go to target frame without delay.
+    if (
+      currentTime - this.previousAnimationTime < 10 ||
+      Math.abs(frame - this.frame) < 10
+    ) {
+      this.smoothAnimationDone = true;
+      this.previousAnimationTime = currentTime;
+      this.frame = frame;
+      this.previousFrame = frame;
+      this.nextFrame = frame;
+      this.scene.animationGroups.forEach((animationGroup) => {
+        animationGroup.goToFrame(this.frame);
+      });
+      return;
+    }
+
+    // For intermitted updates, simulate smooth animation.
+    const transitionDuration = 1200; // ms
+    let startTime: number;
+    let previousTime: number;
+
+    this.smoothAnimationDone = false;
+    this.previousAnimationTime = currentTime;
+    this.previousFrame = this.frame;
+    this.nextFrame = frame;
+
+    // Reference: https://easings.net/
+    const easeOutCubic = (x: number): number => 1 - (1 - x) ** 3;
+
+    const smoothAnimation = (timestamp: number) => {
+      if (startTime === undefined) {
+        startTime = timestamp;
+      }
+      const elapsedTime = timestamp - startTime;
+      if (previousTime !== timestamp) {
+        const easingArgument = elapsedTime / transitionDuration;
+        const easingFactor = easeOutCubic(easingArgument);
+        const frameDiff = this.nextFrame - this.previousFrame;
+        const transitionFrame = this.previousFrame + frameDiff * easingFactor;
+        this.frame = transitionFrame;
+        this.scene.animationGroups.forEach((animationGroup) => {
+          animationGroup.goToFrame(this.frame);
+        });
+      }
+      if (elapsedTime < transitionDuration) {
+        previousTime = currentTime;
+        if (!this.smoothAnimationDone) {
+          window.requestAnimationFrame(smoothAnimation);
+        }
+      } else {
+        this.smoothAnimationDone = true;
+        this.frame = this.nextFrame;
+        this.scene.animationGroups.forEach((animationGroup) => {
+          animationGroup.goToFrame(this.frame);
+        });
+      }
+    };
+
+    window.requestAnimationFrame(smoothAnimation);
   }
 
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
