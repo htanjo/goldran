@@ -1,0 +1,29 @@
+.progressBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.icon {
+  flex-grow: 0;
+  width: 1em;
+  margin-top: 2px;
+  margin-left: -0.3em;
+  margin-right: -0.3em;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text-color-disabled);
+}
+.totalBar {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
+  height: 0.08rem;
+  min-height: 2px;
+  overflow: hidden;
+  background-color: var(--background-color-disabled);
+}
+.activeBar {
+  width: 100%;
+  background-color: var(--text-color-disabled);
+  transition: translate 500ms;
+}

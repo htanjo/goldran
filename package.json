@@ -15,10 +15,10 @@
     "asset": "npm-run-all -s asset:*",
     "asset:prepare": "mkdirp ./assets/temp",
     "asset:gltf": "npm-run-all -s asset:gltf:*",
-    "asset:gltf:webp": "gltf-transform webp ./assets/mansion.glb ./assets/temp/mansion_webp.glb",
-    "asset:gltf:draco": "gltf-transform draco ./assets/temp/mansion_webp.glb ./assets/temp/mansion_high.glb",
-    "asset:gltf:light": "gltf-transform resize --width 1024 --height 1024 ./assets/temp/mansion_high.glb ./assets/temp/mansion_low.glb",
-    "asset:gltf:copy": "copyfiles --flat ./assets/temp/mansion_{high,low}.glb ./src/assets",
+    "asset:gltf:webp": "gltf-transform webp ./assets/dran.glb ./assets/temp/dran_webp.glb",
+    "asset:gltf:draco": "gltf-transform draco ./assets/temp/dran_webp.glb ./assets/temp/dran_high.glb",
+    "asset:gltf:light": "gltf-transform resize --width 1024 --height 1024 ./assets/temp/dran_high.glb ./assets/temp/dran_low.glb",
+    "asset:gltf:copy": "copyfiles --flat ./assets/temp/dran_{high,low}.glb ./src/assets",
     "asset:clean": "rimraf ./assets/temp"
   },
   "dependencies": {

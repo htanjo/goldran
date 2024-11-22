@@ -1,0 +1,73 @@
+.startScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+.viewport {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.title {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  margin-top: -16vh;
+  text-align: center;
+  pointer-events: auto;
+  h1 {
+    width: min(100vw, 80vh);
+    margin: 0 auto;
+  }
+  .subtitle {
+    font-size: 1.8rem;
+  }
+}
+.navigation {
+  position: absolute;
+  bottom: 2.5vh;
+  width: 100%;
+  text-align: center;
+  pointer-events: auto;
+  .icon {
+    vertical-align: -0.12em;
+    font-size: 1em;
+    color: var(--text-color-accent);
+    rotate: 90deg;
+  }
+}
+.backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-color: rgba(18, 39, 37, 0.5);
+}
+@mixin letterbox() {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 20vh;
+  z-index: 1;
+  background-color: #000000;
+}
+.letterboxTop {
+  @include letterbox();
+  top: 0;
+}
+.letterboxBottom {
+  @include letterbox();
+  bottom: 0;
+}

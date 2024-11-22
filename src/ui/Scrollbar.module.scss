@@ -1,0 +1,20 @@
+.scrollbar {
+  display: flex;
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  bottom: 0.2rem;
+  z-index: 2;
+}
+.activeBarWrapper {
+  transition: translate 200ms;
+}
+.activeBar {
+  display: flex;
+  position: relative;
+  flex-grow: 1;
+  width: 0.08rem;
+  min-width: 2px;
+  background-color: var(--text-color-base);
+  opacity: 0.8;
+}

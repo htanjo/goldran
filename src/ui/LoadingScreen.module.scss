@@ -1,0 +1,62 @@
+.loadingScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  color: var(--text-color-disabled);
+}
+.title {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  margin-top: -16vh;
+  text-align: center;
+  pointer-events: auto;
+  h1 {
+    width: min(100vw, 80vh);
+    margin: 0 auto;
+  }
+}
+.loading {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: -4px;
+  margin-left: 24px;
+  margin-right: 24px;
+  pointer-events: auto;
+}
+.loadingBar {
+  min-width: min(90vw, 72vh);
+  max-width: 100%;
+}
+.loadingText {
+  margin-top: min(3.5vw, 2.1vh);
+  font-size: 0.8rem;
+}
+.description {
+  position: absolute;
+  bottom: 6vh;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  pointer-events: auto;
+}
+.backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 1);
+}

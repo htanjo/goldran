@@ -1,0 +1,102 @@
+.debugger {
+  position: absolute;
+  top: 2.5vh;
+  left: 2.5vh;
+  z-index: 1;
+  margin: -0.1rem;
+  line-height: 1.5;
+  font-size: 0.5rem;
+  font-family: Menlo, Consolas, monospace;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+.stats {
+  padding: 0 0.1rem;
+  & .section {
+    margin-bottom: 0.4rem;
+  }
+}
+.button {
+  display: inline-block;
+  height: 1.2rem;
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  vertical-align: top;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  background-color: rgba(255, 255, 255, 0.1);
+  text-shadow: inherit;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 200ms,
+    background-color 200ms;
+  &:hover {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+  &.active {
+    color: #ffbf51;
+  }
+  .icon {
+    display: inline-block;
+    vertical-align: bottom;
+    font-size: 1.5em;
+  }
+  .label {
+    vertical-align: 0.1rem;
+    margin-left: 0.15rem;
+    margin-right: 0.05rem;
+  }
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+  overflow: hidden;
+  .button {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+  }
+  &.dropdownSmall .button {
+    min-width: 2.5rem;
+  }
+  &.dropdownMedium .button {
+    min-width: 4rem;
+  }
+  &.dropdownLarge .button {
+    min-width: 6.5rem;
+  }
+  &:hover .button {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+  .label {
+    flex-grow: 1;
+    text-align: left;
+  }
+  .arrow {
+    margin-left: -0.15rem;
+    margin-right: -0.15rem;
+  }
+  .select {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+}
+option {
+  text-shadow: none;
+  background-color: #333333;
+}
