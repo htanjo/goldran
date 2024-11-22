@@ -36,6 +36,14 @@ export default class SceneManager {
 
   private smoothAnimationDone: boolean = true;
 
+  public inputX = 0; // -1 to 1
+
+  public inputY = 0; // -1 to 1
+
+  // private minFov = 55 * (Math.PI / 180); // FOV for 16/9 landscape mode.
+
+  // private maxFov = 81 * (Math.PI / 180); // FOV for 9/16 portrait mode.
+
   private emitter: EventTarget;
 
   public constructor(scene: Scene) {
@@ -132,8 +140,8 @@ export default class SceneManager {
 
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   public applyRotation(x: number, y: number) {
-    // this.camera.inputX = x;
-    // this.camera.inputY = y;
+    this.inputX = x;
+    this.inputY = y;
   }
 
   public loadAssets() {
@@ -197,6 +205,9 @@ export default class SceneManager {
           animationGroup.pause();
           animationGroup.goToFrame(0);
         });
+
+        // Update camera offset every frame.
+        scene.registerBeforeRender(() => this.updateCamera());
 
         // Dispatch onReady event for listeners.
         this.emitter.dispatchEvent(new CustomEvent('ready'));
@@ -281,5 +292,36 @@ export default class SceneManager {
     light.diffuse = Color3.FromHexString(diffuseColorHex);
     light.radius = radius;
     light.shadowEnabled = false;
+  }
+
+  private updateCamera() {
+    // const targetPosition = this.getTargetPosition();
+    const targetRotation = new Vector3(0, Math.PI, 0);
+
+    // Adjust rotation based on user input.
+    targetRotation.x += this.inputY * (Math.PI * 0.05);
+    targetRotation.y += -this.inputX * (Math.PI * 0.1);
+
+    // Update camera state with tween animation.
+    const deltaTime = this.scene.getEngine().getDeltaTime();
+    let positionLerpAmount = deltaTime / 250;
+    let rotationLerpAmount = deltaTime / 200;
+    if (positionLerpAmount > 1) {
+      positionLerpAmount = 1;
+    }
+    if (rotationLerpAmount > 1) {
+      rotationLerpAmount = 1;
+    }
+    // this.position = Vector3.Lerp(
+    //   this.position,
+    //   targetPosition,
+    //   positionLerpAmount,
+    // );
+    this.camera.rotation = Vector3.Lerp(
+      this.camera.rotation,
+      targetRotation,
+      rotationLerpAmount,
+    );
+    // this.updateFov();
   }
 }
