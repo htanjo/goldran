@@ -295,12 +295,14 @@ export default class SceneManager {
   }
 
   private updateCamera() {
-    // const targetPosition = this.getTargetPosition();
+    const targetPosition = new Vector3(0, 0, 0);
     const targetRotation = new Vector3(0, Math.PI, 0);
 
-    // Adjust rotation based on user input.
+    // Adjust position and rotation based on user input.
+    targetPosition.x -= this.inputX;
+    targetPosition.y += this.inputY * 0.5;
     targetRotation.x += this.inputY * (Math.PI * 0.05);
-    targetRotation.y += -this.inputX * (Math.PI * 0.1);
+    targetRotation.y -= this.inputX * (Math.PI * 0.1);
 
     // Update camera state with tween animation.
     const deltaTime = this.scene.getEngine().getDeltaTime();
@@ -312,11 +314,11 @@ export default class SceneManager {
     if (rotationLerpAmount > 1) {
       rotationLerpAmount = 1;
     }
-    // this.position = Vector3.Lerp(
-    //   this.position,
-    //   targetPosition,
-    //   positionLerpAmount,
-    // );
+    this.camera.position = Vector3.Lerp(
+      this.camera.position,
+      targetPosition,
+      positionLerpAmount,
+    );
     this.camera.rotation = Vector3.Lerp(
       this.camera.rotation,
       targetRotation,
