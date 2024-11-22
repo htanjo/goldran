@@ -20,6 +20,8 @@ export default class Controller {
 
   private moveSpeed = moveSpeedSetting; // Number of frames advanced by 1px scroll input.
 
+  private contentHeight = this.maxFrame / this.moveSpeed;
+
   private touchMultiplier = 3;
 
   private usePointerInput = false;
@@ -200,11 +202,25 @@ export default class Controller {
   }
 
   private handleScroll(event: VirtualScrollEvent) {
+    // Do nothing during the loading screen.
     if (this.loadingScreenEnabled) {
-      // Do nothing during the loading screen.
-    } else if (this.startScreenEnabled) {
-      // In the start screen, update progress and scroll value.
-      const scrollLength = -event.deltaY;
+      return;
+    }
+
+    // Update frame.
+    const scrollLength = -event.deltaY;
+    const frameIncrement = scrollLength * this.moveSpeed;
+    this.inputMove(frameIncrement);
+
+    // Check if start screen is visible.
+    const totalScrollLength = (this.frame / this.maxFrame) * this.contentHeight;
+    if (totalScrollLength <= this.startScreenLength) {
+      this.startScreenEnabled = true;
+      this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
+    }
+
+    // In the start screen, update progress as well.
+    if (this.startScreenEnabled) {
       const scrollMultiplier = hasTouchscreen ? this.touchMultiplier : 1;
       this.startScreenScroll += scrollLength / scrollMultiplier;
       if (this.startScreenScroll < 0) {
@@ -224,12 +240,7 @@ export default class Controller {
       } else {
         // Play animations during the start screen.
         this.emitter.dispatchEvent(new CustomEvent('startScreenProgress'));
-        const frameIncrement = -event.deltaY * this.moveSpeed;
-        this.inputMove(frameIncrement);
       }
-    } else {
-      const frameIncrement = -event.deltaY * this.moveSpeed;
-      this.inputMove(frameIncrement);
     }
   }
 
