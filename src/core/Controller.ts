@@ -44,7 +44,7 @@ export default class Controller {
 
   private startScreenScroll = 0; // pixels
 
-  private startScreenLength = 1200; // pixels
+  private startScreenLength = 1000; // pixels
 
   public sceneManager: SceneManager;
 
