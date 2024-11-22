@@ -22,7 +22,7 @@ export default class Controller {
 
   private contentHeight = this.maxFrame / this.moveSpeed;
 
-  private touchMultiplier = 3;
+  private touchMultiplier = 2;
 
   private usePointerInput = false;
 

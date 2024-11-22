@@ -80,7 +80,7 @@ export default class SceneManager {
     // For continuous updates, go to target frame without delay.
     if (
       currentTime - this.previousAnimationTime < 10 ||
-      Math.abs(frame - this.frame) < 10
+      Math.abs(frame - this.frame) < 5
     ) {
       this.smoothAnimationDone = true;
       this.previousAnimationTime = currentTime;
