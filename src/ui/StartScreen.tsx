@@ -67,7 +67,7 @@ function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
             <h1>
               <Logo />
             </h1>
-            <div className={classes.subtitle}>Technical Demo</div>
+            <div className={classes.subtitle}>「黄金勇者ゴルドラン」より</div>
           </div>
           <animated.div className={classes.navigation} style={navigationStyle}>
             <Icon name="arrows_outward" className={classes.icon} />{' '}
