@@ -7,9 +7,11 @@ const Screen = lazy(() => import('./Screen'));
 function App() {
   return (
     <div className={classes.app}>
-      <Suspense fallback={<SplashScreen />}>
-        <Screen />
-      </Suspense>
+      <div className={classes.container}>
+        <Suspense fallback={<SplashScreen />}>
+          <Screen />
+        </Suspense>
+      </div>
     </div>
   );
 }
