@@ -40,9 +40,9 @@ export default class SceneManager {
 
   public inputY = 0; // -1 to 1
 
-  // private minFov = 55 * (Math.PI / 180); // FOV for 16/9 landscape mode.
+  private minFov = 36 * (Math.PI / 180); // FOV for 16/9 landscape mode.
 
-  // private maxFov = 81 * (Math.PI / 180); // FOV for 9/16 portrait mode.
+  private maxFov = 60 * (Math.PI / 180); // FOV for 9/16 portrait mode.
 
   private emitter: EventTarget;
 
@@ -324,6 +324,25 @@ export default class SceneManager {
       targetRotation,
       rotationLerpAmount,
     );
-    // this.updateFov();
+    this.updateFov();
+  }
+
+  private updateFov() {
+    const canvas = this.scene.getEngine().getRenderingCanvas();
+    if (canvas) {
+      const aspectRatio = canvas.width / canvas.height;
+      const minAspectRatio = 9 / 16;
+      const maxAspectRatio = 16 / 9;
+      if (aspectRatio < minAspectRatio) {
+        this.camera.fov = this.maxFov;
+      } else if (aspectRatio > maxAspectRatio) {
+        this.camera.fov = this.minFov;
+      } else {
+        const fovExtensionRatio =
+          (maxAspectRatio - aspectRatio) / (maxAspectRatio - minAspectRatio);
+        this.camera.fov =
+          this.minFov + (this.maxFov - this.minFov) * fovExtensionRatio;
+      }
+    }
   }
 }
