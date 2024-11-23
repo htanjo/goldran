@@ -49,6 +49,15 @@ export default class SceneManager {
   public constructor(scene: Scene) {
     this.scene = scene;
 
+    // Configure scene.
+    this.scene.clearColor = Color4.FromHexString('#0000ff');
+    this.scene.ambientColor = Color3.White();
+    this.scene.fogMode = Scene.FOGMODE_EXP2;
+    this.scene.fogColor = Color3.FromHexString('#413d38');
+    this.scene.fogDensity = 0.02;
+    this.scene.imageProcessingConfiguration.toneMappingEnabled = true;
+    // this.scene.getEngine().setHardwareScalingLevel(1 / window.devicePixelRatio);
+
     // Create tentative camera as it's necessary for scene.
     const initialCamera = new FreeCamera(
       'initial_camera',
@@ -63,13 +72,8 @@ export default class SceneManager {
     const skyboxMaterial = new StandardMaterial('skybox', scene);
     skybox.material = skyboxMaterial;
     skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.fogEnabled = false;
     this.skyboxMaterial = skyboxMaterial;
-
-    // this.scene.useRightHandedSystem = true;
-    this.scene.clearColor = Color4.FromHexString('#0c0a08ff');
-    this.scene.ambientColor = Color3.White();
-    this.scene.imageProcessingConfiguration.toneMappingEnabled = true;
-    // this.scene.getEngine().setHardwareScalingLevel(1 / window.devicePixelRatio);
 
     this.emitter = new EventTarget();
   }
