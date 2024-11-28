@@ -1,5 +1,6 @@
 import { AssetsManager } from '@babylonjs/core/Misc/assetsManager';
 import { Color3, Color4 } from '@babylonjs/core/Maths/math.color';
+import { CubeTexture } from '@babylonjs/core/Materials/Textures/cubeTexture';
 import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
@@ -260,7 +261,10 @@ export default class SceneManager {
           /* eslint-disable no-param-reassign */
           material.reflectionTexture = texture;
           material.reflectivityColor = Color3.White();
-          material.environmentIntensity = 0.3;
+          if (texture instanceof CubeTexture) {
+            texture.rotationY = Math.PI * 0.1;
+          }
+          material.environmentIntensity = 0.4;
           /* eslint-enable no-param-reassign */
         });
         break;
