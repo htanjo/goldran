@@ -28,7 +28,7 @@ export default class Controller {
 
   private useOrientationInput = false;
 
-  private maxDeviceRotation = 60; // degrees
+  private maxDeviceRotation = 20; // degrees
 
   private baseDeviceOrientation: DeviceOrientation | null = null;
 
@@ -180,7 +180,7 @@ export default class Controller {
         return;
       }
       const frameTime = timestamp - previousTime;
-      this.handleScrollInput(frameTime * 1.0);
+      this.handleScrollInput(frameTime * 0.6);
       previousTime = timestamp;
       if (this.frame >= this.maxFrame) {
         this.autoplayEnabled = false;

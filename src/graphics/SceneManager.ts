@@ -9,6 +9,7 @@ import { PointLight } from '@babylonjs/core/Lights/pointLight';
 import { Scene } from '@babylonjs/core/scene';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { Texture } from '@babylonjs/core/Materials/Textures/texture';
+import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import '@babylonjs/loaders/glTF';
 import Effects from './Effects';
@@ -308,9 +309,23 @@ export default class SceneManager {
     const targetPosition = new Vector3(0, 0, 0);
     const targetRotation = new Vector3(0, Math.PI, 0);
 
+    // Move camera position based on the distance between camera and target.
+    let targetDistance = 2.0;
+    const cameraParent = this.camera.parent;
+    const cameraTarget = this.scene.getNodeByName('camera_target');
+    if (
+      cameraParent instanceof TransformNode &&
+      cameraTarget instanceof TransformNode
+    ) {
+      targetDistance = Vector3.Distance(
+        cameraParent.position,
+        cameraTarget.position,
+      );
+    }
+
     // Adjust position and rotation based on user input.
-    targetPosition.x -= this.inputX;
-    targetPosition.y += this.inputY * 0.5;
+    targetPosition.x -= this.inputX * targetDistance * 0.3;
+    targetPosition.y += this.inputY * targetDistance * 0.15;
     targetRotation.x += this.inputY * (Math.PI * 0.05);
     targetRotation.y -= this.inputX * (Math.PI * 0.1);
 
