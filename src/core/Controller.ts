@@ -204,7 +204,7 @@ export default class Controller {
     // Delay start to show the title screen.
     setTimeout(() => {
       this.enableAutoplay();
-    }, 1000);
+    }, 1500);
   }
 
   public destroy() {
@@ -306,9 +306,13 @@ export default class Controller {
   }
 
   private handleScroll(event: VirtualScrollEvent) {
-    // Do nothing during the loading screen or auto play mode.
-    if (this.loadingScreenEnabled || this.autoplayEnabled) {
+    // Do nothing during the loading screen.
+    if (this.loadingScreenEnabled) {
       return;
+    }
+    // Scroll event cancels autoplay.
+    if (this.autoplayEnabled) {
+      this.disableAutoplay();
     }
     const scrollLength = -event.deltaY;
     this.handleScrollInput(scrollLength);
