@@ -79,13 +79,15 @@ export default class SceneManager {
     this.emitter = new EventTarget();
   }
 
-  public applyFrame(frame: number) {
+  public applyFrame(frame: number, disableSmoothMove?: boolean) {
     const currentTime = Date.now();
 
-    // For continuous updates, go to target frame without delay.
+    // In some conditions, go to target frame without delay.
     if (
-      currentTime - this.previousAnimationTime < 10 ||
-      Math.abs(frame - this.frame) < 5
+      disableSmoothMove || // Disabled flag
+      currentTime - this.previousAnimationTime < 10 || // Continuous move
+      Math.abs(frame - this.frame) < 5 || // Very short move
+      Math.abs(frame - this.frame) > 200 // Very long move
     ) {
       this.smoothAnimationDone = true;
       this.previousAnimationTime = currentTime;

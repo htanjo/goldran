@@ -31,7 +31,8 @@ function Screen() {
   const [frameValue, setFrameValue] = useState(0);
   const [maxFrameValue, setMaxFrameValue] = useState(maxFrameSetting);
   const [moveSpeedValue, setMoveSpeedValue] = useState(moveSpeedSetting);
-  const [playing, setPlaying] = useState(false);
+  const [autoPlaying, setAutoPlaying] = useState(false);
+  const [contentFinished, setContentFinished] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
   const [debugMode] = useState(
     new URLSearchParams(window.location.search).get('debug') === 'true', // Enable debug mode if URL has "?debug=true".
@@ -66,7 +67,10 @@ function Screen() {
       setMoveSpeedValue(moveSpeed);
     });
     controller.onAutoplayToggle((enabled) => {
-      setPlaying(enabled);
+      setAutoPlaying(enabled);
+    });
+    controller.onContentFinish((finished) => {
+      setContentFinished(finished);
     });
     controllerRef.current = controller;
   }, []);
@@ -77,6 +81,10 @@ function Screen() {
 
   const pause = useCallback(() => {
     controllerRef.current?.disableAutoplay();
+  }, []);
+
+  const replay = useCallback(() => {
+    controllerRef.current?.restartAutoplay();
   }, []);
 
   const toggleFullscreen = useCallback((fullScreenEnable: boolean) => {
@@ -149,10 +157,12 @@ function Screen() {
       </SceneComponent>
       {hudEnabled && (
         <Hud
-          playing={playing}
+          autoPlaying={autoPlaying}
+          contentFinished={contentFinished}
           fullscreen={fullscreen}
           onPlay={play}
           onPause={pause}
+          onReplay={replay}
           onToggleFullscreen={toggleFullscreen}
         />
       )}

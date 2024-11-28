@@ -48,6 +48,8 @@ export default class Controller {
 
   private autoplayEnabled = false;
 
+  private contentFinished = false;
+
   public sceneManager: SceneManager;
 
   private emitter: EventTarget;
@@ -158,6 +160,12 @@ export default class Controller {
     });
   }
 
+  public onContentFinish(callback: (finished: boolean) => void) {
+    this.emitter.addEventListener('contentFinish', () => {
+      callback(this.contentFinished);
+    });
+  }
+
   public enableAutoplay() {
     this.autoplayEnabled = true;
     this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
@@ -188,6 +196,17 @@ export default class Controller {
     this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
   }
 
+  public restartAutoplay() {
+    const scrollOffset = this.frame / this.moveSpeed;
+    this.handleScrollInput(-scrollOffset, true);
+    this.autoplayEnabled = true;
+    this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
+    // Delay start to show the title screen.
+    setTimeout(() => {
+      this.enableAutoplay();
+    }, 1000);
+  }
+
   public destroy() {
     if (this.virtualScroll) {
       this.virtualScroll.destroy();
@@ -210,22 +229,32 @@ export default class Controller {
     // }
   }
 
-  private inputMove(value: number) {
+  private inputMove(value: number, disableSmoothMove?: boolean) {
     const frameIncrement = value;
+    let nextContentFinished = false;
 
     // Handle frame update.
     if (frameIncrement !== 0) {
       const newFrame = this.frame + frameIncrement;
       if (newFrame < 0) {
         this.frame = 0;
-      } else if (newFrame > this.maxFrame) {
+      } else if (newFrame >= this.maxFrame) {
         this.frame = this.maxFrame;
+        nextContentFinished = true;
       } else {
         // Otherwise, just update the frame number.
         this.frame = newFrame;
       }
       this.emitter.dispatchEvent(new CustomEvent('frameProgress'));
-      this.sceneManager.applyFrame(this.frame);
+      this.sceneManager.applyFrame(this.frame, disableSmoothMove);
+      if (this.contentFinished !== nextContentFinished) {
+        this.contentFinished = nextContentFinished;
+        this.emitter.dispatchEvent(new CustomEvent('contentFinish'));
+        if (this.autoplayEnabled) {
+          this.autoplayEnabled = false;
+          this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
+        }
+      }
     }
   }
 
@@ -239,10 +268,10 @@ export default class Controller {
       : null;
   }
 
-  private handleScrollInput(scrollLength: number) {
+  private handleScrollInput(scrollLength: number, disableSmoothMove?: boolean) {
     // Update frame.
     const frameIncrement = scrollLength * this.moveSpeed;
-    this.inputMove(frameIncrement);
+    this.inputMove(frameIncrement, disableSmoothMove);
 
     // Check if start screen is visible.
     const totalScrollLength = (this.frame / this.maxFrame) * this.contentHeight;
