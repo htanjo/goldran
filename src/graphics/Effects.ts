@@ -48,7 +48,7 @@ export default class Effects {
     pipeline.sharpen.edgeAmount = 0.3;
     pipeline.bloomEnabled = true;
     pipeline.bloomThreshold = 0.08;
-    pipeline.bloomWeight = 0.28;
+    pipeline.bloomWeight = 0.2;
     pipeline.bloomKernel = verticalSize * 0.25; // Effect size. Large value may cause flickering.
     pipeline.bloomScale = 0.5; // Large value reduces flickering, but hits performance.
 
@@ -73,7 +73,7 @@ export default class Effects {
       scene,
     );
     pipeline.imageProcessing.colorGradingTexture = colorGradingTexture;
-    pipeline.imageProcessing.colorGradingTexture.level = 1.0;
+    pipeline.imageProcessing.colorGradingTexture.level = 0.7;
     pipeline.imageProcessing.toneMappingEnabled = true;
     pipeline.imageProcessing.toneMappingType =
       ImageProcessingConfiguration.TONEMAPPING_STANDARD;
