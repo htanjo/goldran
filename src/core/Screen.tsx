@@ -31,6 +31,7 @@ function Screen() {
   const [frameValue, setFrameValue] = useState(0);
   const [maxFrameValue, setMaxFrameValue] = useState(maxFrameSetting);
   const [moveSpeedValue, setMoveSpeedValue] = useState(moveSpeedSetting);
+  const [playing, setPlaying] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
   const [debugMode] = useState(
     new URLSearchParams(window.location.search).get('debug') === 'true', // Enable debug mode if URL has "?debug=true".
@@ -64,11 +65,18 @@ function Screen() {
       setMaxFrameValue(maxFrame);
       setMoveSpeedValue(moveSpeed);
     });
+    controller.onAutoplayToggle((enabled) => {
+      setPlaying(enabled);
+    });
     controllerRef.current = controller;
   }, []);
 
   const play = useCallback(() => {
-    controllerRef.current?.autoPlay();
+    controllerRef.current?.enableAutoplay();
+  }, []);
+
+  const pause = useCallback(() => {
+    controllerRef.current?.disableAutoplay();
   }, []);
 
   const toggleFullscreen = useCallback((fullScreenEnable: boolean) => {
@@ -141,8 +149,10 @@ function Screen() {
       </SceneComponent>
       {hudEnabled && (
         <Hud
+          playing={playing}
           fullscreen={fullscreen}
           onPlay={play}
+          onPause={pause}
           onToggleFullscreen={toggleFullscreen}
         />
       )}

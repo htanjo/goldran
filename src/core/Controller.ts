@@ -46,7 +46,7 @@ export default class Controller {
 
   private startScreenLength = 1000; // pixels
 
-  public autoPlayEnabled = false;
+  private autoplayEnabled = false;
 
   public sceneManager: SceneManager;
 
@@ -152,10 +152,20 @@ export default class Controller {
     });
   }
 
-  public autoPlay() {
-    this.autoPlayEnabled = true;
+  public onAutoplayToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('autoplayToggle', () => {
+      callback(this.autoplayEnabled);
+    });
+  }
+
+  public enableAutoplay() {
+    this.autoplayEnabled = true;
+    this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
     let previousTime: number;
     const autoScroll = (timestamp: number) => {
+      if (!this.autoplayEnabled) {
+        return;
+      }
       if (previousTime === undefined) {
         previousTime = timestamp;
         window.requestAnimationFrame(autoScroll);
@@ -165,12 +175,17 @@ export default class Controller {
       this.handleScrollInput(frameTime * 1.0);
       previousTime = timestamp;
       if (this.frame >= this.maxFrame) {
-        this.autoPlayEnabled = false;
+        this.autoplayEnabled = false;
       } else {
         window.requestAnimationFrame(autoScroll);
       }
     };
     window.requestAnimationFrame(autoScroll);
+  }
+
+  public disableAutoplay() {
+    this.autoplayEnabled = false;
+    this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
   }
 
   public destroy() {
@@ -263,7 +278,7 @@ export default class Controller {
 
   private handleScroll(event: VirtualScrollEvent) {
     // Do nothing during the loading screen or auto play mode.
-    if (this.loadingScreenEnabled || this.autoPlayEnabled) {
+    if (this.loadingScreenEnabled || this.autoplayEnabled) {
       return;
     }
     const scrollLength = -event.deltaY;
