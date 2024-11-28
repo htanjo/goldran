@@ -67,6 +67,10 @@ function Screen() {
     controllerRef.current = controller;
   }, []);
 
+  const play = useCallback(() => {
+    controllerRef.current?.autoPlay();
+  }, []);
+
   const toggleFullscreen = useCallback((fullScreenEnable: boolean) => {
     if (fullScreenEnable) {
       document.documentElement.requestFullscreen();
@@ -136,7 +140,11 @@ function Screen() {
         )}
       </SceneComponent>
       {hudEnabled && (
-        <Hud fullscreen={fullscreen} onToggleFullscreen={toggleFullscreen} />
+        <Hud
+          fullscreen={fullscreen}
+          onPlay={play}
+          onToggleFullscreen={toggleFullscreen}
+        />
       )}
       {scrollbarEnabled && (
         <Scrollbar

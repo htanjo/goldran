@@ -46,6 +46,8 @@ export default class Controller {
 
   private startScreenLength = 1000; // pixels
 
+  public autoPlayEnabled = false;
+
   public sceneManager: SceneManager;
 
   private emitter: EventTarget;
@@ -150,6 +152,27 @@ export default class Controller {
     });
   }
 
+  public autoPlay() {
+    this.autoPlayEnabled = true;
+    let previousTime: number;
+    const autoScroll = (timestamp: number) => {
+      if (previousTime === undefined) {
+        previousTime = timestamp;
+        window.requestAnimationFrame(autoScroll);
+        return;
+      }
+      const frameTime = timestamp - previousTime;
+      this.handleScrollInput(frameTime * 1.0);
+      previousTime = timestamp;
+      if (this.frame >= this.maxFrame) {
+        this.autoPlayEnabled = false;
+      } else {
+        window.requestAnimationFrame(autoScroll);
+      }
+    };
+    window.requestAnimationFrame(autoScroll);
+  }
+
   public destroy() {
     if (this.virtualScroll) {
       this.virtualScroll.destroy();
@@ -201,14 +224,8 @@ export default class Controller {
       : null;
   }
 
-  private handleScroll(event: VirtualScrollEvent) {
-    // Do nothing during the loading screen.
-    if (this.loadingScreenEnabled) {
-      return;
-    }
-
+  private handleScrollInput(scrollLength: number) {
     // Update frame.
-    const scrollLength = -event.deltaY;
     const frameIncrement = scrollLength * this.moveSpeed;
     this.inputMove(frameIncrement);
 
@@ -242,6 +259,15 @@ export default class Controller {
         this.emitter.dispatchEvent(new CustomEvent('startScreenProgress'));
       }
     }
+  }
+
+  private handleScroll(event: VirtualScrollEvent) {
+    // Do nothing during the loading screen or auto play mode.
+    if (this.loadingScreenEnabled || this.autoPlayEnabled) {
+      return;
+    }
+    const scrollLength = -event.deltaY;
+    this.handleScrollInput(scrollLength);
   }
 
   private handlePointermove(event: PointerEvent) {
