@@ -48,9 +48,9 @@
 // Use stronger selector to override the default styles.
 .hud .tooltip {
   padding: 0.2rem 0.5rem;
-  border-radius: 0;
+  border-radius: 0.15rem;
   font-size: max(12px, 0.6rem);
-  color: var(--text-color-strong);
+  color: var(--text-color-base);
   background-color: var(--background-color-base);
   opacity: 1;
 }
