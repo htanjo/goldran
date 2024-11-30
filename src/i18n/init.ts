@@ -42,8 +42,8 @@ i18n
   });
 
 document.documentElement.lang = i18n.language;
-document.title = i18n.t('黄金剣士ドラン');
+document.title = i18n.t('変形！黄金剣士ドラン');
 i18n.on('languageChanged', (language) => {
   document.documentElement.lang = language;
-  document.title = i18n.t('黄金剣士ドラン');
+  document.title = i18n.t('変形！黄金剣士ドラン');
 });
