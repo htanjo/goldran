@@ -182,7 +182,7 @@ export default class Controller {
     });
   }
 
-  public enableAutoplay() {
+  public enableAutoplay(delay?: number) {
     if (this.autoplayEnabled) {
       return;
     }
@@ -207,7 +207,13 @@ export default class Controller {
         window.requestAnimationFrame(autoScroll);
       }
     };
-    window.requestAnimationFrame(autoScroll);
+    if (delay !== undefined) {
+      setTimeout(() => {
+        window.requestAnimationFrame(autoScroll);
+      }, delay);
+    } else {
+      window.requestAnimationFrame(autoScroll);
+    }
   }
 
   public disableAutoplay() {
@@ -218,12 +224,7 @@ export default class Controller {
   public restartAutoplay() {
     const scrollOffset = this.frame / this.moveSpeed;
     this.handleScrollInput(-scrollOffset, true);
-    this.autoplayEnabled = true;
-    this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
-    // Delay start to show the title screen.
-    setTimeout(() => {
-      this.enableAutoplay();
-    }, 1500);
+    this.enableAutoplay(1500);
   }
 
   public destroy() {
