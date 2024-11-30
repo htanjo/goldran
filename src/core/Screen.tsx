@@ -28,11 +28,12 @@ function Screen() {
   const [startScreenEnabled, setStartScreenEnabled] = useState(false);
   const [startScreenProgress, setStartScreenProgress] = useState(0);
   const [startScreenScroll, setStartScreenScroll] = useState(0);
+  const [endScreenEnabled, setEndScreenEnabled] = useState(false);
   const [frameValue, setFrameValue] = useState(0);
   const [maxFrameValue, setMaxFrameValue] = useState(maxFrameSetting);
   const [moveSpeedValue, setMoveSpeedValue] = useState(moveSpeedSetting);
   const [autoPlaying, setAutoPlaying] = useState(false);
-  const [contentFinished, setContentFinished] = useState(false);
+  // const [contentFinished, setContentFinished] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
   const [debugMode] = useState(
     new URLSearchParams(window.location.search).get('debug') === 'true', // Enable debug mode if URL has "?debug=true".
@@ -61,6 +62,7 @@ function Screen() {
       setStartScreenProgress(progress);
       setStartScreenScroll(scroll);
     });
+    controller.onEndScreenToggle((enabled) => setEndScreenEnabled(enabled));
     controller.onFrameProgress((frame, maxFrame, moveSpeed) => {
       setFrameValue(frame);
       setMaxFrameValue(maxFrame);
@@ -69,9 +71,10 @@ function Screen() {
     controller.onAutoplayToggle((enabled) => {
       setAutoPlaying(enabled);
     });
-    controller.onContentFinish((finished) => {
-      setContentFinished(finished);
-    });
+    // Control HUD based on onEndScreenToggle to show the replay button for a certain period.
+    // controller.onContentFinish((finished) => {
+    //   setContentFinished(finished);
+    // });
     controllerRef.current = controller;
   }, []);
 
@@ -158,7 +161,7 @@ function Screen() {
       {hudEnabled && (
         <Hud
           autoPlaying={autoPlaying}
-          contentFinished={contentFinished}
+          contentFinished={endScreenEnabled}
           fullscreen={fullscreen}
           onPlay={play}
           onPause={pause}

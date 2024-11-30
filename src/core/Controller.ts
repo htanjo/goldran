@@ -46,6 +46,10 @@ export default class Controller {
 
   private startScreenLength = 1000; // pixels
 
+  private endScreenEnabled = false;
+
+  private endScreenLength = 100; // pixels
+
   private autoplayEnabled = false;
 
   private contentFinished = false;
@@ -146,6 +150,12 @@ export default class Controller {
     });
   }
 
+  public onEndScreenToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('endScreenToggle', () => {
+      callback(this.endScreenEnabled);
+    });
+  }
+
   public onFrameProgress(
     callback: (frame: number, maxFrame: number, moveSpeed: number) => void,
   ) {
@@ -238,14 +248,9 @@ export default class Controller {
       const newFrame = this.frame + frameIncrement;
       if (newFrame < 0) {
         this.frame = 0;
-      } else if (newFrame >= this.maxFrame - 25) {
-        // Mark as finished in the last some frames
+      } else if (newFrame >= this.maxFrame) {
+        this.frame = this.maxFrame;
         nextContentFinished = true;
-        if (newFrame > this.maxFrame) {
-          this.frame = this.maxFrame;
-        } else {
-          this.frame = newFrame;
-        }
       } else {
         // Otherwise, just update the frame number.
         this.frame = newFrame;
@@ -280,9 +285,26 @@ export default class Controller {
 
     // Check if start screen is visible.
     const totalScrollLength = (this.frame / this.maxFrame) * this.contentHeight;
-    if (totalScrollLength <= this.startScreenLength) {
+    if (
+      totalScrollLength <= this.startScreenLength &&
+      !this.startScreenEnabled
+    ) {
       this.startScreenEnabled = true;
       this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
+    }
+    // Check if end screen is visible.
+    if (
+      totalScrollLength >= this.contentHeight - this.endScreenLength &&
+      !this.endScreenEnabled
+    ) {
+      this.endScreenEnabled = true;
+      this.emitter.dispatchEvent(new CustomEvent('endScreenToggle'));
+    } else if (
+      totalScrollLength < this.contentHeight - this.endScreenLength &&
+      this.endScreenEnabled
+    ) {
+      this.endScreenEnabled = false;
+      this.emitter.dispatchEvent(new CustomEvent('endScreenToggle'));
     }
 
     // In the start screen, update progress as well.
