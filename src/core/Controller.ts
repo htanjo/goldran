@@ -238,9 +238,14 @@ export default class Controller {
       const newFrame = this.frame + frameIncrement;
       if (newFrame < 0) {
         this.frame = 0;
-      } else if (newFrame >= this.maxFrame) {
-        this.frame = this.maxFrame;
+      } else if (newFrame >= this.maxFrame - 25) {
+        // Mark as finished in the last some frames
         nextContentFinished = true;
+        if (newFrame > this.maxFrame) {
+          this.frame = this.maxFrame;
+        } else {
+          this.frame = newFrame;
+        }
       } else {
         // Otherwise, just update the frame number.
         this.frame = newFrame;
