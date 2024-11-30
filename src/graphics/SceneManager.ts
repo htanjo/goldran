@@ -11,6 +11,7 @@ import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { Texture } from '@babylonjs/core/Materials/Textures/texture';
 import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+// import { WebXRCamera } from '@babylonjs/core/XR/webXRCamera';
 import '@babylonjs/loaders/glTF';
 import Effects from './Effects';
 import { LightConfig, lightConfigs } from '../settings/lights';
@@ -217,6 +218,8 @@ export default class SceneManager {
         // Update camera offset every frame.
         scene.registerBeforeRender(() => this.updateCamera());
 
+        // this.initializeVr();
+
         // Dispatch onReady event for listeners.
         this.emitter.dispatchEvent(new CustomEvent('ready'));
       } catch (error) {
@@ -370,4 +373,17 @@ export default class SceneManager {
       }
     }
   }
+
+  // private async initializeVr() {
+  //   const { scene } = this;
+  //   const ground = MeshBuilder.CreatePlane('ground', { size: 20 });
+  //   ground.visibility = 0;
+  //   ground.rotation.x = Math.PI / 2;
+  //   const defaultXRExperience = await scene.createDefaultXRExperienceAsync({
+  //     floorMeshes: [ground],
+  //   });
+  //   const xrSessionManager = defaultXRExperience.baseExperience.sessionManager;
+  //   const xrCamera = new WebXRCamera('XRCamera', scene, xrSessionManager);
+  //   xrCamera.setTransformationFromNonVRCamera();
+  // }
 }

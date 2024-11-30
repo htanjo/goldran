@@ -120,6 +120,12 @@ export default class Controller {
         this.emitter.dispatchEvent(new CustomEvent('loadingProgress'));
         this.emitter.dispatchEvent(new CustomEvent('loadingScreenToggle'));
         this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
+
+        // Auto replay for VR.
+        // this.enableAutoplay();
+        // this.onContentFinish(() => {
+        //   this.restartAutoplay();
+        // });
       }, 500);
     });
   }
@@ -177,6 +183,9 @@ export default class Controller {
   }
 
   public enableAutoplay() {
+    if (this.autoplayEnabled) {
+      return;
+    }
     this.autoplayEnabled = true;
     this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
     let previousTime: number;
