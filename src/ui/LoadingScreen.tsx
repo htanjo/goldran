@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { animated, config, useSpring } from '@react-spring/web';
 import Logo from './Logo';
 import ProgressBar from './ProgressBar';
@@ -10,6 +11,7 @@ interface LoadingScreenProps {
 }
 
 function LoadingScreen({ enabled, loadingProgress }: LoadingScreenProps) {
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(enabled);
 
   const screenStyle = useSpring({
@@ -45,7 +47,7 @@ function LoadingScreen({ enabled, loadingProgress }: LoadingScreenProps) {
             <div className={classes.loadingBar}>
               <ProgressBar progress={loadingProgress} />
             </div>
-            <div className={classes.loadingText}>ロード中...</div>
+            <div className={classes.loadingText}>{t('ロード中...')}</div>
           </animated.div>
         </div>
       </div>

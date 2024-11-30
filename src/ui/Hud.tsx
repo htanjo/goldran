@@ -1,4 +1,5 @@
 import { MouseEvent, ReactNode, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'react-tooltip';
 import Icon from './Icon';
 import { hasPointingDevice, isIos } from '../settings/general';
@@ -23,6 +24,7 @@ function Hud({
   onReplay,
   onToggleFullscreen,
 }: HudProps) {
+  const { t } = useTranslation();
   const handleClickPlay = useCallback(
     (event: MouseEvent) => {
       if (event.currentTarget instanceof HTMLElement) {
@@ -70,12 +72,13 @@ function Hud({
         type="button"
         className={classes.button}
         data-tooltip-id="hudTooltip"
-        data-tooltip-content="最初から再生"
+        data-tooltip-content={t('最初から再生')}
+        data-tooltip-place="right"
         onClick={handleClickReplay}
       >
         <Icon
           name="replay"
-          aria-label="最初から再生"
+          aria-label={t('最初から再生')}
           className={classes.icon}
         />
       </button>
@@ -86,10 +89,15 @@ function Hud({
         type="button"
         className={classes.button}
         data-tooltip-id="hudTooltip"
-        data-tooltip-content="一時停止"
+        data-tooltip-content={t('一時停止')}
+        data-tooltip-place="right"
         onClick={handleClickPause}
       >
-        <Icon name="pause" aria-label="一時停止" className={classes.icon} />
+        <Icon
+          name="pause"
+          aria-label={t('一時停止')}
+          className={classes.icon}
+        />
       </button>
     );
   } else {
@@ -98,12 +106,13 @@ function Hud({
         type="button"
         className={classes.button}
         data-tooltip-id="hudTooltip"
-        data-tooltip-content="自動再生"
+        data-tooltip-content={t('自動再生')}
+        data-tooltip-place="right"
         onClick={handleClickPlay}
       >
         <Icon
           name="play_circle"
-          aria-label="自動再生"
+          aria-label={t('自動再生')}
           className={classes.icon}
         />
       </button>
@@ -118,12 +127,15 @@ function Hud({
           type="button"
           className={classes.button}
           data-tooltip-id="hudTooltip"
-          data-tooltip-content={fullscreen ? '全画面表示を終了' : '全画面表示'}
+          data-tooltip-content={
+            fullscreen ? t('全画面表示を終了') : t('全画面表示')
+          }
+          data-tooltip-place="left"
           onClick={handleClickFullscreen}
         >
           <Icon
             name={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-            aria-label={fullscreen ? '全画面表示を終了' : '全画面表示'}
+            aria-label={fullscreen ? t('全画面表示を終了') : t('全画面表示')}
             className={classes.icon}
           />
         </button>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { animated, config, easings, useSpring } from '@react-spring/web';
 import Logo from './Logo';
 import Icon from './Icon';
@@ -12,6 +13,7 @@ interface StartScreenProps {
 }
 
 function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(enabled);
 
   const viewportStyle = useSpring({
@@ -67,11 +69,13 @@ function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
             <h1>
               <Logo />
             </h1>
-            <div className={classes.subtitle}>「黄金勇者ゴルドラン」より</div>
+            <div className={classes.subtitle}>
+              {t('「黄金勇者ゴルドラン」より')}
+            </div>
           </div>
           <animated.div className={classes.navigation} style={navigationStyle}>
             <Icon name="arrows_outward" className={classes.icon} />{' '}
-            スクロールして遊ぶ{' '}
+            {t('スクロールして遊ぶ')}{' '}
             <Icon name="arrows_outward" className={classes.icon} />
           </animated.div>
         </animated.div>

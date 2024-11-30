@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import logoColoredImage from '../assets/logo.webp';
 import logoFlatImage from '../assets/logo_flat.webp';
 import classes from './Logo.module.scss';
@@ -8,12 +9,15 @@ interface LogoProps {
 }
 
 function Logo({ colored = true }: LogoProps) {
+  const { t } = useTranslation();
   const imageUrl = useMemo(
     () => (colored ? logoColoredImage : logoFlatImage),
     [colored],
   );
 
-  return <img src={imageUrl} alt="黄金剣士ドラン" className={classes.logo} />;
+  return (
+    <img src={imageUrl} alt={t('黄金剣士ドラン')} className={classes.logo} />
+  );
 }
 
 export default Logo;
