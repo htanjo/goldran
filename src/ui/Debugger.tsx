@@ -1,11 +1,13 @@
-import { MutableRefObject, useCallback, useState } from 'react';
+import { ChangeEvent, MutableRefObject, useCallback, useState } from 'react';
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { Scene } from '@babylonjs/core/scene';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { useAfterRender, useScene } from 'babylonjs-hook';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import Icon from './Icon';
 import Controller from '../core/Controller';
+import { supportedLanguages } from '../i18n/init';
 import classes from './Debugger.module.scss';
 
 interface DebuggerProps {
@@ -14,6 +16,7 @@ interface DebuggerProps {
 
 function Debugger({ controllerRef }: DebuggerProps) {
   const scene = useScene();
+  const { i18n } = useTranslation();
   const [debuggerEnabled, setDebuggerEnabled] = useState(false);
   const [fps, setFps] = useState('');
   const [inspectorEnabled, setInspectorEnabled] = useState(false);
@@ -64,6 +67,10 @@ function Debugger({ controllerRef }: DebuggerProps) {
   // Otherwise, if debugger is active, enable detailed features below.
   const { frame } = controllerRef.current;
 
+  const languageDisplayName =
+    supportedLanguages.find((language) => language.name === i18n.language)
+      ?.displayName || '';
+
   const toggleInspector = async () => {
     await import('@babylonjs/inspector');
     if (scene?.debugLayer) {
@@ -112,6 +119,10 @@ function Debugger({ controllerRef }: DebuggerProps) {
     });
   };
 
+  const handleChangeLanguage = (event: ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(event.target.value);
+  };
+
   return (
     <div className={classes.debugger}>
       <button
@@ -144,6 +155,27 @@ function Debugger({ controllerRef }: DebuggerProps) {
           aria-label="Toggle Camera"
         />
       </button>
+      <div className={`${classes.dropdown} ${classes.dropdownMedium}`}>
+        <button type="button" className={`${classes.button}`}>
+          <Icon name="language" className={classes.icon} />
+          <span className={classes.label}>{languageDisplayName}</span>
+          <Icon
+            name="arrow_drop_down"
+            className={`${classes.icon} ${classes.arrow}`}
+          />
+        </button>
+        <select
+          className={classes.select}
+          value={i18n.language}
+          onChange={handleChangeLanguage}
+        >
+          {supportedLanguages.map((language) => (
+            <option key={language.name} value={language.name}>
+              {language.displayName}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className={classes.stats}>
         <div className={classes.section}>
           [Movement]
