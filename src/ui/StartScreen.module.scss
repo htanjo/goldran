@@ -32,7 +32,8 @@
     margin: 0 auto;
   }
   .subtitle {
-    font-size: 1.2rem;
+    margin-top: 1rem;
+    font-size: 1.3rem;
   }
 }
 .navigation {
@@ -53,7 +54,7 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 @mixin letterbox() {
   position: absolute;
