@@ -265,7 +265,7 @@ export default class SceneManager {
           material.reflectionTexture = texture;
           material.reflectivityColor = Color3.White();
           if (texture instanceof CubeTexture) {
-            texture.rotationY = Math.PI * 0.1;
+            texture.rotationY = Math.PI * 1.1;
           }
           material.environmentIntensity = 0.4;
           /* eslint-enable no-param-reassign */

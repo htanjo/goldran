@@ -42,12 +42,24 @@ export const lightConfigs: LightConfigs = [
     name: 'lower_light',
     variant: 'PointLight',
     position: {
-      x: -1,
-      y: -5,
+      x: -2,
+      y: -2,
       z: -8,
     },
     intensity: 400,
     diffuseColorHex: '#ff593e',
-    radius: 0.5,
+    radius: 0.3,
+  },
+  {
+    name: 'stone_light',
+    variant: 'PointLight',
+    position: {
+      x: -2,
+      y: 5,
+      z: 0.5,
+    },
+    intensity: 20,
+    diffuseColorHex: '#db2125',
+    radius: 0.3,
   },
 ];
