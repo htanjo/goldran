@@ -84,7 +84,7 @@ function Debugger({ controllerRef }: DebuggerProps) {
       if (!scene) {
         return currentFreeCameraEnabled;
       }
-      const routeCamera = scene.getCameraByName('Camera') as FreeCamera;
+      const defaultCamera = scene.getCameraByName('Camera') as FreeCamera;
       let freeCamera = scene.getCameraByName('free_camera') as FreeCamera;
       // Initialize FreeCamera for the first time.
       if (!freeCamera) {
@@ -101,11 +101,11 @@ function Debugger({ controllerRef }: DebuggerProps) {
       }
       // Toggle active camera.
       if (currentFreeCameraEnabled) {
-        scene.activeCamera = routeCamera;
+        scene.activeCamera = defaultCamera;
       } else {
-        freeCamera.position = routeCamera.position.clone();
-        freeCamera.rotation = routeCamera.rotation.clone();
-        freeCamera.fov = routeCamera.fov;
+        freeCamera.position = defaultCamera.globalPosition;
+        freeCamera.rotation = defaultCamera.absoluteRotation.toEulerAngles();
+        freeCamera.fov = defaultCamera.fov;
         scene.activeCamera = freeCamera;
       }
       return !currentFreeCameraEnabled;
