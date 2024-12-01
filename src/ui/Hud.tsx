@@ -1,5 +1,6 @@
 import { MouseEvent, ReactNode, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReactGA from 'react-ga4';
 import { Tooltip } from 'react-tooltip';
 import Icon from './Icon';
 import { hasPointingDevice, isIos } from '../settings/general';
@@ -30,6 +31,7 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
+      ReactGA.event({ category: 'click', action: 'click_play' });
       onPlay();
     },
     [onPlay],
@@ -40,6 +42,7 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
+      ReactGA.event({ category: 'click', action: 'click_pause' });
       onPause();
     },
     [onPause],
@@ -50,6 +53,7 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
+      ReactGA.event({ category: 'click', action: 'click_replay' });
       onReplay();
     },
     [onReplay],
@@ -60,9 +64,21 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      onToggleFullscreen(!fullscreen);
+      ReactGA.event({ category: 'click', action: 'click_fullscreen' });
+      onToggleFullscreen(true);
     },
-    [onToggleFullscreen, fullscreen],
+    [onToggleFullscreen],
+  );
+
+  const handleClickFullscreenExit = useCallback(
+    (event: MouseEvent) => {
+      if (event.currentTarget instanceof HTMLElement) {
+        event.currentTarget.blur();
+      }
+      ReactGA.event({ category: 'click', action: 'click_fullscreen_exit' });
+      onToggleFullscreen(false);
+    },
+    [onToggleFullscreen],
   );
 
   let playButton: ReactNode;
@@ -119,27 +135,50 @@ function Hud({
     );
   }
 
+  let fullscreenButton: ReactNode;
+  if (isIos) {
+    // Hide fullscreen button from iOS as it conflicts scroll gestures.
+    fullscreenButton = null;
+  } else if (fullscreen) {
+    fullscreenButton = (
+      <button
+        type="button"
+        className={classes.button}
+        data-tooltip-id="hudTooltip"
+        data-tooltip-content="全画面表示を終了"
+        data-tooltip-place="left"
+        onClick={handleClickFullscreenExit}
+      >
+        <Icon
+          name="fullscreen_exit"
+          aria-label="全画面表示を終了"
+          className={classes.icon}
+        />
+      </button>
+    );
+  } else {
+    fullscreenButton = (
+      <button
+        type="button"
+        className={classes.button}
+        data-tooltip-id="hudTooltip"
+        data-tooltip-content="全画面表示"
+        data-tooltip-place="left"
+        onClick={handleClickFullscreen}
+      >
+        <Icon
+          name="fullscreen"
+          aria-label="全画面表示"
+          className={classes.icon}
+        />
+      </button>
+    );
+  }
+
   return (
     <div className={classes.hud}>
       {playButton}
-      {!isIos && ( // Hide fullscreen button from iOS as it conflicts scroll gestures.
-        <button
-          type="button"
-          className={classes.button}
-          data-tooltip-id="hudTooltip"
-          data-tooltip-content={
-            fullscreen ? t('全画面表示を終了') : t('全画面表示')
-          }
-          data-tooltip-place="left"
-          onClick={handleClickFullscreen}
-        >
-          <Icon
-            name={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-            aria-label={fullscreen ? t('全画面表示を終了') : t('全画面表示')}
-            className={classes.icon}
-          />
-        </button>
-      )}
+      {fullscreenButton}
       {hasPointingDevice && (
         <Tooltip id="hudTooltip" className={classes.tooltip} />
       )}
