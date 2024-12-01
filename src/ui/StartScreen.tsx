@@ -14,14 +14,14 @@ interface StartScreenProps {
 
 function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
   const { t } = useTranslation();
-  const [mounted, setMounted] = useState(enabled);
+  const [visible, setVisible] = useState(enabled);
 
   const viewportStyle = useSpring({
     opacity: 1 - progress,
     config: config.default,
     onRest: (result) => {
       if (result.value.opacity === 0) {
-        setMounted(false);
+        setVisible(false);
       }
     },
   });
@@ -53,16 +53,15 @@ function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
 
   useEffect(() => {
     if (enabled) {
-      setMounted(true);
+      setVisible(true);
     }
   }, [enabled]);
 
-  if (!mounted) {
-    return null;
-  }
-
   return (
-    <div className={classes.startScreen}>
+    <div
+      className={classes.startScreen}
+      style={{ display: visible ? 'block' : 'none' }}
+    >
       <animated.div className={classes.viewport} style={viewportStyle}>
         <animated.div className={classes.content} style={contentStyle}>
           <div className={classes.title}>
