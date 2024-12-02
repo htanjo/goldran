@@ -11,7 +11,10 @@ import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { Texture } from '@babylonjs/core/Materials/Textures/texture';
 import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
-// import { WebXRCamera } from '@babylonjs/core/XR/webXRCamera';
+import { WebXRCamera } from '@babylonjs/core/XR/webXRCamera';
+import { WebXRDefaultExperience } from '@babylonjs/core/XR/webXRDefaultExperience';
+import { WebXRState } from '@babylonjs/core/XR/webXRTypes';
+import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
 import Effects from './Effects';
 import { LightConfig, lightConfigs } from '../settings/lights';
@@ -22,6 +25,8 @@ export default class SceneManager {
   private scene: Scene;
 
   private camera: FreeCamera;
+
+  private effects: Effects | null = null;
 
   private skyboxMaterial: StandardMaterial;
 
@@ -195,8 +200,7 @@ export default class SceneManager {
         animationCamera.maxZ = 2000;
         scene.activeCamera = animationCamera;
         this.camera = animationCamera;
-        // eslint-disable-next-line no-new
-        new Effects(this.scene, [this.camera]);
+        this.effects = new Effects(this.scene, [this.camera]);
 
         // Configure textures loaded by assetsManager.
         textureConfigs.forEach((textureConfig) => {
@@ -214,11 +218,10 @@ export default class SceneManager {
           animationGroup.pause();
           animationGroup.goToFrame(0);
         });
+        this.initializeVr();
 
         // Update camera offset every frame.
         scene.registerBeforeRender(() => this.updateCamera());
-
-        // this.initializeVr();
 
         // Dispatch onReady event for listeners.
         this.emitter.dispatchEvent(new CustomEvent('ready'));
@@ -374,16 +377,44 @@ export default class SceneManager {
     }
   }
 
-  // private async initializeVr() {
-  //   const { scene } = this;
-  //   const ground = MeshBuilder.CreatePlane('ground', { size: 20 });
-  //   ground.visibility = 0;
-  //   ground.rotation.x = Math.PI / 2;
-  //   const defaultXRExperience = await scene.createDefaultXRExperienceAsync({
-  //     floorMeshes: [ground],
-  //   });
-  //   const xrSessionManager = defaultXRExperience.baseExperience.sessionManager;
-  //   const xrCamera = new WebXRCamera('XRCamera', scene, xrSessionManager);
-  //   xrCamera.setTransformationFromNonVRCamera();
-  // }
+  private async initializeVr() {
+    const { scene } = this;
+    // const ground = MeshBuilder.CreatePlane('ground', { size: 20 });
+    // ground.visibility = 0;
+    // ground.rotation.x = Math.PI / 2;
+    // const defaultXRExperience = await scene.createDefaultXRExperienceAsync({
+    //   floorMeshes: [ground],
+    // });
+    const defaultXRExperience = await WebXRDefaultExperience.CreateAsync(scene);
+    const xrSessionManager = defaultXRExperience.baseExperience.sessionManager;
+    const xrCamera = new WebXRCamera('xr_camera', scene, xrSessionManager);
+    const moveXrCamera = () => {
+      xrCamera.setTransformationFromNonVRCamera(this.camera);
+      xrCamera.rotation = this.camera.absoluteRotation.toEulerAngles();
+      xrCamera.position.y += 1.0; // Set higher position to avoid overlap.
+    };
+
+    defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {
+      switch (state) {
+        case WebXRState.ENTERING_XR:
+          this.effects?.disableLensEffects();
+          scene.animationGroups.forEach((animationGroup) => {
+            // eslint-disable-next-line no-param-reassign
+            animationGroup.speedRatio = 0.5; // A little slower in VR mode. Autoplay mode is 0.75;
+            animationGroup.play(true);
+          });
+          scene.registerBeforeRender(moveXrCamera);
+          break;
+        case WebXRState.EXITING_XR:
+          this.effects?.enableLensEffects();
+          scene.animationGroups.forEach((animationGroup) => {
+            animationGroup.pause();
+            animationGroup.goToFrame(this.frame);
+          });
+          scene.unregisterBeforeRender(moveXrCamera);
+          break;
+        // no default
+      }
+    });
+  }
 }

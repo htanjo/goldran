@@ -7,6 +7,8 @@ import { Scene } from '@babylonjs/core/scene';
 import colorGradingTextureUrl from '../assets/lut_64.3dl?url';
 
 export default class Effects {
+  private pipeline: DefaultRenderingPipeline;
+
   public constructor(scene: Scene, cameras: Camera[]) {
     const canvas = scene.getEngine().getRenderingCanvas();
     const canvasWidth = canvas?.width || 1024;
@@ -78,8 +80,10 @@ export default class Effects {
     pipeline.imageProcessing.toneMappingType =
       ImageProcessingConfiguration.TONEMAPPING_STANDARD;
 
+    this.pipeline = pipeline;
+
     scene.onNewCameraAddedObservable.add((camera) => {
-      pipeline.addCamera(camera);
+      this.pipeline.addCamera(camera);
     });
 
     // const lensEffect = new LensRenderingPipeline(
@@ -99,5 +103,23 @@ export default class Effects {
     // );
 
     // TODO: update effects when canvas resized.
+  }
+
+  public enableLensEffects() {
+    this.pipeline.samples = 4;
+    this.pipeline.sharpenEnabled = true;
+    this.pipeline.bloomEnabled = true;
+    this.pipeline.chromaticAberrationEnabled = true;
+    this.pipeline.imageProcessing.vignetteEnabled = true;
+    this.pipeline.imageProcessing.colorGradingEnabled = true;
+  }
+
+  public disableLensEffects() {
+    this.pipeline.samples = 2;
+    this.pipeline.sharpenEnabled = false;
+    this.pipeline.bloomEnabled = false;
+    this.pipeline.chromaticAberrationEnabled = false;
+    this.pipeline.imageProcessing.vignetteEnabled = false;
+    this.pipeline.imageProcessing.colorGradingEnabled = false;
   }
 }
