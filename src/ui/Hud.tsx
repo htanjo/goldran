@@ -145,13 +145,13 @@ function Hud({
         type="button"
         className={classes.button}
         data-tooltip-id="hudTooltip"
-        data-tooltip-content="全画面表示を終了"
+        data-tooltip-content={t('全画面表示を終了')}
         data-tooltip-place="left"
         onClick={handleClickFullscreenExit}
       >
         <Icon
           name="fullscreen_exit"
-          aria-label="全画面表示を終了"
+          aria-label={t('全画面表示を終了')}
           className={classes.icon}
         />
       </button>
@@ -162,13 +162,13 @@ function Hud({
         type="button"
         className={classes.button}
         data-tooltip-id="hudTooltip"
-        data-tooltip-content="全画面表示"
+        data-tooltip-content={t('全画面表示')}
         data-tooltip-place="left"
         onClick={handleClickFullscreen}
       >
         <Icon
           name="fullscreen"
-          aria-label="全画面表示"
+          aria-label={t('全画面表示')}
           className={classes.icon}
         />
       </button>
