@@ -406,6 +406,7 @@ export default class SceneManager {
       const url = new URL(window.location.href);
       url.searchParams.delete('vr');
       window.location.href = url.toString();
+      return;
     }
 
     const xrSessionManager = defaultXRExperience.baseExperience.sessionManager;
