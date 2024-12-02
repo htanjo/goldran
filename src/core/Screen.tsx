@@ -12,12 +12,14 @@ import Controller from './Controller';
 import StartScreen from '../ui/StartScreen';
 import LoadingScreen from '../ui/LoadingScreen';
 import Hud from '../ui/Hud';
+import VrMenu from '../ui/VrMenu';
 import Scrollbar from '../ui/Scrollbar';
 import {
   maxFrame as maxFrameSetting,
   moveSpeed as moveSpeedSetting,
 } from '../settings/frames';
 import classes from './Screen.module.scss';
+import { vrMode } from '../settings/general';
 
 const Debugger = lazy(() => import('../ui/Debugger'));
 
@@ -34,6 +36,7 @@ function Screen() {
   const [moveSpeedValue, setMoveSpeedValue] = useState(moveSpeedSetting);
   const [autoPlaying, setAutoPlaying] = useState(false);
   // const [contentFinished, setContentFinished] = useState(false);
+  const [vrEnabled, setVrEnabled] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
   const [debugMode] = useState(
     new URLSearchParams(window.location.search).get('debug') === 'true', // Enable debug mode if URL has "?debug=true".
@@ -75,6 +78,9 @@ function Screen() {
     // controller.onContentFinish((finished) => {
     //   setContentFinished(finished);
     // });
+    controller.onVrToggle((enabled) => {
+      setVrEnabled(enabled);
+    });
     controllerRef.current = controller;
   }, []);
 
@@ -169,6 +175,7 @@ function Screen() {
           onToggleFullscreen={toggleFullscreen}
         />
       )}
+      {vrMode && <VrMenu vrEnabled={vrEnabled} />}
       {scrollbarEnabled && (
         <Scrollbar
           scrollLength={virtualScrollLength}

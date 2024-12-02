@@ -13,6 +13,7 @@ import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { WebXRCamera } from '@babylonjs/core/XR/webXRCamera';
 import { WebXRDefaultExperience } from '@babylonjs/core/XR/webXRDefaultExperience';
+import { WebXREnterExitUIButton } from '@babylonjs/core/XR/webXREnterExitUI';
 import { WebXRState } from '@babylonjs/core/XR/webXRTypes';
 import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
@@ -53,6 +54,8 @@ export default class SceneManager {
   private minFov = 36 * (Math.PI / 180); // FOV for 16/9 landscape mode.
 
   private maxFov = 60 * (Math.PI / 180); // FOV for 9/16 portrait mode.
+
+  private vrEnabled = false;
 
   private emitter: EventTarget;
 
@@ -251,6 +254,12 @@ export default class SceneManager {
     });
   }
 
+  public onVrToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('vrToggle', () => {
+      callback(this.vrEnabled);
+    });
+  }
+
   private configureTexture(textureConfig: TextureConfig) {
     const { scene } = this;
     const { name, originalName, type } = textureConfig;
@@ -391,7 +400,21 @@ export default class SceneManager {
     // const defaultXRExperience = await scene.createDefaultXRExperienceAsync({
     //   floorMeshes: [ground],
     // });
-    const defaultXRExperience = await WebXRDefaultExperience.CreateAsync(scene);
+    const button = new WebXREnterExitUIButton(
+      document.getElementById('vrButton') as HTMLElement,
+      'immersive-vr',
+      'local',
+    );
+    const defaultXRExperience = await WebXRDefaultExperience.CreateAsync(
+      scene,
+      {
+        // disableDefaultUI: true,
+        uiOptions: {
+          customButtons: [button],
+        },
+        disableTeleportation: true,
+      },
+    );
 
     // If VR is not supported, redirect to the normal mode.
     const vrSupported =
@@ -414,12 +437,14 @@ export default class SceneManager {
     const moveXrCamera = () => {
       xrCamera.setTransformationFromNonVRCamera(this.camera);
       xrCamera.rotation = this.camera.absoluteRotation.toEulerAngles();
-      xrCamera.position.y += 1.0; // Set higher position to avoid overlap.
+      xrCamera.position.y = this.camera.globalPosition.y * 0.5 + 0.7;
     };
 
     defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {
       switch (state) {
         case WebXRState.ENTERING_XR:
+          this.vrEnabled = true;
+          this.emitter.dispatchEvent(new CustomEvent('vrToggle'));
           this.effects?.disableLensEffects();
           scene.animationGroups.forEach((animationGroup) => {
             // eslint-disable-next-line no-param-reassign
@@ -429,6 +454,8 @@ export default class SceneManager {
           scene.registerBeforeRender(moveXrCamera);
           break;
         case WebXRState.EXITING_XR:
+          this.vrEnabled = false;
+          this.emitter.dispatchEvent(new CustomEvent('vrToggle'));
           this.effects?.enableLensEffects();
           scene.animationGroups.forEach((animationGroup) => {
             animationGroup.pause();

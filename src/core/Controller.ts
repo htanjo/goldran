@@ -54,6 +54,8 @@ export default class Controller {
 
   private contentFinished = false;
 
+  private vrEnabled = false;
+
   public sceneManager: SceneManager;
 
   private emitter: EventTarget;
@@ -110,6 +112,11 @@ export default class Controller {
           this.orientationChangeListener,
         );
       }
+
+      this.sceneManager.onVrToggle((enabled) => {
+        this.vrEnabled = enabled;
+        this.emitter.dispatchEvent(new CustomEvent('vrToggle'));
+      });
 
       // Hide loading screen and show start screen.
       // Slightly delay it to prevent frame drop due to the initial rendering.
@@ -173,6 +180,12 @@ export default class Controller {
   public onContentFinish(callback: (finished: boolean) => void) {
     this.emitter.addEventListener('contentFinish', () => {
       callback(this.contentFinished);
+    });
+  }
+
+  public onVrToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('vrToggle', () => {
+      callback(this.vrEnabled);
     });
   }
 
