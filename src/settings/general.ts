@@ -25,3 +25,5 @@ switch (graphicsQueryParam) {
 }
 export const qualityMode = qualityModeCheck;
 export const isIos = browser.os.name === 'iOS';
+export const vrMode =
+  new URLSearchParams(window.location.search).get('vr') === 'true';

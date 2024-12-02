@@ -4,6 +4,8 @@ import { ColorGradingTexture } from '@babylonjs/core/Materials/Textures/colorGra
 import { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline';
 import { ImageProcessingConfiguration } from '@babylonjs/core/Materials/imageProcessingConfiguration';
 import { Scene } from '@babylonjs/core/scene';
+import { WebXRCamera } from '@babylonjs/core/XR/webXRCamera';
+import { vrMode } from '../settings/general';
 import colorGradingTextureUrl from '../assets/lut_64.3dl?url';
 
 export default class Effects {
@@ -38,9 +40,10 @@ export default class Effects {
     }
 
     // Add post processing effects.
+    const hdr = !vrMode; // Disable HDR in VR mode as it doesn't use post processing.
     const pipeline = new DefaultRenderingPipeline(
       'effects',
-      true,
+      hdr,
       scene,
       cameras,
     );
@@ -83,7 +86,10 @@ export default class Effects {
     this.pipeline = pipeline;
 
     scene.onNewCameraAddedObservable.add((camera) => {
-      this.pipeline.addCamera(camera);
+      // Don't apply post processing to VR for the performance and the visibility.
+      if (!(camera instanceof WebXRCamera)) {
+        this.pipeline.addCamera(camera);
+      }
     });
 
     // const lensEffect = new LensRenderingPipeline(

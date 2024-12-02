@@ -17,6 +17,7 @@ import { WebXRState } from '@babylonjs/core/XR/webXRTypes';
 import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
 import Effects from './Effects';
+import { vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
 import { assetConfigs } from '../settings/assets';
 import { TextureConfig, textureConfigs } from '../settings/textures';
@@ -218,7 +219,11 @@ export default class SceneManager {
           animationGroup.pause();
           animationGroup.goToFrame(0);
         });
-        this.initializeVr();
+
+        // Prepare for VR mode.
+        if (vrMode) {
+          this.initializeVr();
+        }
 
         // Update camera offset every frame.
         scene.registerBeforeRender(() => this.updateCamera());
