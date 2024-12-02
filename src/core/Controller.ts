@@ -1,7 +1,7 @@
 import { Scene } from '@babylonjs/core/scene';
 import VirtualScroll, { VirtualScrollEvent } from 'virtual-scroll';
 import SceneManager from '../graphics/SceneManager';
-import { hasPointingDevice, hasTouchscreen } from '../settings/general';
+import { hasPointingDevice, hasTouchscreen, vrMode } from '../settings/general';
 import {
   maxFrame as maxFrameSetting,
   moveSpeed as moveSpeedSetting,
@@ -71,7 +71,7 @@ export default class Controller {
   public constructor(scene: Scene) {
     this.usePointerInput = hasPointingDevice;
     this.useOrientationInput =
-      !this.usePointerInput && !!window.DeviceOrientationEvent;
+      !this.usePointerInput && !!window.DeviceOrientationEvent && !vrMode; // TODO: More precisely, the input should only be disabled when VR is activated.
     this.pointermoveListener = this.handlePointermove.bind(this);
     this.deviceOrientationListener = this.handleDeviceOrientation.bind(this);
     this.orientationChangeListener = this.handleOrientationChange.bind(this);
