@@ -53,7 +53,7 @@ export default class SceneManager {
     this.scene = scene;
 
     // Configure scene.
-    this.scene.clearColor = Color4.FromHexString('#0000ff');
+    this.scene.clearColor = Color4.FromHexString('#000000ff');
     this.scene.ambientColor = Color3.White();
     this.scene.fogMode = Scene.FOGMODE_EXP2;
     this.scene.fogColor = Color3.FromHexString('#413d38');
