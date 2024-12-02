@@ -16,6 +16,7 @@ import { WebXRDefaultExperience } from '@babylonjs/core/XR/webXRDefaultExperienc
 import { WebXRState } from '@babylonjs/core/XR/webXRTypes';
 import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
+import i18n from 'i18next';
 import Effects from './Effects';
 import { vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
@@ -391,6 +392,22 @@ export default class SceneManager {
     //   floorMeshes: [ground],
     // });
     const defaultXRExperience = await WebXRDefaultExperience.CreateAsync(scene);
+
+    // If VR is not supported, redirect to the normal mode.
+    const vrSupported =
+      await defaultXRExperience.baseExperience.sessionManager.isSessionSupportedAsync(
+        'immersive-vr',
+      );
+    if (!vrSupported) {
+      // eslint-disable-next-line no-alert
+      alert(
+        i18n.t('デバイスがVRに対応していないようです。通常モードに戻ります。'),
+      );
+      const url = new URL(window.location.href);
+      url.searchParams.delete('vr');
+      window.location.href = url.toString();
+    }
+
     const xrSessionManager = defaultXRExperience.baseExperience.sessionManager;
     const xrCamera = new WebXRCamera('xr_camera', scene, xrSessionManager);
     const moveXrCamera = () => {
