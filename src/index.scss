@@ -10,7 +10,7 @@
   overflow: hidden;
 
   font-size: min(5vw, 3vh);
-  font-family: 'EB Garamond', 'Yu Mincho', 'Hiragino Mincho Pro', serif;
+  font-family: 'Yu Mincho', 'Hiragino Mincho Pro', serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -26,6 +26,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root:lang(en) {
+  font-family: 'EB Garamond', serif;
 }
 
 body {
