@@ -269,10 +269,12 @@ export default class Controller {
       this.sceneManager.applyFrame(this.frame, disableSmoothMove);
       if (this.contentFinished !== nextContentFinished) {
         this.contentFinished = nextContentFinished;
-        this.emitter.dispatchEvent(new CustomEvent('contentFinish'));
-        if (this.autoplayEnabled) {
-          this.autoplayEnabled = false;
-          this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
+        if (this.contentFinished) {
+          this.emitter.dispatchEvent(new CustomEvent('contentFinish'));
+          if (this.autoplayEnabled) {
+            this.autoplayEnabled = false;
+            this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
+          }
         }
       }
     }
