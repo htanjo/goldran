@@ -5,7 +5,7 @@
 **Transform! Golden Swordsman DRAN!**  
 **<https://htanjo.github.io/goldran/>**
 
-[![Animation Demo](./animation.gif)](https://htanjo.github.io/goldran/)
+[![Animation](./animation.gif)](https://htanjo.github.io/goldran/)
 
 I created a [3D Web content](https://htanjo.github.io/goldran/) that is fan art of 90's Japanese anime ["The Brave of Gold Goldran" (黄金勇者ゴルドラン)](https://en.wikipedia.org/wiki/The_Brave_of_Gold_Goldran). When you scroll the page, it transforms from a vehicle to a robot.
 
@@ -34,6 +34,7 @@ To reproduce realistic materials, I have installed [Fluent Materializer](https:/
 
 One of the most popular Web UI frameworks.
 The 2D UI is mainly implemented with React and its plugins, such as [react-spring](https://www.react-spring.dev/), [react-tooltip](https://react-tooltip.com/), and [react-i18next](https://react.i18next.com/).
+To integrate Babylon.js into React application, I used [babylonjs-hook](https://github.com/brianzinn/babylonjs-hook) library.
 
 ### [virtual-scroll](https://github.com/ayamflow/virtual-scroll)
 
