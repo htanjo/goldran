@@ -7,7 +7,7 @@ I created a [3D Web content](https://htanjo.github.io/goldran/) that is fan art 
 **Transform! Golden Swordsman DRAN!**  
 **<https://htanjo.github.io/goldran/>**
 
-![Animation](./animation.gif)
+[![Animation](./animation.gif)](https://htanjo.github.io/goldran/)
 
 It also has "Autoplay" and "Fullscreen" button at the bottom for more enjoyable experience.
 
