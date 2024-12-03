@@ -11,7 +11,7 @@ It also has "Autoplay" and "Fullscreen" button at the bottom for more enjoyable 
 
 ## Technical Details
 
-This content powered by 3D data with keyframes exported in [glTF](<(https://docs.blender.org/manual/en/dev/addons/import_export/scene_gltf2.html)>) format, and rendering it in HTML using WebGL.
+This content powered by 3D data with keyframes exported in [glTF](https://docs.blender.org/manual/en/dev/addons/import_export/scene_gltf2.html) format, and rendering it in HTML using WebGL.
 I could not have created this content without various open source projects.
 I especially appreciate below.
 
