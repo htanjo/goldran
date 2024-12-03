@@ -9,7 +9,8 @@
 
 I created a [3D Web animation](https://htanjo.github.io/goldran/) that is fan art of 90's Japanese anime ["The Brave of Gold Goldran" (黄金勇者ゴルドラン)](https://en.wikipedia.org/wiki/The_Brave_of_Gold_Goldran). When you scroll the page, it transforms from a vehicle to a robot.
 
-It also has "Autoplay" and "Fullscreen" button at the bottom for more enjoyable experience.
+You can adjust the camera position by moving the mouse or rotating the mobile device.
+The page also has "Autoplay" and "Fullscreen" button at the bottom for more enjoyable experience.
 
 ## Technical Details
 
