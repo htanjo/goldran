@@ -7,7 +7,7 @@
 
 [![Animation](./animation.gif)](https://htanjo.github.io/goldran/)
 
-I created a [3D Web content](https://htanjo.github.io/goldran/) that is fan art of 90's Japanese anime ["The Brave of Gold Goldran" (黄金勇者ゴルドラン)](https://en.wikipedia.org/wiki/The_Brave_of_Gold_Goldran). When you scroll the page, it transforms from a vehicle to a robot.
+I created a [3D Web animation](https://htanjo.github.io/goldran/) that is fan art of 90's Japanese anime ["The Brave of Gold Goldran" (黄金勇者ゴルドラン)](https://en.wikipedia.org/wiki/The_Brave_of_Gold_Goldran). When you scroll the page, it transforms from a vehicle to a robot.
 
 It also has "Autoplay" and "Fullscreen" button at the bottom for more enjoyable experience.
 
