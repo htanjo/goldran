@@ -2,7 +2,7 @@
 
 > 3D Web project powered by Babylon.js
 
-I created a [3D Web content](https://htanjo.github.io/goldran/) that is fan art of 90's Japanese anime ["The Brave of Gold Goldran"](https://en.wikipedia.org/wiki/The_Brave_of_Gold_Goldran). When you scroll the page, it transforms from a vehicle to a robot.
+I created a [3D Web content](https://htanjo.github.io/goldran/) that is fan art of 90's Japanese anime ["The Brave of Gold Goldran" (黄金勇者ゴルドラン)](https://en.wikipedia.org/wiki/The_Brave_of_Gold_Goldran). When you scroll the page, it transforms from a vehicle to a robot.
 
 **Transform! Golden Swordsman DRAN!**  
 **<https://htanjo.github.io/goldran/>**
@@ -20,19 +20,20 @@ I especially appreciate below.
 ### [Babylon.js](https://www.babylonjs.com/)
 
 JavaScript framework that renders beautiful 3D contents in Web pages.
-The extensive features, documentation, demos, and forums are a big help.
-I used Babylon.js for lighting, rendering, and playing animations.
+It has powerful features like PBR (Physically Based Rendering) as a 3D engine. Also, extensive documentations, online demos, and forums are a big help.
+I used Babylon.js for lighting, rendering, post processing, and playing animations.
 
 ### [Blender](https://www.blender.org/)
 
-Integrated 3D graphics software provided free and open source.
-Modeling, materials, and animation making was done in Blender.
-3D data is exported in glTF format and imported with Babylon.js.
+Integrated 3D graphics software provided for free and open source.
+I used Blender for modeling, materials and animations making.
+3D data is exported in glTF file (.glb) and imported into HTML with Babylon.js.
+To reproduce realistic materials, I have installed [Fluent Materializer](https://blendermarket.com/products/fluent-materializer) and [Simplebake](https://blendermarket.com/products/simplebake---simple-pbr-and-other-baking-in-blender-2) addon.
 
 ### [React](https://react.dev/)
 
 One of the most popular Web UI frameworks.
-The 2D UI is implemented with React and its plugins, such as [react-spring](https://www.react-spring.dev/).
+The 2D UI is mainly implemented with React and its plugins, such as [react-spring](https://www.react-spring.dev/), [react-tooltip](https://react-tooltip.com/), and [react-i18next](https://react.i18next.com/).
 
 ### [virtual-scroll](https://github.com/ayamflow/virtual-scroll)
 
@@ -45,7 +46,9 @@ This library was quite helpful to achieve it.
 ### [Vite](https://vite.dev/)
 
 The build tool for the Web.
-It works blazing fast and accelerated the project development.
+It's very easy to start and works blazing fast.
+Vite has definitely accelerated the development speed.
+I have built this project based on React + TypeScript template.
 
 ## License
 
