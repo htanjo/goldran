@@ -31,6 +31,15 @@ I used Blender for modeling, materials and animations making.
 3D data is exported in glTF file (.glb) and imported into HTML with Babylon.js.
 To reproduce realistic materials, I have installed [Fluent Materializer](https://blendermarket.com/products/fluent-materializer) and [Simplebake](https://blendermarket.com/products/simplebake---simple-pbr-and-other-baking-in-blender-2) addon.
 
+### [glTF Transform](https://gltf-transform.dev/)
+
+Optimization tool for glTF files.
+To support mobile devices, it was necessary to reduce memory and file size.
+Especially on iOS, the browser crashes when the load becomes higher.
+So I have prepared two different glTF files, one for PC with 2K textures and one for mobile with 1K textures.
+Both are compressed with WebP.
+To automate this workflow, I have installed glTF Transform.
+
 ### [React](https://react.dev/)
 
 One of the most popular Web UI frameworks.
