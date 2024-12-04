@@ -55,7 +55,9 @@ export default class SceneManager {
 
   private maxFov = 60 * (Math.PI / 180); // FOV for 9/16 portrait mode.
 
-  private vrEnabled = false;
+  private vrEnabled: boolean = false;
+
+  private vrSwitching: boolean = false;
 
   private emitter: EventTarget;
 
@@ -254,9 +256,11 @@ export default class SceneManager {
     });
   }
 
-  public onVrToggle(callback: (enabled: boolean) => void) {
-    this.emitter.addEventListener('vrToggle', () => {
-      callback(this.vrEnabled);
+  public onVrStateChange(
+    callback: (enabled: boolean, switching: boolean) => void,
+  ) {
+    this.emitter.addEventListener('vrStateChange', () => {
+      callback(this.vrEnabled, this.vrSwitching);
     });
   }
 
@@ -443,25 +447,45 @@ export default class SceneManager {
     defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {
       switch (state) {
         case WebXRState.ENTERING_XR:
-          this.vrEnabled = true;
-          this.emitter.dispatchEvent(new CustomEvent('vrToggle'));
-          this.effects?.disableLensEffects();
-          scene.animationGroups.forEach((animationGroup) => {
-            // eslint-disable-next-line no-param-reassign
-            animationGroup.speedRatio = 0.5; // A little slower in VR mode. Autoplay mode is 0.75;
-            animationGroup.play(true);
-          });
-          scene.registerBeforeRender(moveXrCamera);
+          if (!this.vrEnabled || !this.vrSwitching) {
+            this.vrEnabled = true;
+            this.vrSwitching = true;
+            this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
+            this.effects?.disableLensEffects();
+            scene.animationGroups.forEach((animationGroup) => {
+              // eslint-disable-next-line no-param-reassign
+              animationGroup.speedRatio = 0.5; // A little slower in VR mode. Autoplay mode is 0.75;
+              animationGroup.play(true);
+            });
+            scene.registerBeforeRender(moveXrCamera);
+          }
+          break;
+        case WebXRState.IN_XR:
+          if (!this.vrEnabled || this.vrSwitching) {
+            this.vrEnabled = true;
+            this.vrSwitching = false;
+            this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
+          }
           break;
         case WebXRState.EXITING_XR:
-          this.vrEnabled = false;
-          this.emitter.dispatchEvent(new CustomEvent('vrToggle'));
-          this.effects?.enableLensEffects();
-          scene.animationGroups.forEach((animationGroup) => {
-            animationGroup.pause();
-            animationGroup.goToFrame(this.frame);
-          });
-          scene.unregisterBeforeRender(moveXrCamera);
+          if (this.vrEnabled || !this.vrSwitching) {
+            this.vrEnabled = false;
+            this.vrSwitching = true;
+            this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
+            this.effects?.enableLensEffects();
+            scene.animationGroups.forEach((animationGroup) => {
+              animationGroup.pause();
+              animationGroup.goToFrame(this.frame);
+            });
+            scene.unregisterBeforeRender(moveXrCamera);
+          }
+          break;
+        case WebXRState.NOT_IN_XR:
+          if (this.vrEnabled || this.vrSwitching) {
+            this.vrEnabled = false;
+            this.vrSwitching = false;
+            this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
+          }
           break;
         // no default
       }

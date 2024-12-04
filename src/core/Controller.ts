@@ -56,6 +56,8 @@ export default class Controller {
 
   private vrEnabled = false;
 
+  private vrSwitching = false;
+
   public sceneManager: SceneManager;
 
   private emitter: EventTarget;
@@ -113,9 +115,10 @@ export default class Controller {
         );
       }
 
-      this.sceneManager.onVrToggle((enabled) => {
+      this.sceneManager.onVrStateChange((enabled, switching) => {
         this.vrEnabled = enabled;
-        this.emitter.dispatchEvent(new CustomEvent('vrToggle'));
+        this.vrSwitching = switching;
+        this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
       });
 
       // Hide loading screen and show start screen.
@@ -183,9 +186,11 @@ export default class Controller {
     });
   }
 
-  public onVrToggle(callback: (enabled: boolean) => void) {
-    this.emitter.addEventListener('vrToggle', () => {
-      callback(this.vrEnabled);
+  public onVrStateChange(
+    callback: (enabled: boolean, switching: boolean) => void,
+  ) {
+    this.emitter.addEventListener('vrStateChange', () => {
+      callback(this.vrEnabled, this.vrSwitching);
     });
   }
 

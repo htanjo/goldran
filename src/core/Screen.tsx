@@ -37,6 +37,7 @@ function Screen() {
   const [autoPlaying, setAutoPlaying] = useState(false);
   // const [contentFinished, setContentFinished] = useState(false);
   const [vrEnabled, setVrEnabled] = useState(false);
+  const [vrSwitching, setVrSwitching] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
   const [debugMode] = useState(
     new URLSearchParams(window.location.search).get('debug') === 'true', // Enable debug mode if URL has "?debug=true".
@@ -78,8 +79,9 @@ function Screen() {
     // controller.onContentFinish((finished) => {
     //   setContentFinished(finished);
     // });
-    controller.onVrToggle((enabled) => {
+    controller.onVrStateChange((enabled, switching) => {
       setVrEnabled(enabled);
+      setVrSwitching(switching);
     });
     controllerRef.current = controller;
   }, []);
@@ -175,7 +177,7 @@ function Screen() {
           onToggleFullscreen={toggleFullscreen}
         />
       )}
-      {vrMode && <VrMenu vrEnabled={vrEnabled} />}
+      {vrMode && <VrMenu vrEnabled={vrEnabled} vrSwitching={vrSwitching} />}
       {scrollbarEnabled && (
         <Scrollbar
           scrollLength={virtualScrollLength}

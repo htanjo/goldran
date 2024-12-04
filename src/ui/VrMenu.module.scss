@@ -19,11 +19,52 @@
   border: none;
   border-radius: 0.15rem;
   font-size: 1.2rem;
-  line-height: 2.5rem;
-  color: var(--text-color-base);
-  background-image: linear-gradient(#a80f2e, #c02619);
-  transition: scale 150ms;
+  line-height: 1;
+  color: #eee2ae;
+  background-image: radial-gradient(
+      141.42% 141.42% at 100% 0%,
+      #86000000,
+      #860000cd
+    ),
+    radial-gradient(140.35% 140.35% at 100% 94.74%, #fe3481, #ffa34100),
+    radial-gradient(89.94% 89.94% at 18.42% 15.79%, #ffa341, #fe348100);
+  box-shadow: 0 0.05rem #ffffcc44 inset;
+  transition:
+    box-shadow 600ms 150ms,
+    width 150ms,
+    margin 150ms;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-color: #ff0000;
+    opacity: 0;
+    transition: opacity 600ms 150ms;
+  }
   &:hover {
-    scale: 1.15;
+    width: 12rem;
+    margin-left: -6rem;
+    &::after {
+      opacity: 0.25;
+    }
+  }
+  &:disabled {
+    color: #666666;
+    background-color: #333333;
+    background-image: none;
+    box-shadow: none;
+    cursor: default;
+    transition:
+      box-shadow 0ms 0ms,
+      width 150ms,
+      margin 150ms;
+    &::after {
+      opacity: 0;
+    }
   }
 }
