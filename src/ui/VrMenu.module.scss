@@ -36,6 +36,7 @@
     width 150ms,
     margin 150ms;
   pointer-events: auto;
+  outline: none;
   &::after {
     content: '';
     display: block;
@@ -47,13 +48,24 @@
     z-index: -1;
     background-color: #ff0000;
     opacity: 0;
-    transition: opacity 600ms 150ms;
+    transition:
+      opacity 600ms 150ms,
+      background-color 150ms 0ms;
   }
-  &:hover {
+  &:hover,
+  &:focus {
     width: 12rem;
     margin-left: -6rem;
     &::after {
-      opacity: 0.25;
+      opacity: 0.2;
+    }
+  }
+  &:active {
+    width: 12rem;
+    margin-left: -6rem;
+    &::after {
+      background-color: #aa0000;
+      opacity: 0.5;
     }
   }
   &:disabled {
