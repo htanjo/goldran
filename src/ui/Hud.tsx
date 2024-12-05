@@ -28,7 +28,7 @@ function Hud({
   onToggleFullscreen,
 }: HudProps) {
   const { t } = useTranslation();
-  const [vrSupported, setVrSupported] = useState(false);
+  const [vrSupported, setVrSupported] = useState(true); // Default "false" is natural, but set "true" to avoid tooltip bug.
 
   const handleClickPlay = useCallback(
     (event: MouseEvent) => {
