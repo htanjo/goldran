@@ -98,6 +98,12 @@ function Screen() {
     controllerRef.current?.restartAutoplay();
   }, []);
 
+  const switchToVrMode = useCallback(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('vr', 'true');
+    window.location.href = url.toString();
+  }, []);
+
   const toggleFullscreen = useCallback((fullScreenEnable: boolean) => {
     if (fullScreenEnable) {
       document.documentElement.requestFullscreen();
@@ -174,6 +180,7 @@ function Screen() {
           onPlay={play}
           onPause={pause}
           onReplay={replay}
+          onSwitchToVrMode={switchToVrMode}
           onToggleFullscreen={toggleFullscreen}
         />
       )}

@@ -1,9 +1,9 @@
-import { MouseEvent, ReactNode, useCallback } from 'react';
+import { MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
 import { Tooltip } from 'react-tooltip';
 import Icon from './Icon';
-import { hasPointingDevice, isIos } from '../settings/general';
+import { checkVrSupport, hasPointingDevice, isIos } from '../settings/general';
 import classes from './Hud.module.scss';
 
 interface HudProps {
@@ -13,6 +13,7 @@ interface HudProps {
   onPlay: () => void;
   onPause: () => void;
   onReplay: () => void;
+  onSwitchToVrMode: () => void;
   onToggleFullscreen: (fullscreenEnable: boolean) => void;
 }
 
@@ -23,9 +24,12 @@ function Hud({
   onPlay,
   onPause,
   onReplay,
+  onSwitchToVrMode,
   onToggleFullscreen,
 }: HudProps) {
   const { t } = useTranslation();
+  const [vrSupported, setVrSupported] = useState(false);
+
   const handleClickPlay = useCallback(
     (event: MouseEvent) => {
       if (event.currentTarget instanceof HTMLElement) {
@@ -59,6 +63,17 @@ function Hud({
     [onReplay],
   );
 
+  const handleClickVr = useCallback(
+    (event: MouseEvent) => {
+      if (event.currentTarget instanceof HTMLElement) {
+        event.currentTarget.blur();
+      }
+      ReactGA.event({ category: 'click', action: 'click_vr' });
+      onSwitchToVrMode();
+    },
+    [onSwitchToVrMode],
+  );
+
   const handleClickFullscreen = useCallback(
     (event: MouseEvent) => {
       if (event.currentTarget instanceof HTMLElement) {
@@ -80,6 +95,13 @@ function Hud({
     },
     [onToggleFullscreen],
   );
+
+  useEffect(() => {
+    (async () => {
+      const supported = await checkVrSupport();
+      setVrSupported(supported);
+    })();
+  }, []);
 
   let playButton: ReactNode;
   if (contentFinished) {
@@ -135,6 +157,28 @@ function Hud({
     );
   }
 
+  let vrButton: ReactNode;
+  if (vrSupported) {
+    vrButton = (
+      <button
+        type="button"
+        className={classes.button}
+        data-tooltip-id="hudTooltip"
+        data-tooltip-content={t('VRモードに切り替える')}
+        data-tooltip-place="left"
+        onClick={handleClickVr}
+      >
+        <Icon
+          name="head_mounted_device"
+          aria-label={t('VRモードに切り替える')}
+          className={`${classes.icon} ${classes.vrIcon}`}
+        />
+      </button>
+    );
+  } else {
+    vrButton = null;
+  }
+
   let fullscreenButton: ReactNode;
   if (isIos) {
     // Hide fullscreen button from iOS as it conflicts scroll gestures.
@@ -178,6 +222,8 @@ function Hud({
   return (
     <div className={classes.hud}>
       {playButton}
+      <div className={classes.spacer} />
+      {vrButton}
       {fullscreenButton}
       {hasPointingDevice && (
         <Tooltip id="hudTooltip" className={classes.tooltip} />

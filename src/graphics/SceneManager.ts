@@ -19,7 +19,7 @@ import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
 import i18n from 'i18next';
 import Effects from './Effects';
-import { vrMode } from '../settings/general';
+import { checkVrSupport, vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
 import { assetConfigs } from '../settings/assets';
 import { TextureConfig, textureConfigs } from '../settings/textures';
@@ -421,10 +421,7 @@ export default class SceneManager {
     );
 
     // If VR is not supported, redirect to the normal mode.
-    const vrSupported =
-      await defaultXRExperience.baseExperience.sessionManager.isSessionSupportedAsync(
-        'immersive-vr',
-      );
+    const vrSupported = await checkVrSupport();
     if (!vrSupported) {
       // eslint-disable-next-line no-alert
       alert(

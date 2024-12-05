@@ -1,3 +1,4 @@
+import { WebXRSessionManager } from '@babylonjs/core/XR/webXRSessionManager';
 import Bowser from 'bowser';
 
 export const frameHeight = 200;
@@ -27,3 +28,8 @@ export const qualityMode = qualityModeCheck;
 export const isIos = browser.os.name === 'iOS';
 export const vrMode =
   new URLSearchParams(window.location.search).get('vr') === 'true';
+export const checkVrSupport = async () => {
+  const supported =
+    await WebXRSessionManager.IsSessionSupportedAsync('immersive-vr');
+  return supported;
+};

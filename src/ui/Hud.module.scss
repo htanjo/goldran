@@ -3,6 +3,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
+  gap: 0.4rem;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -11,6 +12,9 @@
   margin: -0.1rem;
   z-index: 1;
   user-select: none;
+}
+.spacer {
+  flex-grow: 1;
 }
 .button {
   display: block;
@@ -36,6 +40,24 @@
   .button:active & {
     color: var(--text-color-strong);
     scale: 1.4;
+  }
+}
+.vrIcon {
+  position: relative;
+  font-size: 1.5rem;
+  &::after {
+    content: 'VR';
+    display: block;
+    position: absolute;
+    top: 0.9em;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 0.35em;
+    color: #000000;
   }
 }
 // Disable hover effects on non-pointer devices.

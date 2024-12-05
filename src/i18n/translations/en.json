@@ -7,6 +7,7 @@
   "自動再生": "Autoplay",
   "一時停止": "Pause",
   "最初から再生": "Replay",
+  "VRモードに切り替える": "Switch to VR Mode",
   "全画面表示": "Fullscreen",
   "全画面表示を終了": "Exit Fullscreen",
   "デバイスがVRに対応していないようです。通常モードに戻ります。": "Your device doesn't seem to support VR. Redirecting to normal mode.",
