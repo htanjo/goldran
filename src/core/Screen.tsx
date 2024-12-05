@@ -50,8 +50,8 @@ function Screen() {
   const virtualScrollLength =
     (virtualContentLength - virtualViewportLength) *
     (frameValue / maxFrameValue);
-  const hudEnabled = !loadingScreenEnabled;
-  const scrollbarEnabled = !loadingScreenEnabled;
+  const hudEnabled = !loadingScreenEnabled && !vrMode;
+  const scrollbarEnabled = !loadingScreenEnabled && !vrMode;
 
   const onSceneReady = useCallback(async (scene: Scene) => {
     const engine = scene.getEngine();

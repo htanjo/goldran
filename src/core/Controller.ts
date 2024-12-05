@@ -96,10 +96,12 @@ export default class Controller {
 
     // Attach input events after assets loaded.
     this.sceneManager.onReady(() => {
-      this.virtualScroll = new VirtualScroll({
-        touchMultiplier: this.touchMultiplier,
-      });
-      this.virtualScroll.on(this.handleScroll.bind(this));
+      if (!vrMode) {
+        this.virtualScroll = new VirtualScroll({
+          touchMultiplier: this.touchMultiplier,
+        });
+        this.virtualScroll.on(this.handleScroll.bind(this));
+      }
 
       if (this.usePointerInput) {
         window.addEventListener('pointermove', this.pointermoveListener);
