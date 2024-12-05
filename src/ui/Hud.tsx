@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
 import { Tooltip } from 'react-tooltip';
 import Icon from './Icon';
-import { checkVrSupport, hasPointingDevice, isIos } from '../settings/general';
+import {
+  checkVrSupport,
+  hasPointingDevice,
+  isDesktop,
+} from '../settings/general';
 import classes from './Hud.module.scss';
 
 interface HudProps {
@@ -180,8 +184,8 @@ function Hud({
   }
 
   let fullscreenButton: ReactNode;
-  if (isIos) {
-    // Hide fullscreen button from iOS as it conflicts scroll gestures.
+  if (!isDesktop) {
+    // Hide fullscreen button from mobile devices.
     fullscreenButton = null;
   } else if (fullscreen) {
     fullscreenButton = (

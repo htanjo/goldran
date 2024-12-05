@@ -25,7 +25,7 @@ switch (graphicsQueryParam) {
     qualityModeCheck = browser.platform.type === 'desktop';
 }
 export const qualityMode = qualityModeCheck;
-export const isIos = browser.os.name === 'iOS';
+export const isDesktop = browser.platform.type === 'desktop';
 export const vrMode =
   new URLSearchParams(window.location.search).get('vr') === 'true';
 export const checkVrSupport = async () => {
