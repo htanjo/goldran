@@ -49,6 +49,11 @@
     rotate: 90deg;
   }
 }
+@media (max-width: 576px) {
+  .navigation {
+    bottom: 3rem;
+  }
+}
 .backdrop {
   position: absolute;
   width: 100%;
