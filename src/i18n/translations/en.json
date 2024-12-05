@@ -11,5 +11,6 @@
   "全画面表示を終了": "Exit Fullscreen",
   "デバイスがVRに対応していないようです。通常モードに戻ります。": "Your device doesn't seem to support VR. Redirecting to normal mode.",
   "VRを開始": "ENTER VR",
-  "VRを終了": "EXIT VR"
+  "VRを終了": "EXIT VR",
+  "通常モードに戻る": "Back to Normal Mode"
 }

@@ -11,8 +11,8 @@ function VrMenu({ vrEnabled, vrSwitching }: VrMenuProps) {
   const buttonText = vrEnabled && !vrSwitching ? t('VRを終了') : t('VRを開始');
   const buttonDisabled = vrSwitching;
   return (
-    // For some reasons, wrapper element is necessary but it won't be a parent of the button.
     <div className={classes.vrMenu}>
+      {/* For some reasons, wrapper element is necessary but it won't be a parent of the button. */}
       <button
         id="vrButton"
         type="button"
@@ -21,6 +21,11 @@ function VrMenu({ vrEnabled, vrSwitching }: VrMenuProps) {
       >
         {buttonText}
       </button>
+      <div className={classes.returnMenu}>
+        <a href="./" className={classes.returnButton}>
+          {t('通常モードに戻る')}
+        </a>
+      </div>
     </div>
   );
 }
