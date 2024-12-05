@@ -104,6 +104,12 @@ function Screen() {
     window.location.href = url.toString();
   }, []);
 
+  const switchToNormalMode = useCallback(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('vr');
+    window.location.href = url.toString();
+  }, []);
+
   const toggleFullscreen = useCallback((fullScreenEnable: boolean) => {
     if (fullScreenEnable) {
       document.documentElement.requestFullscreen();
@@ -184,7 +190,13 @@ function Screen() {
           onToggleFullscreen={toggleFullscreen}
         />
       )}
-      {vrMode && <VrMenu vrEnabled={vrEnabled} vrSwitching={vrSwitching} />}
+      {vrMode && (
+        <VrMenu
+          vrEnabled={vrEnabled}
+          vrSwitching={vrSwitching}
+          onSwitchToNormalMode={switchToNormalMode}
+        />
+      )}
       {scrollbarEnabled && (
         <Scrollbar
           scrollLength={virtualScrollLength}

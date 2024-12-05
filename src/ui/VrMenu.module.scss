@@ -81,8 +81,10 @@
 }
 .returnButton {
   display: inline-block;
+  border: none;
   font-size: 0.9rem;
   color: #998f88;
+  background: none;
   transition: color 150ms;
   pointer-events: auto;
   &:hover,

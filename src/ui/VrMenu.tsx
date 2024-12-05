@@ -1,15 +1,24 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReactGA from 'react-ga4';
 import classes from './VrMenu.module.scss';
 
 interface VrMenuProps {
   vrEnabled: boolean;
   vrSwitching: boolean;
+  onSwitchToNormalMode: () => void;
 }
 
-function VrMenu({ vrEnabled, vrSwitching }: VrMenuProps) {
+function VrMenu({ vrEnabled, vrSwitching, onSwitchToNormalMode }: VrMenuProps) {
   const { t } = useTranslation();
   const buttonText = vrEnabled && !vrSwitching ? t('VRを終了') : t('VRを開始');
   const buttonDisabled = vrSwitching;
+
+  const handleClickNormalMode = useCallback(() => {
+    ReactGA.event({ category: 'click', action: 'click_vr_exit' });
+    onSwitchToNormalMode();
+  }, [onSwitchToNormalMode]);
+
   return (
     <div className={classes.vrMenu}>
       {/* For some reasons, wrapper element is necessary but it won't be a parent of the button. */}
@@ -22,9 +31,13 @@ function VrMenu({ vrEnabled, vrSwitching }: VrMenuProps) {
         {buttonText}
       </button>
       <div className={classes.returnMenu}>
-        <a href="./" className={classes.returnButton}>
+        <button
+          type="button"
+          className={classes.returnButton}
+          onClick={handleClickNormalMode}
+        >
           {t('通常モードに戻る')}
-        </a>
+        </button>
       </div>
     </div>
   );
