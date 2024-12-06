@@ -349,10 +349,10 @@ export default class SceneManager {
     }
 
     // Adjust position and rotation based on user input.
-    targetPosition.x -= this.inputX * targetDistance * 0.3;
-    targetPosition.y += this.inputY * targetDistance * 0.15;
-    targetRotation.x += this.inputY * (Math.PI * 0.05);
-    targetRotation.y -= this.inputX * (Math.PI * 0.1);
+    targetPosition.x -= this.inputX * targetDistance * 0.45;
+    targetPosition.y += this.inputY * targetDistance * 0.225;
+    targetRotation.x += this.inputY * (Math.PI * 0.075);
+    targetRotation.y -= this.inputX * (Math.PI * 0.15);
 
     // Update camera state with tween animation.
     const deltaTime = this.scene.getEngine().getDeltaTime();
