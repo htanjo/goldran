@@ -19,10 +19,11 @@ import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
 import i18n from 'i18next';
 import Effects from './Effects';
-import { checkVrSupport, vrMode } from '../settings/general';
+import { checkVrSupport, toRadians, vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
 import { assetConfigs } from '../settings/assets';
 import { TextureConfig, textureConfigs } from '../settings/textures';
+import { PointerDragBehavior } from '@babylonjs/core';
 
 export default class SceneManager {
   private scene: Scene;
@@ -65,7 +66,7 @@ export default class SceneManager {
     this.scene = scene;
 
     // Configure scene.
-    this.scene.clearColor = Color4.FromHexString('#000000ff');
+    // this.scene.clearColor = Color4.FromHexString('#000000ff');
     this.scene.ambientColor = Color3.White();
     this.scene.fogMode = Scene.FOGMODE_EXP2;
     this.scene.fogColor = Color3.FromHexString('#413d38');
@@ -89,6 +90,7 @@ export default class SceneManager {
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.fogEnabled = false;
     this.skyboxMaterial = skyboxMaterial;
+    skybox.visibility = 0;
 
     this.emitter = new EventTarget();
   }
@@ -406,7 +408,7 @@ export default class SceneManager {
     // });
     const button = new WebXREnterExitUIButton(
       document.getElementById('vrButton') as HTMLElement,
-      'immersive-vr',
+      'immersive-ar',
       'local',
     );
     const defaultXRExperience = await WebXRDefaultExperience.CreateAsync(
@@ -414,9 +416,11 @@ export default class SceneManager {
       {
         // disableDefaultUI: true,
         uiOptions: {
+          sessionMode: 'immersive-ar',
           customButtons: [button],
         },
         disableTeleportation: true,
+        // optionalFeatures: true,
       },
     );
 
@@ -433,13 +437,22 @@ export default class SceneManager {
       return;
     }
 
+    const gltfRoot = scene.getNodeByName('__root__');
+    if (gltfRoot instanceof TransformNode) {
+      const scale = 1 / 24;
+      gltfRoot.scaling = new Vector3(scale, scale, -scale);
+      gltfRoot.position = new Vector3(0, -0.5, 0);
+      const pointerDragBehavior = new PointerDragBehavior();
+      gltfRoot.addBehavior(pointerDragBehavior);
+    }
+
     const xrSessionManager = defaultXRExperience.baseExperience.sessionManager;
-    const xrCamera = new WebXRCamera('xr_camera', scene, xrSessionManager);
-    const moveXrCamera = () => {
-      xrCamera.setTransformationFromNonVRCamera(this.camera);
-      xrCamera.rotation = this.camera.absoluteRotation.toEulerAngles();
-      xrCamera.position.y = this.camera.globalPosition.y * 0.5 + 0.7;
-    };
+    // const xrCamera = new WebXRCamera('xr_camera', scene, xrSessionManager);
+    // const moveXrCamera = () => {
+    //   xrCamera.setTransformationFromNonVRCamera(this.camera);
+    //   xrCamera.rotation = this.camera.absoluteRotation.toEulerAngles();
+    //   xrCamera.position.y = this.camera.globalPosition.y * 0.5 + 0.7;
+    // };
 
     defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {
       switch (state) {
@@ -454,7 +467,7 @@ export default class SceneManager {
               animationGroup.speedRatio = 0.5; // A little slower in VR mode. Autoplay mode is 0.75;
               animationGroup.play(true);
             });
-            scene.registerBeforeRender(moveXrCamera);
+            // scene.registerBeforeRender(moveXrCamera);
           }
           break;
         case WebXRState.IN_XR:
@@ -474,7 +487,7 @@ export default class SceneManager {
               animationGroup.pause();
               animationGroup.goToFrame(this.frame);
             });
-            scene.unregisterBeforeRender(moveXrCamera);
+            // scene.unregisterBeforeRender(moveXrCamera);
           }
           break;
         case WebXRState.NOT_IN_XR:
