@@ -39,7 +39,9 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      ReactGA.event({ category: 'click', action: 'click_play' });
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_play' });
+      }
       onPlay();
     },
     [onPlay],
@@ -50,7 +52,9 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      ReactGA.event({ category: 'click', action: 'click_pause' });
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_pause' });
+      }
       onPause();
     },
     [onPause],
@@ -61,7 +65,9 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      ReactGA.event({ category: 'click', action: 'click_replay' });
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_replay' });
+      }
       onReplay();
     },
     [onReplay],
@@ -72,7 +78,9 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      ReactGA.event({ category: 'click', action: 'click_vr' });
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_vr' });
+      }
       onSwitchToVrMode();
     },
     [onSwitchToVrMode],
@@ -83,7 +91,9 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      ReactGA.event({ category: 'click', action: 'click_fullscreen' });
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_fullscreen' });
+      }
       onToggleFullscreen(true);
     },
     [onToggleFullscreen],
@@ -94,7 +104,9 @@ function Hud({
       if (event.currentTarget instanceof HTMLElement) {
         event.currentTarget.blur();
       }
-      ReactGA.event({ category: 'click', action: 'click_fullscreen_exit' });
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_fullscreen_exit' });
+      }
       onToggleFullscreen(false);
     },
     [onToggleFullscreen],

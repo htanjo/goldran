@@ -15,7 +15,9 @@ function VrMenu({ vrEnabled, vrSwitching, onSwitchToNormalMode }: VrMenuProps) {
   const buttonDisabled = vrSwitching;
 
   const handleClickNormalMode = useCallback(() => {
-    ReactGA.event({ category: 'click', action: 'click_vr_exit' });
+    if (import.meta.env.PROD) {
+      ReactGA.event({ category: 'click', action: 'click_vr_exit' });
+    }
     onSwitchToNormalMode();
   }, [onSwitchToNormalMode]);
 

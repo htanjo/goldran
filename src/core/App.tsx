@@ -7,14 +7,16 @@ const Screen = lazy(() => import('./Screen'));
 
 function App() {
   useEffect(() => {
-    ReactGA.initialize('G-MPT0YVV9GQ', {
-      gtagOptions: { send_page_view: false },
-    });
-    ReactGA.send({
-      hitType: 'pageview',
-      page: `${window.location.pathname}${window.location.search}`,
-      title: document.title,
-    });
+    if (import.meta.env.PROD) {
+      ReactGA.initialize('G-MPT0YVV9GQ', {
+        gtagOptions: { send_page_view: false },
+      });
+      ReactGA.send({
+        hitType: 'pageview',
+        page: `${window.location.pathname}${window.location.search}`,
+        title: document.title,
+      });
+    }
   }, []);
   return (
     <div className={classes.app}>
