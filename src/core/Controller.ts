@@ -188,6 +188,12 @@ export default class Controller {
     });
   }
 
+  public onHorizontalScroll(callback: () => void) {
+    this.emitter.addEventListener('horizontalScroll', () => {
+      callback();
+    });
+  }
+
   public onVrStateChange(
     callback: (enabled: boolean, switching: boolean) => void,
   ) {
@@ -366,6 +372,13 @@ export default class Controller {
     // Scroll event cancels autoplay.
     if (this.autoplayEnabled) {
       this.disableAutoplay();
+    }
+    // Show the warning message if user scrolls horizontally.
+    if (
+      Math.abs(event.deltaX) > Math.abs(event.deltaY) * 2 &&
+      Math.abs(event.deltaX) > 20
+    ) {
+      this.emitter.dispatchEvent(new CustomEvent('horizontalScroll'));
     }
     const scrollLength = -event.deltaY;
     this.handleScrollInput(scrollLength);

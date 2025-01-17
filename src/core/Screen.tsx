@@ -13,6 +13,7 @@ import StartScreen from '../ui/StartScreen';
 import LoadingScreen from '../ui/LoadingScreen';
 import Hud from '../ui/Hud';
 import VrMenu from '../ui/VrMenu';
+import ScrollWarning from '../ui/ScrollWarning';
 import Scrollbar from '../ui/Scrollbar';
 import {
   maxFrame as maxFrameSetting,
@@ -22,6 +23,8 @@ import classes from './Screen.module.scss';
 import { vrMode } from '../settings/general';
 
 const Debugger = lazy(() => import('../ui/Debugger'));
+
+let lastTimeout: NodeJS.Timeout;
 
 function Screen() {
   const sceneInstance = useScene();
@@ -39,6 +42,7 @@ function Screen() {
   const [vrEnabled, setVrEnabled] = useState(false);
   const [vrSwitching, setVrSwitching] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
+  const [scrollWarningEnabled, setScrollWarningEnabled] = useState(false);
   const [debugMode] = useState(
     new URLSearchParams(window.location.search).get('debug') === 'true', // Enable debug mode if URL has "?debug=true".
   );
@@ -82,6 +86,15 @@ function Screen() {
     controller.onVrStateChange((enabled, switching) => {
       setVrEnabled(enabled);
       setVrSwitching(switching);
+    });
+    controller.onHorizontalScroll(() => {
+      setScrollWarningEnabled(true);
+      const timeout = setTimeout(() => {
+        if (timeout === lastTimeout) {
+          setScrollWarningEnabled(false);
+        }
+      }, 1000);
+      lastTimeout = timeout;
     });
     controllerRef.current = controller;
   }, []);
@@ -197,6 +210,7 @@ function Screen() {
           onSwitchToNormalMode={switchToNormalMode}
         />
       )}
+      <ScrollWarning enabled={scrollWarningEnabled} />
       {scrollbarEnabled && (
         <Scrollbar
           scrollLength={virtualScrollLength}
