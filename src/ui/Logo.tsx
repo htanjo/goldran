@@ -16,7 +16,11 @@ function Logo({ colored = true }: LogoProps) {
   );
 
   return (
-    <img src={imageUrl} alt={t('黄金剣士ドラン')} className={classes.logo} />
+    <img
+      src={imageUrl}
+      alt={t('黄金合体ゴルドラン')}
+      className={classes.logo}
+    />
   );
 }
 
