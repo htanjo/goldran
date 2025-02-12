@@ -209,6 +209,7 @@ export default class Controller {
     }
     this.autoplayEnabled = true;
     this.emitter.dispatchEvent(new CustomEvent('autoplayToggle'));
+    this.inputRotation(0, 0); // Reset rotation.
     let previousTime: number;
     const autoScroll = (timestamp: number) => {
       if (!this.autoplayEnabled) {
