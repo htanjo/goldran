@@ -3,6 +3,7 @@ import VirtualScroll, { VirtualScrollEvent } from 'virtual-scroll';
 import SceneManager from '../graphics/SceneManager';
 import { hasPointingDevice, hasTouchscreen, vrMode } from '../settings/general';
 import {
+  autoplaySpeed,
   maxFrame as maxFrameSetting,
   moveSpeed as moveSpeedSetting,
 } from '../settings/frames';
@@ -219,7 +220,7 @@ export default class Controller {
         return;
       }
       const frameTime = timestamp - previousTime;
-      this.handleScrollInput(frameTime * 0.6);
+      this.handleScrollInput(frameTime * autoplaySpeed);
       previousTime = timestamp;
       if (this.frame >= this.maxFrame) {
         this.autoplayEnabled = false;

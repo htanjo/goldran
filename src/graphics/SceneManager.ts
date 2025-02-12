@@ -204,7 +204,7 @@ export default class SceneManager {
           return;
         }
         animationCamera.minZ = 0.01;
-        animationCamera.maxZ = 2000;
+        animationCamera.maxZ = 1200;
         scene.activeCamera = animationCamera;
         this.camera = animationCamera;
         this.effects = new Effects(this.scene, [this.camera]);
@@ -277,6 +277,9 @@ export default class SceneManager {
         this.skyboxMaterial.reflectionTexture = texture;
         this.skyboxMaterial.reflectionTexture.coordinatesMode =
           Texture.SKYBOX_MODE;
+        if (this.skyboxMaterial.reflectionTexture instanceof CubeTexture) {
+          this.skyboxMaterial.reflectionTexture.rotationY = Math.PI * -0.5;
+        }
         break;
       case 'reflection':
         scene.materials.forEach((material) => {

@@ -15,10 +15,10 @@
     "asset": "npm-run-all -s asset:*",
     "asset:prepare": "mkdirp ./models/temp",
     "asset:gltf": "npm-run-all -s asset:gltf:*",
-    "asset:gltf:webp": "gltf-transform webp ./models/dran.glb ./models/temp/dran_webp.glb",
-    "asset:gltf:draco": "gltf-transform draco ./models/temp/dran_webp.glb ./models/temp/dran_high.glb",
-    "asset:gltf:light": "gltf-transform resize --width 1024 --height 1024 ./models/temp/dran_high.glb ./models/temp/dran_low.glb",
-    "asset:gltf:copy": "copyfiles --flat ./models/temp/dran_{high,low}.glb ./src/assets",
+    "asset:gltf:webp": "gltf-transform webp ./models/goldran.glb ./models/temp/goldran_webp.glb",
+    "asset:gltf:draco": "gltf-transform draco ./models/temp/goldran_webp.glb ./models/temp/goldran_high.glb",
+    "asset:gltf:light": "gltf-transform resize --width 1024 --height 1024 ./models/temp/goldran_high.glb ./models/temp/goldran_low.glb",
+    "asset:gltf:copy": "copyfiles --flat ./models/temp/goldran_{high,low}.glb ./src/assets",
     "asset:clean": "rimraf ./models/temp"
   },
   "dependencies": {

@@ -1,5 +1,5 @@
-import dranHighMeshUrl from '../assets/dran_high.glb?url';
-import dranLowMeshUrl from '../assets/dran_low.glb?url';
+import goldranHighMeshUrl from '../assets/goldran_high.glb?url';
+import goldranLowMeshUrl from '../assets/goldran_low.glb?url';
 import environmentSkyboxTextureUrl from '../assets/environment_skybox.env?url';
 import environmentReflectionTextureUrl from '../assets/environment_reflection.env?url';
 import { qualityMode } from './general';
@@ -15,8 +15,8 @@ export type AssetConfigs = AssetConfig[];
 export const assetConfigs: AssetConfigs = [
   {
     type: 'mesh',
-    name: 'dran_mesh',
-    url: qualityMode ? dranHighMeshUrl : dranLowMeshUrl,
+    name: 'goldran_mesh',
+    url: qualityMode ? goldranHighMeshUrl : goldranLowMeshUrl,
   },
   {
     type: 'cubeTexture',
