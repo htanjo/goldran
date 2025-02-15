@@ -19,11 +19,26 @@ import {
   maxFrame as maxFrameSetting,
   moveSpeed as moveSpeedSetting,
 } from '../settings/frames';
-import classes from './Screen.module.scss';
 import { vrMode } from '../settings/general';
+import Caption from '../ui/Caption';
+import { captions } from '../settings/captions';
+import classes from './Screen.module.scss';
 
 const Debugger = lazy(() => import('../ui/Debugger'));
 
+interface CaptionState {
+  id: string;
+  enabled: boolean;
+  progress: number;
+  scroll: number;
+}
+
+const initialCaptionStates: CaptionState[] = captions.map((caption) => ({
+  id: caption.id,
+  enabled: false,
+  progress: 0,
+  scroll: 0,
+}));
 let lastTimeout: NodeJS.Timeout;
 
 function Screen() {
@@ -34,6 +49,8 @@ function Screen() {
   const [startScreenProgress, setStartScreenProgress] = useState(0);
   const [startScreenScroll, setStartScreenScroll] = useState(0);
   const [endScreenEnabled, setEndScreenEnabled] = useState(false);
+  const [captionStates, setCaptionStates] =
+    useState<CaptionState[]>(initialCaptionStates);
   const [frameValue, setFrameValue] = useState(0);
   const [maxFrameValue, setMaxFrameValue] = useState(maxFrameSetting);
   const [moveSpeedValue, setMoveSpeedValue] = useState(moveSpeedSetting);
@@ -71,6 +88,23 @@ function Screen() {
       setStartScreenScroll(scroll);
     });
     controller.onEndScreenToggle((enabled) => setEndScreenEnabled(enabled));
+    controller.onCaptionIdChange((id) => {
+      setCaptionStates((previousCaptionStates) =>
+        previousCaptionStates.map((captionState) => ({
+          ...captionState,
+          enabled: captionState.id === id,
+        })),
+      );
+    });
+    controller.onCaptionProgress((progress, scroll) => {
+      setCaptionStates((previousCaptionStates) =>
+        previousCaptionStates.map((captionState) => ({
+          ...captionState,
+          progress: captionState.enabled ? progress : captionState.progress,
+          scroll: captionState.enabled ? scroll : captionState.scroll,
+        })),
+      );
+    });
     controller.onFrameProgress((frame, maxFrame, moveSpeed) => {
       setFrameValue(frame);
       setMaxFrameValue(maxFrame);
@@ -172,6 +206,15 @@ function Screen() {
         progress={startScreenProgress}
         scroll={startScreenScroll}
       />
+      {captionStates.map((captionState) => (
+        <Caption
+          key={captionState.id}
+          id={captionState.id}
+          enabled={captionState.enabled}
+          progress={captionState.progress}
+          scroll={captionState.scroll}
+        />
+      ))}
       <SceneComponent
         // antialias
         // adaptToDeviceRatio

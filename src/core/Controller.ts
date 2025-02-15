@@ -1,12 +1,18 @@
 import { Scene } from '@babylonjs/core/scene';
 import VirtualScroll, { VirtualScrollEvent } from 'virtual-scroll';
 import SceneManager from '../graphics/SceneManager';
-import { hasPointingDevice, hasTouchscreen, vrMode } from '../settings/general';
+import {
+  hasPointingDevice,
+  scrollMultiplier,
+  touchMultiplier,
+  vrMode,
+} from '../settings/general';
 import {
   autoplaySpeed,
   maxFrame as maxFrameSetting,
   moveSpeed as moveSpeedSetting,
 } from '../settings/frames';
+import { captions } from '../settings/captions';
 
 interface DeviceOrientation {
   alpha: number;
@@ -22,8 +28,6 @@ export default class Controller {
   private moveSpeed = moveSpeedSetting; // Number of frames advanced by 1px scroll input.
 
   private contentHeight = this.maxFrame / this.moveSpeed;
-
-  private touchMultiplier = 2;
 
   private usePointerInput = false;
 
@@ -50,6 +54,14 @@ export default class Controller {
   private endScreenEnabled = false;
 
   private endScreenLength = 100; // pixels
+
+  private captionId = '';
+
+  private captionProgress = 0; // 0 to 1
+
+  private captionScroll = 0; // pixels
+
+  private captionLength = (60 / moveSpeedSetting) * 2.5; // pixels
 
   private autoplayEnabled = false;
 
@@ -99,7 +111,7 @@ export default class Controller {
     this.sceneManager.onReady(() => {
       if (!vrMode) {
         this.virtualScroll = new VirtualScroll({
-          touchMultiplier: this.touchMultiplier,
+          touchMultiplier,
         });
         this.virtualScroll.on(this.handleScroll.bind(this));
       }
@@ -166,6 +178,20 @@ export default class Controller {
   public onEndScreenToggle(callback: (enabled: boolean) => void) {
     this.emitter.addEventListener('endScreenToggle', () => {
       callback(this.endScreenEnabled);
+    });
+  }
+
+  public onCaptionIdChange(callback: (id: string) => void) {
+    this.emitter.addEventListener('captionIdChange', () => {
+      callback(this.captionId);
+    });
+  }
+
+  public onCaptionProgress(
+    callback: (progress: number, scroll: number) => void,
+  ) {
+    this.emitter.addEventListener('captionProgress', () => {
+      callback(this.captionProgress, this.captionScroll);
     });
   }
 
@@ -343,7 +369,6 @@ export default class Controller {
 
     // In the start screen, update progress as well.
     if (this.startScreenEnabled) {
-      const scrollMultiplier = hasTouchscreen ? this.touchMultiplier : 1;
       this.startScreenScroll += scrollLength / scrollMultiplier;
       if (this.startScreenScroll < 0) {
         this.startScreenScroll = 0;
@@ -362,6 +387,48 @@ export default class Controller {
       } else {
         // Play animations during the start screen.
         this.emitter.dispatchEvent(new CustomEvent('startScreenProgress'));
+      }
+    }
+
+    // Check if caption is visible.
+    captions.forEach((caption) => {
+      const captionStartScroll =
+        (caption.startFrame / this.maxFrame) * this.contentHeight;
+      if (
+        totalScrollLength >= captionStartScroll &&
+        totalScrollLength <= captionStartScroll + this.captionLength &&
+        !this.captionId
+      ) {
+        this.captionId = caption.id;
+        this.emitter.dispatchEvent(new CustomEvent('captionIdChange'));
+      }
+    });
+    // If caption is visible, update progress as well.
+    if (this.captionId) {
+      const caption = captions.find((item) => item.id === this.captionId);
+      if (caption) {
+        this.captionScroll =
+          (totalScrollLength - caption.startFrame / this.moveSpeed) /
+          scrollMultiplier;
+        this.captionProgress =
+          (this.frame - caption.startFrame) /
+          (this.captionLength * this.moveSpeed);
+        if (this.captionProgress < 0) {
+          // Hide the caption.
+          this.captionProgress = 0;
+          this.captionId = '';
+          this.emitter.dispatchEvent(new CustomEvent('captionProgress'));
+          this.emitter.dispatchEvent(new CustomEvent('captionIdChange'));
+        } else if (this.captionProgress > 1) {
+          // Hide the caption.
+          this.captionProgress = 1;
+          this.captionId = '';
+          this.emitter.dispatchEvent(new CustomEvent('captionProgress'));
+          this.emitter.dispatchEvent(new CustomEvent('captionIdChange'));
+        } else {
+          // Play animations while the caption is visible.
+          this.emitter.dispatchEvent(new CustomEvent('captionProgress'));
+        }
       }
     }
   }

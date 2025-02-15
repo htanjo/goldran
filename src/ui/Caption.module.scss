@@ -1,0 +1,92 @@
+.caption {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  cursor: default;
+  pointer-events: none;
+  &.disabled {
+    user-select: none;
+  }
+}
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.text {
+  position: absolute;
+  width: 100%;
+  line-height: 1.5;
+  pointer-events: auto;
+  .caption.disabled & {
+    pointer-events: none;
+  }
+  h2 {
+    margin-bottom: 0.4em;
+    padding-bottom: 0.2em;
+    border-bottom: 1px solid var(--text-color-base);
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  strong {
+    display: inline-block;
+    width: 4em;
+    font-weight: bold;
+  }
+  &.info {
+    top: 100%;
+    left: 2.4rem;
+    width: fit-content;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+  &.quote {
+    top: 50%;
+    right: 2.4rem;
+    margin-top: -1em;
+    text-align: right;
+    font-size: 2.4rem;
+    font-family: 'shinryu', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: -0.05em;
+    text-shadow: #ffd900 0 0 0.3rem;
+    color: #fffade;
+    white-space: pre-wrap;
+    &.small {
+      font-size: 1.6rem;
+    }
+  }
+}
+:root:lang(en) {
+  .text {
+    strong {
+      width: 6em;
+    }
+    &.quote {
+      font-family: 'Condiment', serif;
+      font-weight: 400;
+      font-style: normal;
+      letter-spacing: 0;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .text {
+    &.info {
+      left: 1.6rem;
+      font-size: 0.8rem;
+    }
+    &.quote {
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 1.6rem;
+      &.small {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

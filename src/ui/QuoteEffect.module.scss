@@ -1,0 +1,12 @@
+.quoteEffect {
+  display: inline-block;
+  position: relative;
+}
+.secondaryText {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  user-select: none;
+}
