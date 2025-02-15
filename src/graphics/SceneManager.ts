@@ -23,6 +23,7 @@ import { checkVrSupport, vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
 import { assetConfigs } from '../settings/assets';
 import { TextureConfig, textureConfigs } from '../settings/textures';
+import { lightChangeFrame } from '../settings/frames';
 
 export default class SceneManager {
   private scene: Scene;
@@ -111,6 +112,7 @@ export default class SceneManager {
       this.scene.animationGroups.forEach((animationGroup) => {
         animationGroup.goToFrame(this.frame);
       });
+      this.toggleLights();
       return;
     }
 
@@ -141,6 +143,7 @@ export default class SceneManager {
         this.scene.animationGroups.forEach((animationGroup) => {
           animationGroup.goToFrame(this.frame);
         });
+        this.toggleLights();
       }
       if (elapsedTime < transitionDuration) {
         previousTime = currentTime;
@@ -153,6 +156,7 @@ export default class SceneManager {
         this.scene.animationGroups.forEach((animationGroup) => {
           animationGroup.goToFrame(this.frame);
         });
+        this.toggleLights();
       }
     };
 
@@ -217,6 +221,15 @@ export default class SceneManager {
         // Create lights for specular lighting.
         lightConfigs.forEach((lightConfig) => {
           this.createLight(lightConfig);
+        });
+        this.toggleLights('former');
+
+        // Configure materials.
+        scene.materials.forEach((material) => {
+          if (material instanceof PBRMaterial) {
+            // eslint-disable-next-line no-param-reassign
+            material.maxSimultaneousLights = 5;
+          }
         });
 
         // Make all animations controllable.
@@ -309,8 +322,15 @@ export default class SceneManager {
   private createLight(lightConfig: LightConfig) {
     const { scene } = this;
     let light: PointLight | DirectionalLight;
-    const { name, variant, position, intensity, diffuseColorHex, radius } =
-      lightConfig;
+    const {
+      name,
+      variant,
+      position,
+      intensity,
+      diffuseColorHex,
+      radius,
+      includedMeshNames,
+    } = lightConfig;
     switch (variant) {
       case 'DirectionalLight':
         light = new DirectionalLight(
@@ -331,6 +351,42 @@ export default class SceneManager {
     light.diffuse = Color3.FromHexString(diffuseColorHex);
     light.radius = radius;
     light.shadowEnabled = false;
+    if (includedMeshNames) {
+      const includedMeshes = scene.meshes.filter((mesh) =>
+        includedMeshNames.includes(mesh.name),
+      );
+      if (includedMeshes.length > 0) {
+        light.includedOnlyMeshes = includedMeshes;
+      }
+    }
+  }
+
+  // Toggle lights based on the current frame.
+  private toggleLights(period?: 'former' | 'latter') {
+    const { frame, previousFrame, scene } = this;
+    if (
+      period === 'former' ||
+      (frame <= lightChangeFrame && previousFrame > lightChangeFrame)
+    ) {
+      lightConfigs.forEach((lightConfig) => {
+        const { name, effectivePeriod } = lightConfig;
+        const light = scene.getLightByName(name);
+        if (light) {
+          light.setEnabled(effectivePeriod === 'former');
+        }
+      });
+    } else if (
+      period === 'latter' ||
+      (frame > lightChangeFrame && previousFrame <= lightChangeFrame)
+    ) {
+      lightConfigs.forEach((lightConfig) => {
+        const { name, effectivePeriod } = lightConfig;
+        const light = scene.getLightByName(name);
+        if (light) {
+          light.setEnabled(effectivePeriod === 'latter');
+        }
+      });
+    }
   }
 
   private updateCamera() {
