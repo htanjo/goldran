@@ -48,6 +48,8 @@ export default class SceneManager {
 
   private smoothAnimationDone: boolean = true;
 
+  private lightPeriod: 'former' | 'latter' = 'former';
+
   public inputX = 0; // -1 to 1
 
   public inputY = 0; // -1 to 1
@@ -222,7 +224,7 @@ export default class SceneManager {
         lightConfigs.forEach((lightConfig) => {
           this.createLight(lightConfig);
         });
-        this.toggleLights('former');
+        this.toggleLights(this.lightPeriod);
 
         // Configure materials.
         scene.materials.forEach((material) => {
@@ -363,10 +365,10 @@ export default class SceneManager {
 
   // Toggle lights based on the current frame.
   private toggleLights(period?: 'former' | 'latter') {
-    const { frame, previousFrame, scene } = this;
+    const { frame, lightPeriod, scene } = this;
     if (
       period === 'former' ||
-      (frame <= lightChangeFrame && previousFrame > lightChangeFrame)
+      (frame <= lightChangeFrame && lightPeriod === 'latter')
     ) {
       lightConfigs.forEach((lightConfig) => {
         const { name, effectivePeriod } = lightConfig;
@@ -377,7 +379,7 @@ export default class SceneManager {
       });
     } else if (
       period === 'latter' ||
-      (frame > lightChangeFrame && previousFrame <= lightChangeFrame)
+      (frame > lightChangeFrame && lightPeriod === 'former')
     ) {
       lightConfigs.forEach((lightConfig) => {
         const { name, effectivePeriod } = lightConfig;
