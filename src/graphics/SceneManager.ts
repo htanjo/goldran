@@ -365,10 +365,10 @@ export default class SceneManager {
 
   // Toggle lights based on the current frame.
   private toggleLights(period?: 'former' | 'latter') {
-    const { frame, lightPeriod, scene } = this;
+    const { frame, scene } = this;
     if (
       period === 'former' ||
-      (frame <= lightChangeFrame && lightPeriod === 'latter')
+      (frame <= lightChangeFrame && this.lightPeriod === 'latter')
     ) {
       lightConfigs.forEach((lightConfig) => {
         const { name, effectivePeriod } = lightConfig;
@@ -377,9 +377,10 @@ export default class SceneManager {
           light.setEnabled(effectivePeriod === 'former');
         }
       });
+      this.lightPeriod = 'former';
     } else if (
       period === 'latter' ||
-      (frame > lightChangeFrame && lightPeriod === 'former')
+      (frame > lightChangeFrame && this.lightPeriod === 'former')
     ) {
       lightConfigs.forEach((lightConfig) => {
         const { name, effectivePeriod } = lightConfig;
@@ -388,6 +389,7 @@ export default class SceneManager {
           light.setEnabled(effectivePeriod === 'latter');
         }
       });
+      this.lightPeriod = 'latter';
     }
   }
 
