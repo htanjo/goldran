@@ -5,6 +5,8 @@ import QuoteEffect from './QuoteEffect';
 import { hasTouchscreen, scrollMultiplier } from '../settings/general';
 import { captions } from '../settings/captions';
 import classes from './Caption.module.scss';
+import dranDiagram from '../assets/diagram_dran.svg';
+import goldranDiagram from '../assets/diagram_goldran.svg';
 
 interface CaptionProps {
   id: string;
@@ -12,6 +14,11 @@ interface CaptionProps {
   progress: number; // 0 to 1 to complete the start screen.
   scroll: number; // Actual pixels user scrolled.
 }
+
+const images: { [key: string]: string } = {
+  dranDiagram,
+  goldranDiagram,
+};
 
 function getOpacity(progress: number) {
   const threshold = 0.9;
@@ -21,8 +28,8 @@ function getOpacity(progress: number) {
   return opacity;
 }
 
-function getTranslateY(scroll: number, type: 'info' | 'quote') {
-  if (type === 'info') {
+function getTranslateY(scroll: number, type: 'info' | 'quote' | 'image') {
+  if (type === 'info' || type === 'image') {
     return -scroll;
   }
   const threshold = 1000 / scrollMultiplier;
@@ -58,11 +65,15 @@ function Caption({ id, enabled, progress, scroll }: CaptionProps) {
         <div
           className={`${classes.text} ${classes[caption.type]}${longQuote ? ` ${classes.small}` : ''}`}
         >
-          {caption.type === 'quote' ? (
-            <QuoteEffect text={t(caption.id)} enabled={quoteEffectEnabled} />
-          ) : (
+          {caption.type === 'info' && (
             // eslint-disable-next-line jsx-a11y/heading-has-content
             <Trans i18nKey={caption.id} components={{ h2: <h2 /> }} />
+          )}
+          {caption.type === 'quote' && (
+            <QuoteEffect text={t(caption.id)} enabled={quoteEffectEnabled} />
+          )}
+          {caption.type === 'image' && (
+            <img src={images[caption.id]} alt={t(caption.id)} />
           )}
         </div>
       </animated.div>

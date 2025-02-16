@@ -44,10 +44,9 @@
   }
   &.quote {
     top: 50%;
-    right: 2.4rem;
     margin-top: -1em;
-    text-align: right;
-    font-size: 2.4rem;
+    text-align: center;
+    font-size: 3.2rem;
     font-family: 'shinryu', sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -56,7 +55,18 @@
     color: #fffade;
     white-space: pre-wrap;
     &.small {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
+    }
+  }
+  &.image {
+    top: 100%;
+    right: 2.4rem;
+    text-align: right;
+    font-size: 0.8rem;
+    img {
+      width: 20rem;
+      pointer-events: none;
+      user-select: none;
     }
   }
 }
@@ -86,6 +96,12 @@
       font-size: 1.6rem;
       &.small {
         font-size: 1.2rem;
+      }
+    }
+    &.image {
+      right: 1.6rem;
+      img {
+        width: 12rem;
       }
     }
   }
