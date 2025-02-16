@@ -33,5 +33,5 @@ export const checkVrSupport = async () => {
     await WebXRSessionManager.IsSessionSupportedAsync('immersive-vr');
   return supported;
 };
-export const touchMultiplier = 2;
+export const touchMultiplier = 2.5;
 export const scrollMultiplier = hasTouchscreen ? touchMultiplier : 1;
