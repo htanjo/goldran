@@ -60,6 +60,7 @@ function Hud({
     [onPause],
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleClickReplay = useCallback(
     (event: MouseEvent) => {
       if (event.currentTarget instanceof HTMLElement) {
@@ -121,22 +122,23 @@ function Hud({
 
   let playButton: ReactNode;
   if (contentFinished) {
-    playButton = (
-      <button
-        type="button"
-        className={classes.button}
-        data-tooltip-id="hudTooltip"
-        data-tooltip-content={t('最初から再生')}
-        data-tooltip-place="right"
-        onClick={handleClickReplay}
-      >
-        <Icon
-          name="replay"
-          aria-label={t('最初から再生')}
-          className={classes.icon}
-        />
-      </button>
-    );
+    playButton = null;
+    // playButton = (
+    //   <button
+    //     type="button"
+    //     className={classes.button}
+    //     data-tooltip-id="hudTooltip"
+    //     data-tooltip-content={t('最初から再生')}
+    //     data-tooltip-place="right"
+    //     onClick={handleClickReplay}
+    //   >
+    //     <Icon
+    //       name="replay"
+    //       aria-label={t('最初から再生')}
+    //       className={classes.icon}
+    //     />
+    //   </button>
+    // );
   } else if (autoPlaying) {
     playButton = (
       <button

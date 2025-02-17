@@ -11,6 +11,7 @@ import {
   autoplaySpeed,
   maxFrame as maxFrameSetting,
   moveSpeed as moveSpeedSetting,
+  rewindSpeed,
 } from '../settings/frames';
 import { captions } from '../settings/captions';
 
@@ -68,6 +69,8 @@ export default class Controller {
   private captionLength = (60 / moveSpeedSetting) * 2.5; // pixels
 
   private autoplayEnabled = false;
+
+  private rewindEnabled = false;
 
   private contentFinished = false;
 
@@ -221,6 +224,12 @@ export default class Controller {
     });
   }
 
+  public onRewindToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('rewindToggle', () => {
+      callback(this.rewindEnabled);
+    });
+  }
+
   public onContentFinish(callback: (finished: boolean) => void) {
     this.emitter.addEventListener('contentFinish', () => {
       callback(this.contentFinished);
@@ -285,6 +294,36 @@ export default class Controller {
     const scrollOffset = this.frame / this.moveSpeed;
     this.handleScrollInput(-scrollOffset, true);
     this.enableAutoplay(1500);
+  }
+
+  public enableRewind() {
+    if (this.rewindEnabled) {
+      return;
+    }
+    this.rewindEnabled = true;
+    this.emitter.dispatchEvent(new CustomEvent('rewindToggle'));
+    this.inputRotation(0, 0); // Reset rotation.
+    let previousTime: number;
+    const rewindScroll = (timestamp: number) => {
+      if (!this.rewindEnabled) {
+        return;
+      }
+      if (previousTime === undefined) {
+        previousTime = timestamp;
+        window.requestAnimationFrame(rewindScroll);
+        return;
+      }
+      const frameTime = timestamp - previousTime;
+      this.handleScrollInput(-frameTime * rewindSpeed);
+      previousTime = timestamp;
+      if (this.frame <= 0) {
+        this.rewindEnabled = false;
+        this.emitter.dispatchEvent(new CustomEvent('rewindToggle'));
+      } else {
+        window.requestAnimationFrame(rewindScroll);
+      }
+    };
+    window.requestAnimationFrame(rewindScroll);
   }
 
   public destroy() {

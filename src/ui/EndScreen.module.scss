@@ -50,11 +50,38 @@
   bottom: 0.8rem;
   width: 100%;
   text-align: center;
-  pointer-events: auto;
   .icon {
     vertical-align: -0.12em;
     font-size: 1em;
     color: var(--text-color-accent);
+  }
+}
+.button {
+  display: inline-block;
+  border: none;
+  line-height: 1;
+  text-shadow: inherit;
+  color: inherit;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color 150ms,
+    scale 150ms;
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--text-color-strong);
+    scale: 1.2;
+  }
+}
+// Disable hover effects on non-pointer devices.
+@media (hover: none) {
+  .button:hover {
+    color: var(--text-color-base);
+    scale: 1;
   }
 }
 .backdrop {

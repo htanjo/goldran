@@ -152,6 +152,10 @@ function Screen() {
     controllerRef.current?.restartAutoplay();
   }, []);
 
+  const rewind = useCallback(() => {
+    controllerRef.current?.enableRewind();
+  }, []);
+
   const switchToVrMode = useCallback(() => {
     const url = new URL(window.location.href);
     url.searchParams.set('vr', 'true');
@@ -217,6 +221,7 @@ function Screen() {
         enabled={endScreenEnabled}
         progress={endScreenProgress}
         scroll={endScreenScroll}
+        onRewind={rewind}
       />
       {captionStates.map((captionState) => (
         <Caption

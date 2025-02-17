@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReactGA from 'react-ga4';
 import { animated, config, easings, useSpring } from '@react-spring/web';
 import Icon from './Icon';
 import { hasTouchscreen, scrollMultiplier } from '../settings/general';
@@ -9,9 +10,10 @@ interface EndScreenProps {
   enabled: boolean;
   progress: number; // 0 to 1 to complete the end screen.
   scroll: number; // Actual pixels user scrolled.
+  onRewind: () => void;
 }
 
-function EndScreen({ enabled, progress, scroll }: EndScreenProps) {
+function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(enabled);
   const navigationVisible = progress > 0.95;
@@ -38,8 +40,21 @@ function EndScreen({ enabled, progress, scroll }: EndScreenProps) {
     opacity: navigationVisible ? 1 : 0,
     transform: navigationVisible ? 'translateY(0)' : `translateY(1em)`,
     config: config.default,
-    delay: 600,
+    delay: 800,
   });
+
+  const handleClickRewind = useCallback(
+    (event: MouseEvent) => {
+      if (event.currentTarget instanceof HTMLElement) {
+        event.currentTarget.blur();
+      }
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_play' });
+      }
+      onRewind();
+    },
+    [onRewind],
+  );
 
   useEffect(() => {
     if (enabled) {
@@ -78,9 +93,15 @@ function EndScreen({ enabled, progress, scroll }: EndScreenProps) {
             <p>X / BlueSky / Facebook / B! / Line</p>
           </div>
           <animated.div className={classes.navigation} style={navigationStyle}>
-            <Icon name="arrow_upward" className={classes.icon} />{' '}
-            {t('最初に戻る')}{' '}
-            <Icon name="arrow_upward" className={classes.icon} />
+            <button
+              type="button"
+              className={classes.button}
+              onClick={handleClickRewind}
+            >
+              <Icon name="arrow_upward" className={classes.icon} />{' '}
+              {t('最初に戻る')}{' '}
+              <Icon name="arrow_upward" className={classes.icon} />
+            </button>
           </animated.div>
         </animated.div>
         <div className={classes.backdrop} />
