@@ -35,3 +35,4 @@ export const checkVrSupport = async () => {
 };
 export const touchMultiplier = 2.5;
 export const scrollMultiplier = hasTouchscreen ? touchMultiplier : 1;
+export const siteUrl = 'https://htanjo.github.io/goldran/';

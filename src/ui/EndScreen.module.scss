@@ -46,6 +46,32 @@
   font-size: 1.2em;
   font-weight: bold;
 }
+.shareButton {
+  display: inline-block;
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
+  vertical-align: top;
+  font-size: 1.6rem;
+  &.xTwitter {
+    color: #ffffff;
+  }
+  &.bluesky {
+    padding-top: 0.15rem;
+    color: #1da1f2;
+    font-size: 1.4rem;
+  }
+  &.facebook {
+    color: #1877f2;
+  }
+  &.hatena {
+    padding-top: 0.15rem;
+    color: #00a4de;
+    font-size: 1.4rem;
+  }
+  &.pocket {
+    color: #ef4056;
+  }
+}
 .navigation {
   position: absolute;
   bottom: 0.8rem;
@@ -57,7 +83,7 @@
     color: var(--text-color-accent);
   }
 }
-.button {
+.backToStart {
   display: inline-block;
   border: none;
   line-height: 1;
@@ -75,7 +101,7 @@
   &:focus,
   &:active {
     color: var(--text-color-strong);
-    scale: 1.2;
+    scale: 1.25;
   }
 }
 // Disable hover effects on non-pointer devices.
@@ -84,6 +110,15 @@
     color: var(--text-color-base);
     scale: 1;
   }
+}
+// Use stronger selector to override the default styles.
+.endScreen .tooltip {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.15rem;
+  font-size: max(12px, 0.7rem);
+  color: var(--text-color-base);
+  background-color: var(--background-color-base);
+  opacity: 1;
 }
 .backdrop {
   position: absolute;

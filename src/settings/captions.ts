@@ -12,6 +12,7 @@ export const captions: Caption[] = [
   { id: 'dranData', startFrame: 370 * 2.5, type: 'info' },
   { id: 'golgonShout', startFrame: 470 * 2.5, type: 'quote' },
   { id: 'golgonData', startFrame: 560 * 2.5, type: 'info' },
+  { id: 'combinationInfo', startFrame: 680 * 2.5, type: 'info' },
   { id: 'goldranDiagram', startFrame: 890 * 2.5, type: 'image' },
   { id: 'goldranShout', startFrame: 1235 * 2.5, type: 'quote' },
   { id: 'goldranData', startFrame: 1390 * 2.5, type: 'info' },

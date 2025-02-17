@@ -10,6 +10,11 @@
   "制作": "制作",
   "その他の作品": "その他の作品",
   "共有": "共有",
+  "Xにポストする": "Xにポストする",
+  "BlueSkyに投稿する": "BlueSkyに投稿する",
+  "Facebookでシェアする": "Facebookでシェアする",
+  "はてなブックマークに登録する": "はてなブックマークに登録する",
+  "Pocketに保存する": "Pocketに保存する",
   "最初に戻る": "最初に戻る",
   "自動再生": "自動再生",
   "一時停止": "一時停止",
@@ -28,6 +33,7 @@
   "dranData": "<h2>黄金剣士ドラン</h2><strong>全長:</strong> 10.0m<br /><strong>重量:</strong> 12.2t<br /><strong>出力:</strong> 15,000馬力<br /><strong>速度:</strong> 68.5km/h<br /><strong>武器:</strong> 龍牙剣<br /><strong>必殺技:</strong> 稲妻斬り",
   "golgonShout": "ゴルゴン！黄金合体だ！",
   "golgonData": "<h2>黄金龍ゴルゴン</h2><strong>全長:</strong> 18.6m<br /><strong>重量:</strong> 25.6t<br /><strong>出力:</strong> 不明<br /><strong>速度:</strong> 88.9km/h",
+  "combinationInfo": "<h2>黄金合体</h2>ドランが窮地に陥ったとき、<br />黄金龍ゴルゴンを召喚する。<br />ドランとゴルゴンが「黄金合体」することで<br />金色の巨大勇者が誕生する！",
   "goldranShout": "黄金合体！ゴルドラン！",
   "goldranData": "<h2>黄金勇者ゴルドラン</h2><strong>全長:</strong> 20.0m<br /><strong>重量:</strong> 37.8t<br /><strong>出力:</strong> 68,000馬力<br /><strong>速度:</strong> 115.8km/h<br /><strong>武器:</strong> スーパー龍牙剣<br /><strong>必殺技:</strong> 一刀両断斬り"
 }

@@ -10,6 +10,11 @@
   "制作": "Creator",
   "その他の作品": "Other Works",
   "共有": "Share",
+  "Xにポストする": "Post to X",
+  "BlueSkyに投稿する": "Post to Bluesky",
+  "Facebookでシェアする": "Share on Facebook",
+  "はてなブックマークに登録する": "Bookmark on Hatena",
+  "Pocketに保存する": "Save to Pocket",
   "最初に戻る": "Back to Start",
   "自動再生": "Autoplay",
   "一時停止": "Pause",
@@ -28,6 +33,7 @@
   "dranData": "<h2>Golden Swordsman Dran</h2><strong>Height:</strong> 10.0m<br /><strong>Weight:</strong> 12.2t<br /><strong>Output:</strong> 15,000 horsepower<br /><strong>Speed:</strong> 68.5km/h<br /><strong>Weapon:</strong> Dragon Fang Sword<br /><strong>Special Move:</strong> Lightning Slash",
   "golgonShout": "Golgon! Golden Combination!",
   "golgonData": "<h2>Golden Dragon Golgon</h2><strong>Height:</strong> 18.6m<br /><strong>Weight:</strong> 25.6t<br /><strong>Output:</strong> Unknown<br /><strong>Speed:</strong> 88.9km/h",
+  "combinationInfo": "<h2>Golden Combination</h2>When Dran is in danger,<br />he summons the Golden Dragon Golgon.<br />Through the Golden Combination,<br />a giant golden brave is born!",
   "goldranShout": "Golden Combination! Goldran!",
   "goldranData": "<h2>Golden Brave Goldran</h2><strong>Height:</strong> 20.0m<br /><strong>Weight:</strong> 37.8t<br /><strong>Output:</strong> 68,000 horsepower<br /><strong>Speed:</strong> 115.8km/h<br /><strong>Weapon:</strong> Super Dragon Fang Sword<br /><strong>Special Move:</strong> Severing Slash"
 }

@@ -2,8 +2,16 @@ import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
 import { animated, config, easings, useSpring } from '@react-spring/web';
+import { Tooltip } from 'react-tooltip';
+import {
+  FaBluesky,
+  FaGetPocket,
+  FaSquareFacebook,
+  FaSquareXTwitter,
+} from 'react-icons/fa6';
+import { SiHatenabookmark } from 'react-icons/si';
 import Icon from './Icon';
-import { hasTouchscreen, scrollMultiplier } from '../settings/general';
+import { hasTouchscreen, scrollMultiplier, siteUrl } from '../settings/general';
 import classes from './EndScreen.module.scss';
 
 interface EndScreenProps {
@@ -85,17 +93,82 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
             <p>
               <span className={classes.author}>htanjo</span>
               <br />
-              X / BlueSky / GitHub
+              <a href="https://x.com/htanjo" target="_blank" rel="noreferrer">
+                X (Twitter)
+              </a>{' '}
+              |{' '}
+              <a
+                href="https://github.com/htanjo"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </a>
               <br />
-              {t('その他の作品')}: htanjo&apos;s works
+              {t('その他の作品')}:{' '}
+              {/* eslint-disable-next-line react/jsx-no-target-blank */}
+              <a href="https://htanjo.github.io/works/" target="_blank">
+                htanjo&apos;s works
+              </a>
             </p>
             <h2>{t('共有')}</h2>
-            <p>X / BlueSky / Facebook / B! / Line</p>
+            <p>
+              <a
+                href={`https://twitter.com/intent/tweet?url=${siteUrl}&via=htanjo&related=htanjo&text=${document.title}%0a`}
+                target="_blank"
+                rel="noreferrer"
+                data-tooltip-id="endScreenTooltip"
+                data-tooltip-content={t('Xにポストする')}
+                className={`${classes.shareButton} ${classes.xTwitter}`}
+              >
+                <FaSquareXTwitter />
+              </a>
+              <a
+                href={`https://bsky.app/intent/compose?text=${document.title}+${siteUrl}`}
+                target="_blank"
+                rel="noreferrer"
+                data-tooltip-id="endScreenTooltip"
+                data-tooltip-content={t('BlueSkyに投稿する')}
+                className={`${classes.shareButton} ${classes.bluesky}`}
+              >
+                <FaBluesky />
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${siteUrl}`}
+                target="_blank"
+                rel="noreferrer"
+                data-tooltip-id="endScreenTooltip"
+                data-tooltip-content={t('Facebookでシェアする')}
+                className={`${classes.shareButton} ${classes.facebook}`}
+              >
+                <FaSquareFacebook />
+              </a>
+              <a
+                href={`https://b.hatena.ne.jp/add?mode=confirm&url=${siteUrl}`}
+                target="_blank"
+                rel="noreferrer"
+                data-tooltip-id="endScreenTooltip"
+                data-tooltip-content={t('はてなブックマークに登録する')}
+                className={`${classes.shareButton} ${classes.hatena}`}
+              >
+                <SiHatenabookmark />
+              </a>
+              <a
+                href={`https://getpocket.com/edit?url=${siteUrl}`}
+                target="_blank"
+                rel="noreferrer"
+                data-tooltip-id="endScreenTooltip"
+                data-tooltip-content={t('Pocketに保存する')}
+                className={`${classes.shareButton} ${classes.pocket}`}
+              >
+                <FaGetPocket />
+              </a>
+            </p>
           </div>
           <animated.div className={classes.navigation} style={navigationStyle}>
             <button
               type="button"
-              className={classes.button}
+              className={classes.backToStart}
               onClick={handleClickRewind}
             >
               <Icon name="arrow_upward" className={classes.icon} />{' '}
@@ -103,6 +176,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
               <Icon name="arrow_upward" className={classes.icon} />
             </button>
           </animated.div>
+          <Tooltip id="endScreenTooltip" className={classes.tooltip} />
         </animated.div>
         <div className={classes.backdrop} />
       </animated.div>
