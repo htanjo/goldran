@@ -31,7 +31,7 @@ function Hud({
   onSwitchToVrMode,
   onToggleFullscreen,
 }: HudProps) {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [vrSupported, setVrSupported] = useState(true); // Default "false" is natural, but set "true" to avoid tooltip bug.
 
   const handleClickPlay = useCallback(
@@ -72,6 +72,19 @@ function Hud({
       onReplay();
     },
     [onReplay],
+  );
+
+  const handleClickLanguage = useCallback(
+    (event: MouseEvent) => {
+      if (event.currentTarget instanceof HTMLElement) {
+        event.currentTarget.blur();
+      }
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_language' });
+      }
+      i18n.changeLanguage(i18n.language === 'ja' ? 'en' : 'ja');
+    },
+    [i18n],
   );
 
   const handleClickVr = useCallback(
@@ -175,6 +188,23 @@ function Hud({
     );
   }
 
+  const languageButton = (
+    <button
+      type="button"
+      className={classes.button}
+      data-tooltip-id="hudTooltip"
+      data-tooltip-content={t('Switch to English')}
+      data-tooltip-place="left"
+      onClick={handleClickLanguage}
+    >
+      <Icon
+        name="translate"
+        aria-label={t('Switch ')}
+        className={classes.icon}
+      />
+    </button>
+  );
+
   let vrButton: ReactNode;
   if (vrSupported) {
     vrButton = (
@@ -241,6 +271,7 @@ function Hud({
     <div className={classes.hud}>
       {playButton}
       <div className={classes.spacer} />
+      {languageButton}
       {vrButton}
       {fullscreenButton}
       {hasPointingDevice && (
