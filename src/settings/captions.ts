@@ -14,5 +14,5 @@ export const captions: Caption[] = [
   { id: 'golgonData', startFrame: 560 * 2.5, type: 'info' },
   { id: 'goldranDiagram', startFrame: 890 * 2.5, type: 'image' },
   { id: 'goldranShout', startFrame: 1235 * 2.5, type: 'quote' },
-  { id: 'goldranData', startFrame: 1420 * 2.5, type: 'info' },
+  { id: 'goldranData', startFrame: 1390 * 2.5, type: 'info' },
 ];
