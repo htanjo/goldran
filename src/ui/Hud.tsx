@@ -63,7 +63,8 @@ function Hud({
     [onPause],
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  // @ts-ignore
   const handleClickReplay = useCallback(
     (event: MouseEvent) => {
       if (event.currentTarget instanceof HTMLElement) {
@@ -76,6 +77,7 @@ function Hud({
     },
     [onReplay],
   );
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 
   const handleClickLanguage = useCallback(
     (event: MouseEvent) => {
