@@ -53,7 +53,11 @@ export default class Controller {
 
   private endScreenEnabled = false;
 
-  private endScreenLength = 100; // pixels
+  private endScreenLength = 1000; // pixels
+
+  private endScreenProgress = 0; // 0 to 1
+
+  private endScreenScroll = 0; // pixels
 
   private captionId = '';
 
@@ -178,6 +182,14 @@ export default class Controller {
   public onEndScreenToggle(callback: (enabled: boolean) => void) {
     this.emitter.addEventListener('endScreenToggle', () => {
       callback(this.endScreenEnabled);
+    });
+  }
+
+  public onEndScreenProgress(
+    callback: (progress: number, scroll: number) => void,
+  ) {
+    this.emitter.addEventListener('endScreenProgress', () => {
+      callback(this.endScreenProgress, this.endScreenScroll);
     });
   }
 
@@ -352,21 +364,6 @@ export default class Controller {
       this.startScreenEnabled = true;
       this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
     }
-    // Check if end screen is visible.
-    if (
-      totalScrollLength >= this.contentHeight - this.endScreenLength &&
-      !this.endScreenEnabled
-    ) {
-      this.endScreenEnabled = true;
-      this.emitter.dispatchEvent(new CustomEvent('endScreenToggle'));
-    } else if (
-      totalScrollLength < this.contentHeight - this.endScreenLength &&
-      this.endScreenEnabled
-    ) {
-      this.endScreenEnabled = false;
-      this.emitter.dispatchEvent(new CustomEvent('endScreenToggle'));
-    }
-
     // In the start screen, update progress as well.
     if (this.startScreenEnabled) {
       this.startScreenScroll += scrollLength / scrollMultiplier;
@@ -387,6 +384,34 @@ export default class Controller {
       } else {
         // Play animations during the start screen.
         this.emitter.dispatchEvent(new CustomEvent('startScreenProgress'));
+      }
+    }
+
+    // Check if end screen is visible.
+    const endScreenStartScroll = this.contentHeight - this.endScreenLength;
+    if (totalScrollLength >= endScreenStartScroll && !this.endScreenEnabled) {
+      this.endScreenEnabled = true;
+      this.emitter.dispatchEvent(new CustomEvent('endScreenToggle'));
+    }
+    // In the end screen, update progress as well.
+    if (this.endScreenEnabled) {
+      this.endScreenScroll =
+        (totalScrollLength - endScreenStartScroll) / scrollMultiplier;
+      this.endScreenProgress =
+        (this.endScreenScroll * scrollMultiplier) / this.endScreenLength;
+      if (this.endScreenProgress < 0) {
+        // Hide the end screen.
+        this.endScreenProgress = 0;
+        this.endScreenEnabled = false;
+        this.emitter.dispatchEvent(new CustomEvent('endScreenProgress'));
+        this.emitter.dispatchEvent(new CustomEvent('endScreenToggle'));
+      } else if (this.endScreenProgress > 1) {
+        // Stop at the final position.
+        this.endScreenProgress = 1;
+        this.emitter.dispatchEvent(new CustomEvent('endScreenProgress'));
+      } else {
+        // Play animations during the end screen.
+        this.emitter.dispatchEvent(new CustomEvent('endScreenProgress'));
       }
     }
 

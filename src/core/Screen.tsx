@@ -9,8 +9,9 @@ import {
 import { Scene } from '@babylonjs/core/scene';
 import SceneComponent, { useScene } from 'babylonjs-hook';
 import Controller from './Controller';
-import StartScreen from '../ui/StartScreen';
 import LoadingScreen from '../ui/LoadingScreen';
+import StartScreen from '../ui/StartScreen';
+import EndScreen from '../ui/EndScreen';
 import Hud from '../ui/Hud';
 import VrMenu from '../ui/VrMenu';
 import ScrollWarning from '../ui/ScrollWarning';
@@ -49,6 +50,8 @@ function Screen() {
   const [startScreenProgress, setStartScreenProgress] = useState(0);
   const [startScreenScroll, setStartScreenScroll] = useState(0);
   const [endScreenEnabled, setEndScreenEnabled] = useState(false);
+  const [endScreenProgress, setEndScreenProgress] = useState(0);
+  const [endScreenScroll, setEndScreenScroll] = useState(0);
   const [captionStates, setCaptionStates] =
     useState<CaptionState[]>(initialCaptionStates);
   const [frameValue, setFrameValue] = useState(0);
@@ -88,6 +91,10 @@ function Screen() {
       setStartScreenScroll(scroll);
     });
     controller.onEndScreenToggle((enabled) => setEndScreenEnabled(enabled));
+    controller.onEndScreenProgress((progress, scroll) => {
+      setEndScreenProgress(progress);
+      setEndScreenScroll(scroll);
+    });
     controller.onCaptionIdChange((id) => {
       setCaptionStates((previousCaptionStates) =>
         previousCaptionStates.map((captionState) => ({
@@ -205,6 +212,11 @@ function Screen() {
         enabled={startScreenEnabled}
         progress={startScreenProgress}
         scroll={startScreenScroll}
+      />
+      <EndScreen
+        enabled={endScreenEnabled}
+        progress={endScreenProgress}
+        scroll={endScreenScroll}
       />
       {captionStates.map((captionState) => (
         <Caption

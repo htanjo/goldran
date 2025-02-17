@@ -57,11 +57,12 @@ function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
     }
   }, [enabled]);
 
+  if (!visible) {
+    return null;
+  }
+
   return (
-    <div
-      className={classes.startScreen}
-      style={{ display: visible ? 'block' : 'none' }}
-    >
+    <div className={classes.startScreen}>
       <animated.div className={classes.viewport} style={viewportStyle}>
         <animated.div className={classes.content} style={contentStyle}>
           <div className={classes.title}>

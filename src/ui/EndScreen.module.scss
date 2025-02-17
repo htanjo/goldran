@@ -1,0 +1,66 @@
+.endScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  cursor: default;
+}
+.viewport {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.text {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+    font-size: 2em;
+    font-weight: bold;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+  }
+}
+.author {
+  display: inline-block;
+  margin-top: -0.05rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.navigation {
+  position: absolute;
+  bottom: 0.8rem;
+  width: 100%;
+  text-align: center;
+  pointer-events: auto;
+  .icon {
+    vertical-align: -0.12em;
+    font-size: 1em;
+    color: var(--text-color-accent);
+  }
+}
+.backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
