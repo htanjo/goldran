@@ -139,7 +139,7 @@ function Hud({
     // playButton = (
     //   <button
     //     type="button"
-    //     className={classes.button}
+    //     className={`${classes.button} ${classes.large}`}
     //     data-tooltip-id="hudTooltip"
     //     data-tooltip-content={t('最初から再生')}
     //     data-tooltip-place="right"
@@ -156,7 +156,7 @@ function Hud({
     playButton = (
       <button
         type="button"
-        className={classes.button}
+        className={`${classes.button} ${classes.large}`}
         data-tooltip-id="hudTooltip"
         data-tooltip-content={t('一時停止')}
         data-tooltip-place="right"
@@ -173,7 +173,7 @@ function Hud({
     playButton = (
       <button
         type="button"
-        className={classes.button}
+        className={`${classes.button} ${classes.large}`}
         data-tooltip-id="hudTooltip"
         data-tooltip-content={t('自動再生')}
         data-tooltip-place="right"
