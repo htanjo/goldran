@@ -29,6 +29,9 @@
   cursor: pointer;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
+  &:disabled {
+    cursor: default;
+  }
 }
 .icon {
   display: block;
@@ -42,6 +45,9 @@
   .button:active & {
     color: var(--text-color-strong);
     scale: 1.4;
+  }
+  .button:disabled & {
+    color: #6d6155;
   }
   .button.large & {
     font-size: 2.4rem;

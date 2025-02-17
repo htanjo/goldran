@@ -34,6 +34,8 @@ export default class Controller {
 
   private useOrientationInput = false;
 
+  private pointerInputDisabled = false; // Temporarily disable pointer input.
+
   private maxDeviceRotation = 20; // degrees
 
   private baseDeviceOrientation: DeviceOrientation | null = null;
@@ -326,6 +328,10 @@ export default class Controller {
     window.requestAnimationFrame(rewindScroll);
   }
 
+  public togglePointerInput(enabled: boolean) {
+    this.pointerInputDisabled = !enabled;
+  }
+
   public destroy() {
     if (this.virtualScroll) {
       this.virtualScroll.destroy();
@@ -519,7 +525,7 @@ export default class Controller {
 
   private handlePointermove(event: PointerEvent) {
     const { innerWidth, innerHeight } = window;
-    if (innerWidth > 0 && innerHeight > 0) {
+    if (!this.pointerInputDisabled && innerWidth > 0 && innerHeight > 0) {
       const xInput = (event.clientX - innerWidth / 2) / (innerWidth / 2);
       const yInput = (event.clientY - innerHeight / 2) / (innerHeight / 2);
       this.inputRotation(xInput, yInput);

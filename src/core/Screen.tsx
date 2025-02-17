@@ -156,6 +156,10 @@ function Screen() {
     controllerRef.current?.enableRewind();
   }, []);
 
+  const togglePointerInput = useCallback((enabled: boolean) => {
+    controllerRef.current?.togglePointerInput(enabled);
+  }, []);
+
   const switchToVrMode = useCallback(() => {
     const url = new URL(window.location.href);
     url.searchParams.set('vr', 'true');
@@ -259,6 +263,7 @@ function Screen() {
           onPlay={play}
           onPause={pause}
           onReplay={replay}
+          onTogglePointerInput={togglePointerInput}
           onSwitchToVrMode={switchToVrMode}
           onToggleFullscreen={toggleFullscreen}
         />

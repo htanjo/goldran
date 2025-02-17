@@ -17,8 +17,9 @@ interface HudProps {
   onPlay: () => void;
   onPause: () => void;
   onReplay: () => void;
+  onTogglePointerInput: (enabled: boolean) => void;
   onSwitchToVrMode: () => void;
-  onToggleFullscreen: (fullscreenEnable: boolean) => void;
+  onToggleFullscreen: (enabled: boolean) => void;
 }
 
 function Hud({
@@ -28,11 +29,13 @@ function Hud({
   onPlay,
   onPause,
   onReplay,
+  onTogglePointerInput,
   onSwitchToVrMode,
   onToggleFullscreen,
 }: HudProps) {
   const { i18n, t } = useTranslation();
   const [vrSupported, setVrSupported] = useState(true); // Default "false" is natural, but set "true" to avoid tooltip bug.
+  const playButtonDisabled = contentFinished;
 
   const handleClickPlay = useCallback(
     (event: MouseEvent) => {
@@ -134,25 +137,27 @@ function Hud({
   }, []);
 
   let playButton: ReactNode;
-  if (contentFinished) {
-    playButton = null;
-    // playButton = (
-    //   <button
-    //     type="button"
-    //     className={`${classes.button} ${classes.large}`}
-    //     data-tooltip-id="hudTooltip"
-    //     data-tooltip-content={t('最初から再生')}
-    //     data-tooltip-place="right"
-    //     onClick={handleClickReplay}
-    //   >
-    //     <Icon
-    //       name="replay"
-    //       aria-label={t('最初から再生')}
-    //       className={classes.icon}
-    //     />
-    //   </button>
-    // );
-  } else if (autoPlaying) {
+  // if (contentFinished) {
+  //   playButton = (
+  //     <button
+  //       type="button"
+  //       className={`${classes.button} ${classes.large}`}
+  //       data-tooltip-id="hudTooltip"
+  //       data-tooltip-content={t('最初から再生')}
+  //       data-tooltip-place="right"
+  //       onClick={handleClickReplay}
+  //       onMouseEnter={() => onTogglePointerInput(false)}
+  //       onMouseLeave={() => onTogglePointerInput(true)}
+  //     >
+  //       <Icon
+  //         name="replay"
+  //         aria-label={t('最初から再生')}
+  //         className={classes.icon}
+  //       />
+  //     </button>
+  //   );
+  // } else if (autoPlaying) {
+  if (autoPlaying) {
     playButton = (
       <button
         type="button"
@@ -161,6 +166,8 @@ function Hud({
         data-tooltip-content={t('一時停止')}
         data-tooltip-place="right"
         onClick={handleClickPause}
+        onMouseEnter={() => onTogglePointerInput(false)}
+        onMouseLeave={() => onTogglePointerInput(true)}
       >
         <Icon
           name="pause"
@@ -175,9 +182,12 @@ function Hud({
         type="button"
         className={`${classes.button} ${classes.large}`}
         data-tooltip-id="hudTooltip"
-        data-tooltip-content={t('自動再生')}
+        data-tooltip-content={playButtonDisabled ? '' : t('自動再生')}
         data-tooltip-place="right"
         onClick={handleClickPlay}
+        onMouseEnter={() => onTogglePointerInput(false)}
+        onMouseLeave={() => onTogglePointerInput(true)}
+        disabled={playButtonDisabled}
       >
         <Icon
           name="play_circle"
