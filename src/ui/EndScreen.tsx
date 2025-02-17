@@ -118,7 +118,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 target="_blank"
                 rel="noreferrer"
                 data-tooltip-id="endScreenTooltip"
-                data-tooltip-content={t('Xにポストする')}
+                data-tooltip-content={t('Xにポスト')}
                 className={`${classes.shareButton} ${classes.xTwitter}`}
               >
                 <FaSquareXTwitter />
@@ -128,7 +128,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 target="_blank"
                 rel="noreferrer"
                 data-tooltip-id="endScreenTooltip"
-                data-tooltip-content={t('BlueSkyに投稿する')}
+                data-tooltip-content={t('BlueSkyに投稿')}
                 className={`${classes.shareButton} ${classes.bluesky}`}
               >
                 <FaBluesky />
@@ -138,7 +138,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 target="_blank"
                 rel="noreferrer"
                 data-tooltip-id="endScreenTooltip"
-                data-tooltip-content={t('Facebookでシェアする')}
+                data-tooltip-content={t('Facebookでシェア')}
                 className={`${classes.shareButton} ${classes.facebook}`}
               >
                 <FaSquareFacebook />
@@ -148,7 +148,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 target="_blank"
                 rel="noreferrer"
                 data-tooltip-id="endScreenTooltip"
-                data-tooltip-content={t('はてなブックマークに登録する')}
+                data-tooltip-content={t('はてなブックマークに登録')}
                 className={`${classes.shareButton} ${classes.hatena}`}
               >
                 <SiHatenabookmark />
@@ -158,7 +158,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 target="_blank"
                 rel="noreferrer"
                 data-tooltip-id="endScreenTooltip"
-                data-tooltip-content={t('Pocketに保存する')}
+                data-tooltip-content={t('Pocketに保存')}
                 className={`${classes.shareButton} ${classes.pocket}`}
               >
                 <FaGetPocket />

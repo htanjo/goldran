@@ -27,7 +27,7 @@
   padding-right: 1.2rem;
   text-align: center;
   line-height: 1.5;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   h2 {
     margin-top: 0;
     margin-bottom: 0.4rem;
@@ -71,6 +71,15 @@
   &.pocket {
     color: #ef4056;
   }
+  & svg {
+    display: block;
+    transition: scale 150ms;
+  }
+  &:hover svg,
+  &:focus svg,
+  &.active svg {
+    scale: 1.4;
+  }
 }
 .navigation {
   position: absolute;
@@ -106,6 +115,9 @@
 }
 // Disable hover effects on non-pointer devices.
 @media (hover: none) {
+  .shareButton:hover svg {
+    scale: 1;
+  }
   .button:hover {
     color: var(--text-color-base);
     scale: 1;
@@ -113,6 +125,7 @@
 }
 // Use stronger selector to override the default styles.
 .endScreen .tooltip {
+  margin-top: -0.2rem; // Slightly upper for icon scaling.
   padding: 0.2rem 0.5rem;
   border-radius: 0.15rem;
   font-size: max(12px, 0.7rem);
