@@ -6,9 +6,6 @@
   overflow: hidden;
   cursor: default;
   pointer-events: none;
-  &.disabled {
-    user-select: none;
-  }
 }
 .content {
   position: absolute;
@@ -20,9 +17,6 @@
   width: 100%;
   line-height: 1.5;
   pointer-events: auto;
-  .caption.disabled & {
-    pointer-events: none;
-  }
   h2 {
     margin-bottom: 0.4em;
     padding-bottom: 0.2em;

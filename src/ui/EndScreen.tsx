@@ -76,8 +76,14 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
 
   return (
     <div className={classes.endScreen}>
-      <animated.div className={classes.viewport} style={viewportStyle}>
-        <animated.div className={classes.content} style={contentStyle}>
+      <animated.div
+        className={classes.viewport}
+        style={{ ...viewportStyle, willChange: 'opacity' }}
+      >
+        <animated.div
+          className={classes.content}
+          style={{ ...contentStyle, willChange: 'transform' }}
+        >
           <div className={classes.text}>
             <h2>{t('概要')}</h2>
             <p>

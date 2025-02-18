@@ -63,8 +63,14 @@ function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
 
   return (
     <div className={classes.startScreen}>
-      <animated.div className={classes.viewport} style={viewportStyle}>
-        <animated.div className={classes.content} style={contentStyle}>
+      <animated.div
+        className={classes.viewport}
+        style={{ ...viewportStyle, willChange: 'opacity' }}
+      >
+        <animated.div
+          className={classes.content}
+          style={{ ...contentStyle, willChange: 'transform' }}
+        >
           <div className={classes.title}>
             <h1>
               <Logo />

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { animated, easings, useSpring } from '@react-spring/web';
 import QuoteEffect from './QuoteEffect';
@@ -39,6 +39,7 @@ function getTranslateY(scroll: number, type: 'info' | 'quote' | 'image') {
 
 function Caption({ id, enabled, progress, scroll }: CaptionProps) {
   const { t } = useTranslation();
+  const [visible, setVisible] = useState(enabled);
   const caption = useMemo(() => captions.find((item) => item.id === id), [id]);
   const quoteEffectEnabled = progress > 0.2;
 
@@ -49,19 +50,31 @@ function Caption({ id, enabled, progress, scroll }: CaptionProps) {
       easing: easings.easeOutSine,
       duration: hasTouchscreen ? 100 : 200,
     },
+    onRest: (result) => {
+      if (result.value.opacity === 0) {
+        setVisible(false);
+      }
+    },
   });
 
-  if (!caption) {
+  useEffect(() => {
+    if (enabled) {
+      setVisible(true);
+    }
+  }, [enabled]);
+
+  if (!caption || !visible) {
     return null;
   }
 
   const longQuote = caption.type === 'quote' && t(caption.id).includes('\n');
 
   return (
-    <div
-      className={`${classes.caption}${enabled ? '' : ` ${classes.disabled}`}`}
-    >
-      <animated.div className={classes.content} style={contentStyle}>
+    <div className={classes.caption}>
+      <animated.div
+        className={classes.content}
+        style={{ ...contentStyle, willChange: 'opacity, transform' }}
+      >
         <div
           className={`${classes.text} ${classes[caption.type]}${longQuote ? ` ${classes.small}` : ''}`}
         >
