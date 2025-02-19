@@ -45,7 +45,7 @@ function Caption({ id, enabled, progress, scroll }: CaptionProps) {
 
   const contentStyle = useSpring({
     opacity: getOpacity(progress),
-    transform: `translateY(${getTranslateY(scroll, caption?.type || 'info')}px`,
+    transform: `translateY(${getTranslateY(scroll, caption?.type || 'info')}px)`,
     config: {
       easing: easings.easeOutSine,
       duration: hasTouchscreen ? 100 : 200,
