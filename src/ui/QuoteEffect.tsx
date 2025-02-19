@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import classes from './QuoteEffect.module.scss';
 
 interface QuoteEffectProps {
-  text: string;
+  children: ReactNode;
   enabled: boolean;
 }
 
-function QuoteEffect({ text, enabled }: QuoteEffectProps) {
+function QuoteEffect({ children, enabled }: QuoteEffectProps) {
   const [secondaryVisible, setSecondaryVisible] = useState(true);
 
   const primaryStyle = useSpring({
@@ -45,18 +45,22 @@ function QuoteEffect({ text, enabled }: QuoteEffectProps) {
 
   return (
     <div className={classes.quoteEffect}>
-      <animated.div className={classes.primaryText} style={primaryStyle}>
-        {text}
+      <animated.div
+        className={classes.primaryText}
+        style={{ ...primaryStyle, willChange: 'opacity, transform' }}
+      >
+        {children}
       </animated.div>
       <animated.div
         className={classes.secondaryText}
         style={{
           ...secondaryStyle,
           visibility: secondaryVisible ? 'visible' : 'hidden',
+          willChange: 'opacity, transform',
         }}
         aria-disabled
       >
-        {text}
+        {children}
       </animated.div>
     </div>
   );

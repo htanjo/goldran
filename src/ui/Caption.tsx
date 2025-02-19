@@ -7,6 +7,7 @@ import { captions } from '../settings/captions';
 import classes from './Caption.module.scss';
 import dranDiagram from '../assets/diagram_dran.svg';
 import goldranDiagram from '../assets/diagram_goldran.svg';
+import InfoEffect from './InfoEffect';
 
 interface CaptionProps {
   id: string;
@@ -21,6 +22,9 @@ const images: { [key: string]: string } = {
 };
 
 function getOpacity(progress: number) {
+  if (progress === 0) {
+    return 0;
+  }
   const threshold = 0.9;
   const factor =
     progress > threshold ? (progress - threshold) / (1 - threshold) : 0;
@@ -29,10 +33,10 @@ function getOpacity(progress: number) {
 }
 
 function getTranslateY(scroll: number, type: 'info' | 'quote' | 'image') {
-  if (type === 'info' || type === 'image') {
+  if (type === 'image') {
     return -scroll;
   }
-  const threshold = 1000 / scrollMultiplier;
+  const threshold = (type === 'info' ? 800 : 1000) / scrollMultiplier;
   const translateY = scroll > threshold ? -(scroll - threshold) : 0;
   return translateY;
 }
@@ -41,7 +45,7 @@ function Caption({ id, enabled, progress, scroll }: CaptionProps) {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(enabled);
   const caption = useMemo(() => captions.find((item) => item.id === id), [id]);
-  const quoteEffectEnabled = progress > 0.2;
+  const effectEnabled = progress > 0.2;
 
   const contentStyle = useSpring({
     opacity: getOpacity(progress),
@@ -79,11 +83,13 @@ function Caption({ id, enabled, progress, scroll }: CaptionProps) {
           className={`${classes.text} ${classes[caption.type]}${longQuote ? ` ${classes.small}` : ''}`}
         >
           {caption.type === 'info' && (
-            // eslint-disable-next-line jsx-a11y/heading-has-content
-            <Trans i18nKey={caption.id} components={{ h2: <h2 /> }} />
+            <InfoEffect enabled={effectEnabled}>
+              {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
+              <Trans i18nKey={caption.id} components={{ h2: <h2 /> }} />
+            </InfoEffect>
           )}
           {caption.type === 'quote' && (
-            <QuoteEffect text={t(caption.id)} enabled={quoteEffectEnabled} />
+            <QuoteEffect enabled={effectEnabled}>{t(caption.id)}</QuoteEffect>
           )}
           {caption.type === 'image' && (
             <img src={images[caption.id]} alt={t(caption.id)} />
