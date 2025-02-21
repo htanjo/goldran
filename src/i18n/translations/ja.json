@@ -28,13 +28,13 @@
   "VRを開始": "VRを開始",
   "VRを終了": "VRを終了",
   "通常モードに戻る": "通常モードに戻る",
-  "incantation": "黄金の力守りし勇者よ、\n今こそ蘇り我が前に現れ出でよ！",
-  "vehicleData": "<h2>ドラン ビークルモード</h2><strong>全長:</strong> 4.8m<br /><strong>速度:</strong> 380.5km/h",
+  "incantation": "黄金の力守りし勇者よ、今こそ蘇り我が前に現れ出でよ！",
+  "vehicleData": "ドラン ビークルモード 全長: 4.8m 最高速度: 380.5km/h",
   "dranShout": "黄金剣士ドラン見参！",
-  "dranData": "<h2>黄金剣士ドラン</h2><strong>全長:</strong> 10.0m<br /><strong>重量:</strong> 12.2t<br /><strong>出力:</strong> 15,000馬力<br /><strong>速度:</strong> 68.5km/h<br /><strong>武器:</strong> 龍牙剣<br /><strong>必殺技:</strong> 稲妻斬り",
+  "dranData": "黄金剣士ドラン 全長: 10.0m 重量: 12.2t 最大出力: 15,000馬力 最高速度: 68.5km/h 武器: 龍牙剣 必殺技: 稲妻斬り",
   "golgonShout": "ゴルゴン！黄金合体だ！",
-  "golgonData": "<h2>黄金龍ゴルゴン</h2><strong>全長:</strong> 18.6m<br /><strong>重量:</strong> 25.6t<br /><strong>出力:</strong> 不明<br /><strong>速度:</strong> 88.9km/h",
-  "combinationInfo": "<h2>黄金合体</h2>ドランが窮地に陥ったとき、<br />黄金龍ゴルゴンを召喚する。<br />ドランとゴルゴンが「黄金合体」することで<br />金色の巨大勇者が誕生する！",
+  "golgonData": "黄金龍ゴルゴン 全長: 18.6m 重量: 25.6t 最大出力: 不明 最高速度: 88.9km/h",
+  "combinationData": "黄金合体ドランが窮地に陥ったとき、黄金龍ゴルゴンを召喚する。二体が「黄金合体」することで金色の巨大勇者が誕生する！",
   "goldranShout": "黄金合体！ゴルドラン！",
-  "goldranData": "<h2>黄金勇者ゴルドラン</h2><strong>全長:</strong> 20.0m<br /><strong>重量:</strong> 37.8t<br /><strong>出力:</strong> 68,000馬力<br /><strong>速度:</strong> 115.8km/h<br /><strong>武器:</strong> スーパー龍牙剣<br /><strong>必殺技:</strong> 一刀両断斬り"
+  "goldranData": "黄金勇者ゴルドラン 全長: 20.0m 重量: 37.8t 最大出力: 68,000馬力 最高速度: 115.8km/h 武器: スーパー龍牙剣 必殺技: 一刀両断斬り"
 }

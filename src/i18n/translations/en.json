@@ -28,13 +28,13 @@
   "VRを開始": "ENTER VR",
   "VRを終了": "EXIT VR",
   "通常モードに戻る": "Back to Normal Mode",
-  "incantation": "Brave who protects the golden power,\narise now and stand before me!",
-  "vehicleData": "<h2>Dran Vehicle Mode</h2><strong>Length:</strong> 4.8m<br /><strong>Speed:</strong> 380.5km/h",
+  "incantation": "Brave who protects the golden power, arise now and stand before me!",
+  "vehicleData": "Dran Vehicle Mode Length: 4.8m Speed: 380.5km/h",
   "dranShout": "Behold! Golden Swordsman Dran!",
-  "dranData": "<h2>Golden Swordsman Dran</h2><strong>Height:</strong> 10.0m<br /><strong>Weight:</strong> 12.2t<br /><strong>Output:</strong> 15,000 horsepower<br /><strong>Speed:</strong> 68.5km/h<br /><strong>Weapon:</strong> Dragon Fang Sword<br /><strong>Special Move:</strong> Lightning Slash",
+  "dranData": "Golden Swordsman Dran Height: 10.0m Weight: 12.2t Output: 15,000 horsepower Speed: 68.5km/h Weapon: Dragon Fang Sword Special Move: Lightning Slash",
   "golgonShout": "Golgon! Golden Combination!",
-  "golgonData": "<h2>Golden Dragon Golgon</h2><strong>Height:</strong> 18.6m<br /><strong>Weight:</strong> 25.6t<br /><strong>Output:</strong> Unknown<br /><strong>Speed:</strong> 88.9km/h",
-  "combinationInfo": "<h2>Golden Combination</h2>When Dran is in danger,<br />he summons the Golden Dragon Golgon.<br />Through the Golden Combination,<br />a giant golden brave is born!",
+  "golgonData": "Golden Dragon Golgon Height: 18.6m Weight: 25.6t Output: Unknown Speed: 88.9km/h",
+  "combinationData": "Golden CombinationWhen Dran is in danger, he summons the Golden Dragon Golgon. Through the Golden Combination, a giant golden brave is born!",
   "goldranShout": "Golden Combination! Goldran!",
-  "goldranData": "<h2>Golden Brave Goldran</h2><strong>Height:</strong> 20.0m<br /><strong>Weight:</strong> 37.8t<br /><strong>Output:</strong> 68,000 horsepower<br /><strong>Speed:</strong> 115.8km/h<br /><strong>Weapon:</strong> Super Dragon Fang Sword<br /><strong>Special Move:</strong> Severing Slash"
+  "goldranData": "Golden Brave Goldran Height: 20.0m Weight: 37.8t Output: 68,000 horsepower Speed: 115.8km/h Weapon: Super Dragon Fang Sword Special Move: Severing Slash"
 }
