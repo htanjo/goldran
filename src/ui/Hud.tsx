@@ -100,9 +100,12 @@ function Hud({
       if (import.meta.env.PROD) {
         ReactGA.event({ category: 'click', action: 'click_vr' });
       }
-      onSwitchToVrMode();
+      // eslint-disable-next-line no-alert
+      if (window.confirm(t('VRモードに切り替えますか？'))) {
+        onSwitchToVrMode();
+      }
     },
-    [onSwitchToVrMode],
+    [onSwitchToVrMode, t],
   );
 
   const handleClickFullscreen = useCallback(
