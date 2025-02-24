@@ -23,7 +23,7 @@ import { checkVrSupport, vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
 import { assetConfigs } from '../settings/assets';
 import { TextureConfig, textureConfigs } from '../settings/textures';
-import { lightChangeFrame } from '../settings/frames';
+import { lightChangeFrame, vrSpeedRatio } from '../settings/frames';
 
 export default class SceneManager {
   private scene: Scene;
@@ -501,7 +501,7 @@ export default class SceneManager {
     const moveXrCamera = () => {
       xrCamera.setTransformationFromNonVRCamera(this.camera);
       xrCamera.rotation = this.camera.absoluteRotation.toEulerAngles();
-      xrCamera.position.y = this.camera.globalPosition.y * 0.5 + 0.7;
+      xrCamera.position.y = this.camera.globalPosition.y * 0.9 + 0.5;
     };
 
     defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {
@@ -514,7 +514,7 @@ export default class SceneManager {
             this.effects?.disableLensEffects();
             scene.animationGroups.forEach((animationGroup) => {
               // eslint-disable-next-line no-param-reassign
-              animationGroup.speedRatio = 0.5; // A little slower in VR mode. Autoplay mode is 0.75;
+              animationGroup.speedRatio = vrSpeedRatio;
               animationGroup.play(true);
             });
             scene.registerBeforeRender(moveXrCamera);
