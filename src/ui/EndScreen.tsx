@@ -92,7 +92,11 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
               )}
               <br />
               {t(
-                '3DソフトウェアBlenderとレンダリングエンジンBabylon.jsを使用して制作しました。',
+                '作中の合体バンクを3Dアニメーションで再現することをコンセプトにしています。',
+              )}
+              <br />
+              {t(
+                '3DソフトBlenderとレンダリングエンジンBabylon.jsを使用して制作しました。',
               )}
             </p>
             <h2>{t('制作')}</h2>
