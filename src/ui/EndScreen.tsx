@@ -88,7 +88,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
             <h2>{t('概要')}</h2>
             <p>
               {t(
-                'このサイトは「黄金勇者ゴルドラン」30周年を記念して制作したファンメイド作品です。',
+                'このページは「黄金勇者ゴルドラン」30周年を記念して制作したファンメイド作品です。',
               )}
               <br />
               {t(
