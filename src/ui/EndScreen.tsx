@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
 import { animated, config, easings, useSpring } from '@react-spring/web';
 import { Tooltip } from 'react-tooltip';
+import { MdArrowUpward } from 'react-icons/md';
 import {
   FaBluesky,
   FaGetPocket,
@@ -10,7 +11,6 @@ import {
   FaSquareXTwitter,
 } from 'react-icons/fa6';
 import { SiHatenabookmark } from 'react-icons/si';
-import Icon from './Icon';
 import { hasTouchscreen, scrollMultiplier, siteUrl } from '../settings/general';
 import classes from './EndScreen.module.scss';
 
@@ -177,9 +177,8 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
               className={classes.backToStart}
               onClick={handleClickRewind}
             >
-              <Icon name="arrow_upward" className={classes.icon} />{' '}
-              {t('最初に戻る')}{' '}
-              <Icon name="arrow_upward" className={classes.icon} />
+              <MdArrowUpward className={classes.icon} /> {t('最初に戻る')}{' '}
+              <MdArrowUpward className={classes.icon} />
             </button>
           </animated.div>
           <Tooltip id="endScreenTooltip" className={classes.tooltip} />

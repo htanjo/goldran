@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { animated, config, easings, useSpring } from '@react-spring/web';
+import { CgScrollV } from 'react-icons/cg';
 import Logo from './Logo';
-import Icon from './Icon';
 import { hasTouchscreen, vrMode } from '../settings/general';
 import classes from './StartScreen.module.scss';
 
@@ -84,9 +84,8 @@ function StartScreen({ enabled, progress, scroll }: StartScreenProps) {
               className={classes.navigation}
               style={navigationStyle}
             >
-              <Icon name="arrows_outward" className={classes.icon} />{' '}
-              {t('スクロールして遊ぶ')}{' '}
-              <Icon name="arrows_outward" className={classes.icon} />
+              <CgScrollV className={classes.icon} /> {t('スクロールして遊ぶ')}{' '}
+              <CgScrollV className={classes.icon} />
             </animated.div>
           )}
         </animated.div>

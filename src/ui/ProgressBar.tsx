@@ -1,4 +1,4 @@
-import Icon from './Icon';
+import { RiArrowLeftDoubleFill, RiArrowRightDoubleFill } from 'react-icons/ri';
 import classes from './ProgressBar.module.scss';
 
 interface ProgressBarProps {
@@ -8,7 +8,7 @@ interface ProgressBarProps {
 function ProgressBar({ progress }: ProgressBarProps) {
   return (
     <div className={classes.progressBar}>
-      <Icon name="arrow_menu_close" className={classes.icon} />
+      <RiArrowLeftDoubleFill className={classes.icon} />
       <div className={classes.totalBar}>
         <div
           className={classes.activeBar}
@@ -17,7 +17,7 @@ function ProgressBar({ progress }: ProgressBarProps) {
           }}
         />
       </div>
-      <Icon name="arrow_menu_open" className={classes.icon} />
+      <RiArrowRightDoubleFill className={classes.icon} />
     </div>
   );
 }

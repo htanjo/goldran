@@ -2,7 +2,10 @@ import { MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
 import { Tooltip } from 'react-tooltip';
-import Icon from './Icon';
+import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
+import { BsBadgeVr } from 'react-icons/bs';
+import { IoIosPlayCircle } from 'react-icons/io';
+import { MdPause, MdTranslate } from 'react-icons/md';
 import {
   checkVrSupport,
   hasPointingDevice,
@@ -142,26 +145,6 @@ function Hud({
   }, []);
 
   let playButton: ReactNode;
-  // if (contentFinished) {
-  //   playButton = (
-  //     <button
-  //       type="button"
-  //       className={`${classes.button} ${classes.large}`}
-  //       data-tooltip-id="hudTooltip"
-  //       data-tooltip-content={t('最初から再生')}
-  //       data-tooltip-place="right"
-  //       onClick={handleClickReplay}
-  //       onMouseEnter={() => onTogglePointerInput(false)}
-  //       onMouseLeave={() => onTogglePointerInput(true)}
-  //     >
-  //       <Icon
-  //         name="replay"
-  //         aria-label={t('最初から再生')}
-  //         className={classes.icon}
-  //       />
-  //     </button>
-  //   );
-  // } else if (autoPlaying) {
   if (autoPlaying) {
     playButton = (
       <button
@@ -174,11 +157,7 @@ function Hud({
         onMouseEnter={() => onTogglePointerInput(false)}
         onMouseLeave={() => onTogglePointerInput(true)}
       >
-        <Icon
-          name="pause"
-          aria-label={t('一時停止')}
-          className={classes.icon}
-        />
+        <MdPause aria-label={t('一時停止')} className={classes.icon} />
       </button>
     );
   } else {
@@ -194,11 +173,7 @@ function Hud({
         onMouseLeave={() => onTogglePointerInput(true)}
         disabled={playButtonDisabled}
       >
-        <Icon
-          name="play_circle"
-          aria-label={t('自動再生')}
-          className={classes.icon}
-        />
+        <IoIosPlayCircle aria-label={t('自動再生')} className={classes.icon} />
       </button>
     );
   }
@@ -212,9 +187,8 @@ function Hud({
       data-tooltip-place="left"
       onClick={handleClickLanguage}
     >
-      <Icon
-        name="translate"
-        aria-label={t('Switch ')}
+      <MdTranslate
+        aria-label={t('Switch to English')}
         className={classes.icon}
       />
     </button>
@@ -231,10 +205,9 @@ function Hud({
         data-tooltip-place="left"
         onClick={handleClickVr}
       >
-        <Icon
-          name="head_mounted_device"
+        <BsBadgeVr
           aria-label={t('VRモードに切り替える')}
-          className={`${classes.icon} ${classes.vrIcon}`}
+          className={`${classes.icon}`}
         />
       </button>
     );
@@ -256,8 +229,7 @@ function Hud({
         data-tooltip-place="left"
         onClick={handleClickFullscreenExit}
       >
-        <Icon
-          name="fullscreen_exit"
+        <BiExitFullscreen
           aria-label={t('全画面表示を終了')}
           className={classes.icon}
         />
@@ -273,11 +245,7 @@ function Hud({
         data-tooltip-place="left"
         onClick={handleClickFullscreen}
       >
-        <Icon
-          name="fullscreen"
-          aria-label={t('全画面表示')}
-          className={classes.icon}
-        />
+        <BiFullscreen aria-label={t('全画面表示')} className={classes.icon} />
       </button>
     );
   }

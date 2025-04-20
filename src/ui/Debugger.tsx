@@ -5,7 +5,10 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { useAfterRender, useScene } from 'babylonjs-hook';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import Icon from './Icon';
+import { GoDeviceCameraVideo } from 'react-icons/go';
+import { HiMiniViewfinderCircle } from 'react-icons/hi2';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import { PiGlobe, PiToggleLeftFill, PiToggleRightFill } from 'react-icons/pi';
 import Controller from '../core/Controller';
 import { supportedLanguages } from '../i18n/init';
 import classes from './Debugger.module.scss';
@@ -54,7 +57,7 @@ function Debugger({ controllerRef }: DebuggerProps) {
           className={classes.button}
           onClick={toggleDebugger}
         >
-          <Icon name="toggle_off" className={classes.icon} />
+          <PiToggleLeftFill className={classes.icon} />
           <span className={classes.label}>Debugger</span>
         </button>
         <div className={classes.stats}>
@@ -130,7 +133,7 @@ function Debugger({ controllerRef }: DebuggerProps) {
         className={`${classes.button} ${classes.active}`}
         onClick={toggleDebugger}
       >
-        <Icon name="toggle_on" className={classes.icon} />
+        <PiToggleRightFill className={classes.icon} />
         <span className={classes.label}>Debugger</span>
       </button>
       <button
@@ -138,8 +141,7 @@ function Debugger({ controllerRef }: DebuggerProps) {
         className={clsx(classes.button, inspectorEnabled && classes.active)}
         onClick={toggleInspector}
       >
-        <Icon
-          name="frame_inspect"
+        <HiMiniViewfinderCircle
           className={classes.icon}
           aria-label="Toggle Inspector"
         />
@@ -149,20 +151,16 @@ function Debugger({ controllerRef }: DebuggerProps) {
         className={clsx(classes.button, freeCameraEnabled && classes.active)}
         onClick={toggleCamera}
       >
-        <Icon
-          name="videocam"
+        <GoDeviceCameraVideo
           className={classes.icon}
           aria-label="Toggle Camera"
         />
       </button>
       <div className={`${classes.dropdown} ${classes.dropdownMedium}`}>
         <button type="button" className={`${classes.button}`}>
-          <Icon name="language" className={classes.icon} />
+          <PiGlobe name="language" className={classes.icon} />
           <span className={classes.label}>{languageDisplayName}</span>
-          <Icon
-            name="arrow_drop_down"
-            className={`${classes.icon} ${classes.arrow}`}
-          />
+          <IoMdArrowDropdown className={`${classes.icon} ${classes.arrow}`} />
         </button>
         <select
           className={classes.select}

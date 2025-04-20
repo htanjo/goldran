@@ -48,28 +48,10 @@
   }
   .button:disabled & {
     color: #6d6155;
+    scale: 1;
   }
   .button.large & {
     font-size: 2.4rem;
-  }
-}
-.vrIcon {
-  position: relative;
-  height: 1.3rem;
-  font-size: 1.5rem;
-  &::after {
-    content: 'VR';
-    display: block;
-    position: absolute;
-    top: 0.9em;
-    left: 0;
-    right: 0;
-    margin: auto;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-style: normal;
-    font-size: 0.35em;
-    color: #000000;
   }
 }
 // Disable hover effects on non-pointer devices.

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { animated, config, useSpring } from '@react-spring/web';
-import Icon from './Icon';
+import { CgScrollV } from 'react-icons/cg';
 import classes from './ScrollWarning.module.scss';
 
 interface ScrollWarningProps {
@@ -36,9 +36,8 @@ function ScrollWarning({ enabled }: ScrollWarningProps) {
   return (
     <animated.div className={classes.scrollWarning} style={screenStyle}>
       <div className={classes.content}>
-        <Icon name="arrows_outward" className={classes.icon} />{' '}
-        {t('縦にスクロールしてください')}{' '}
-        <Icon name="arrows_outward" className={classes.icon} />
+        <CgScrollV className={classes.icon} /> {t('縦にスクロールしてください')}{' '}
+        <CgScrollV className={classes.icon} />
       </div>
     </animated.div>
   );
