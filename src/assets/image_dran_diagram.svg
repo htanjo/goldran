@@ -39,12 +39,12 @@
       }
     </style>
     <filter id="filter" filterUnits="userSpaceOnUse">
-      <feFlood result="flood" flood-color="#ffcb67"/>
+      <feImage preserveAspectRatio="none" x="203.5" y="52.6875" width="375.219" height="536.625" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzc1LjIxOSIgaGVpZ2h0PSI1MzYuNjI1IiB2aWV3Qm94PSIwIDAgMzc1LjIxOSA1MzYuNjI1Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiB1cmwoI2xpbmVhci1ncmFkaWVudCk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhci1ncmFkaWVudCIgeTE9IjI2OC4zMTIiIHgyPSIzNzUuMjE5IiB5Mj0iMjY4LjMxMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmE0NTMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIwLjMwMyIgc3RvcC1jb2xvcj0iI2ZmYTQ1MyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNjk3IiBzdG9wLWNvbG9yPSIjZmZlYTg5Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMC43OTkiIHN0b3AtY29sb3I9IiNkYWE0MDAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIwLjkwMiIgc3RvcC1jb2xvcj0iI2ZmZWE4OSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmVhODkiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjM3NS4yMTkiIGhlaWdodD0iNTM2LjYyNSIvPgo8L3N2Zz4K"/>
       <feComposite result="composite" operator="in" in2="SourceGraphic"/>
       <feBlend result="blend" in2="SourceGraphic"/>
     </filter>
     <filter id="filter-2" filterUnits="userSpaceOnUse">
-      <feFlood result="flood" flood-color="#ff743e"/>
+      <feImage preserveAspectRatio="none" x="401.688" y="174.875" width="216.624" height="180.25" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjE2LjYyNCIgaGVpZ2h0PSIxODAuMjUiIHZpZXdCb3g9IjAgMCAyMTYuNjI0IDE4MC4yNSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogdXJsKCNsaW5lYXItZ3JhZGllbnQpOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJsaW5lYXItZ3JhZGllbnQiIHkxPSI5MC4xMjUiIHgyPSIyMTYuNjI0IiB5Mj0iOTAuMTI1IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2Q0MjcyNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTAxIiBzdG9wLWNvbG9yPSIjZmY4ZjRjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Q0MjcyNyIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iMjE2LjYyNCIgaGVpZ2h0PSIxODAuMjUiLz4KPC9zdmc+Cg=="/>
       <feComposite result="composite" operator="in" in2="SourceGraphic"/>
       <feBlend result="blend" in2="SourceGraphic"/>
     </filter>
