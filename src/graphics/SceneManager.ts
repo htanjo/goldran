@@ -503,6 +503,10 @@ export default class SceneManager {
       xrCamera.rotation = this.camera.absoluteRotation.toEulerAngles();
       xrCamera.position.y = this.camera.globalPosition.y * 0.9 + 0.5;
     };
+    const syncFrame = () => {
+      const currentFrame = scene.animationGroups[0].getCurrentFrame();
+      this.applyFrame(currentFrame, true);
+    };
 
     defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {
       switch (state) {
@@ -518,6 +522,7 @@ export default class SceneManager {
               animationGroup.play(true);
             });
             scene.registerBeforeRender(moveXrCamera);
+            scene.registerBeforeRender(syncFrame);
           }
           break;
         case WebXRState.IN_XR:
@@ -538,6 +543,7 @@ export default class SceneManager {
               animationGroup.goToFrame(this.frame);
             });
             scene.unregisterBeforeRender(moveXrCamera);
+            scene.unregisterBeforeRender(syncFrame);
           }
           break;
         case WebXRState.NOT_IN_XR:
