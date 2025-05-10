@@ -103,10 +103,17 @@ function Hud({
       if (import.meta.env.PROD) {
         ReactGA.event({ category: 'click', action: 'click_vr' });
       }
-      // eslint-disable-next-line no-alert
-      if (window.confirm(t('VRモードに切り替えますか？'))) {
+      /* eslint-disable no-alert */
+      if (
+        window.confirm(
+          t(
+            'VRモードに切り替えますか？レンズ付きの専用ゴーグルやヘッドセットが必要です。',
+          ),
+        )
+      ) {
         onSwitchToVrMode();
       }
+      /* eslint-enable no-alert */
     },
     [onSwitchToVrMode, t],
   );
