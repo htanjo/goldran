@@ -22,9 +22,9 @@
     "asset:clean": "rimraf ./models/temp"
   },
   "dependencies": {
-    "@babylonjs/core": "^7.27.0",
-    "@babylonjs/inspector": "^7.27.0",
-    "@babylonjs/loaders": "^7.27.0",
+    "@babylonjs/core": "^8.8.5",
+    "@babylonjs/inspector": "^8.8.5",
+    "@babylonjs/loaders": "^8.8.5",
     "@react-spring/web": "^9.7.5",
     "babylonjs-hook": "^0.1.1",
     "bowser": "^2.11.0",
