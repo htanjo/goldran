@@ -57,7 +57,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
         event.currentTarget.blur();
       }
       if (import.meta.env.PROD) {
-        ReactGA.event({ category: 'click', action: 'click_play' });
+        ReactGA.event({ category: 'click', action: 'click_rewind' });
       }
       onRewind();
     },
