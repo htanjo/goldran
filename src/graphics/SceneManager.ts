@@ -520,6 +520,13 @@ export default class SceneManager {
             this.vrEnabled = true;
             this.vrSwitching = true;
             this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
+          }
+          break;
+        case WebXRState.IN_XR:
+          if (!this.vrEnabled || this.vrSwitching) {
+            this.vrEnabled = true;
+            this.vrSwitching = false;
+            this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
             this.effects?.disableLensEffects();
             scene.animationGroups.forEach((animationGroup) => {
               // eslint-disable-next-line no-param-reassign
@@ -528,13 +535,6 @@ export default class SceneManager {
             });
             scene.registerBeforeRender(moveXrCamera);
             scene.registerBeforeRender(syncFrame);
-          }
-          break;
-        case WebXRState.IN_XR:
-          if (!this.vrEnabled || this.vrSwitching) {
-            this.vrEnabled = true;
-            this.vrSwitching = false;
-            this.emitter.dispatchEvent(new CustomEvent('vrStateChange'));
           }
           break;
         case WebXRState.EXITING_XR:
