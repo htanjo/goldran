@@ -66,8 +66,9 @@ export default class AudioManager {
     if (this.audioEngine && !disableAudio) {
       sounds.forEach((sound) => {
         if (
-          (this.frame >= sound.frame && this.previousFrame < sound.frame) ||
-          (this.frame <= sound.frame && this.previousFrame > sound.frame)
+          ((this.frame >= sound.frame && this.previousFrame < sound.frame) ||
+            (this.frame <= sound.frame && this.previousFrame > sound.frame)) &&
+          Math.abs(this.frame - this.previousFrame) < 100 * 2.5
         ) {
           this.sounds.get(sound.name)?.play({ volume: sound.volume });
         }
@@ -98,6 +99,7 @@ export default class AudioManager {
   private async createAudioEngine() {
     const audioEngine = await CreateAudioEngineAsync({
       disableDefaultUI: true,
+      volume: 0.7,
     });
     await audioEngine.unlockAsync();
     this.audioEngine = audioEngine;

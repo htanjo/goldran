@@ -19,6 +19,7 @@ import '@babylonjs/core/Animations/animatable';
 import '@babylonjs/loaders/glTF';
 import i18n from 'i18next';
 import Effects from './Effects';
+import AudioManager from '../audio/AudioManager';
 import { checkVrSupport, vrMode } from '../settings/general';
 import { LightConfig, lightConfigs } from '../settings/lights';
 import { assetConfigs } from '../settings/assets';
@@ -62,9 +63,11 @@ export default class SceneManager {
 
   private vrSwitching: boolean = false;
 
+  private audioManager: AudioManager;
+
   private emitter: EventTarget;
 
-  public constructor(scene: Scene) {
+  public constructor(scene: Scene, audioManager: AudioManager) {
     this.scene = scene;
 
     // Configure scene.
@@ -93,6 +96,7 @@ export default class SceneManager {
     skyboxMaterial.fogEnabled = false;
     this.skyboxMaterial = skyboxMaterial;
 
+    this.audioManager = audioManager;
     this.emitter = new EventTarget();
   }
 
@@ -506,6 +510,7 @@ export default class SceneManager {
     const syncFrame = () => {
       const currentFrame = scene.animationGroups[0].getCurrentFrame();
       this.applyFrame(currentFrame, true);
+      this.audioManager.applyFrame(currentFrame);
     };
 
     defaultXRExperience.baseExperience.onStateChangedObservable.add((state) => {

@@ -45,8 +45,11 @@ let lastTimeout: NodeJS.Timeout;
 
 function Screen() {
   const sceneInstance = useScene();
-  const [entranceScreenEnabled, setEntranceScreenEnabled] = useState(true);
-  const [loadingScreenEnabled, setLoadingScreenEnabled] = useState(false);
+  const skipEntranceScreen = vrMode;
+  const [entranceScreenEnabled, setEntranceScreenEnabled] =
+    useState(!skipEntranceScreen);
+  const [loadingScreenEnabled, setLoadingScreenEnabled] =
+    useState(skipEntranceScreen);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [startScreenEnabled, setStartScreenEnabled] = useState(false);
   const [startScreenProgress, setStartScreenProgress] = useState(0);
@@ -54,6 +57,8 @@ function Screen() {
   const [endScreenEnabled, setEndScreenEnabled] = useState(false);
   const [endScreenProgress, setEndScreenProgress] = useState(0);
   const [endScreenScroll, setEndScreenScroll] = useState(0);
+  const [hudEnabled, setHudEnabled] = useState(false);
+  const [scrollbarEnabled, setScrollbarEnabled] = useState(false);
   const [captionStates, setCaptionStates] =
     useState<CaptionState[]>(initialCaptionStates);
   const [frameValue, setFrameValue] = useState(0);
@@ -77,9 +82,6 @@ function Screen() {
   const virtualScrollLength =
     (virtualContentLength - virtualViewportLength) *
     (frameValue / maxFrameValue);
-  const hudEnabled = !entranceScreenEnabled && !loadingScreenEnabled && !vrMode;
-  const scrollbarEnabled =
-    !entranceScreenEnabled && !loadingScreenEnabled && !vrMode;
 
   const onSceneReady = useCallback(async (scene: Scene) => {
     const engine = scene.getEngine();
@@ -92,7 +94,13 @@ function Screen() {
       setLoadingScreenEnabled(enabled),
     );
     controller.onLoadingProgress((progress) => setLoadingProgress(progress));
-    controller.onStartScreenToggle((enabled) => setStartScreenEnabled(enabled));
+    controller.onStartScreenToggle((enabled) => {
+      setStartScreenEnabled(enabled);
+      if (!vrMode && enabled) {
+        setHudEnabled(true);
+        setScrollbarEnabled(true);
+      }
+    });
     controller.onStartScreenProgress((progress, scroll) => {
       setStartScreenProgress(progress);
       setStartScreenScroll(scroll);
@@ -147,6 +155,7 @@ function Screen() {
       }, 1000);
       lastTimeout = timeout;
     });
+    controller.initializeScreen();
     controllerRef.current = controller;
   }, []);
 

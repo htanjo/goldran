@@ -43,7 +43,7 @@ export default class Controller {
 
   private deviceOrientation: DeviceOrientation | null = null;
 
-  private entranceScreenEnabled = true;
+  private entranceScreenEnabled = false;
 
   private loadingScreenEnabled = false;
 
@@ -114,7 +114,7 @@ export default class Controller {
     this.audioManager = new AudioManager();
 
     // Set up 3D scene.
-    this.sceneManager = new SceneManager(scene);
+    this.sceneManager = new SceneManager(scene, this.audioManager);
 
     // Update loading progress.
     this.sceneManager.onAssetsLoaded((remaining, total) => {
@@ -163,6 +163,23 @@ export default class Controller {
         this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
       }, 500);
     });
+
+    // In VR mode, load assets immediately to skip the entrance screen.
+    if (vrMode) {
+      this.loadAssets();
+    }
+  }
+
+  public initializeScreen() {
+    // In VR mode, skip the entrance screen and load assets immediately.
+    if (vrMode) {
+      this.loadAssets();
+      return;
+    }
+    this.entranceScreenEnabled = true;
+    this.loadingScreenEnabled = false;
+    this.emitter.dispatchEvent(new CustomEvent('entranceScreenToggle'));
+    this.emitter.dispatchEvent(new CustomEvent('loadingScreenToggle'));
   }
 
   public loadAssets() {
