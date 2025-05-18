@@ -59,6 +59,7 @@ function Screen() {
   const [moveSpeedValue, setMoveSpeedValue] = useState(moveSpeedSetting);
   const [autoPlaying, setAutoPlaying] = useState(false);
   // const [contentFinished, setContentFinished] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(true);
   const [vrEnabled, setVrEnabled] = useState(false);
   const [vrSwitching, setVrSwitching] = useState(false);
   const [fullscreen, setFullscreen] = useState(!!document.fullscreenElement);
@@ -124,6 +125,9 @@ function Screen() {
     // controller.onContentFinish((finished) => {
     //   setContentFinished(finished);
     // });
+    controller.onAudioToggle((enabled) => {
+      setAudioEnabled(enabled);
+    });
     controller.onVrStateChange((enabled, switching) => {
       setVrEnabled(enabled);
       setVrSwitching(switching);
@@ -158,6 +162,10 @@ function Screen() {
 
   const togglePointerInput = useCallback((enabled: boolean) => {
     controllerRef.current?.togglePointerInput(enabled);
+  }, []);
+
+  const toggleAudio = useCallback((enabled: boolean) => {
+    controllerRef.current?.toggleAudio(enabled);
   }, []);
 
   const switchToVrMode = useCallback(() => {
@@ -259,11 +267,13 @@ function Screen() {
         <Hud
           autoPlaying={autoPlaying}
           contentFinished={endScreenEnabled}
+          audioEnabled={audioEnabled}
           fullscreen={fullscreen}
           onPlay={play}
           onPause={pause}
           onReplay={replay}
           onTogglePointerInput={togglePointerInput}
+          onToggleAudio={toggleAudio}
           onSwitchToVrMode={switchToVrMode}
           onToggleFullscreen={toggleFullscreen}
         />

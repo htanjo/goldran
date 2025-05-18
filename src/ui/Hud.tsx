@@ -5,6 +5,7 @@ import { Tooltip } from 'react-tooltip';
 import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
 import { BsBadgeVr } from 'react-icons/bs';
 import { IoIosPlayCircle } from 'react-icons/io';
+import { IoVolumeHigh, IoVolumeMute } from 'react-icons/io5';
 import { MdPause, MdTranslate } from 'react-icons/md';
 import {
   checkVrSupport,
@@ -16,11 +17,13 @@ import classes from './Hud.module.scss';
 interface HudProps {
   autoPlaying: boolean;
   contentFinished: boolean;
+  audioEnabled: boolean;
   fullscreen: boolean;
   onPlay: () => void;
   onPause: () => void;
   onReplay: () => void;
   onTogglePointerInput: (enabled: boolean) => void;
+  onToggleAudio: (enabled: boolean) => void;
   onSwitchToVrMode: () => void;
   onToggleFullscreen: (enabled: boolean) => void;
 }
@@ -28,11 +31,13 @@ interface HudProps {
 function Hud({
   autoPlaying,
   contentFinished,
+  audioEnabled,
   fullscreen,
   onPlay,
   onPause,
   onReplay,
   onTogglePointerInput,
+  onToggleAudio,
   onSwitchToVrMode,
   onToggleFullscreen,
 }: HudProps) {
@@ -81,6 +86,19 @@ function Hud({
     [onReplay],
   );
   /* eslint-enable @typescript-eslint/no-unused-vars */
+
+  const handleClickAudio = useCallback(
+    (event: MouseEvent) => {
+      if (event.currentTarget instanceof HTMLElement) {
+        event.currentTarget.blur();
+      }
+      if (import.meta.env.PROD) {
+        ReactGA.event({ category: 'click', action: 'click_audio' });
+      }
+      onToggleAudio(!audioEnabled);
+    },
+    [audioEnabled, onToggleAudio],
+  );
 
   const handleClickLanguage = useCallback(
     (event: MouseEvent) => {
@@ -185,6 +203,35 @@ function Hud({
     );
   }
 
+  let audioButton: ReactNode;
+  if (audioEnabled) {
+    audioButton = (
+      <button
+        type="button"
+        className={classes.button}
+        data-tooltip-id="hudTooltip"
+        data-tooltip-content={t('ミュート')}
+        data-tooltip-place="left"
+        onClick={handleClickAudio}
+      >
+        <IoVolumeHigh aria-label={t('ミュート')} className={classes.icon} />
+      </button>
+    );
+  } else {
+    audioButton = (
+      <button
+        type="button"
+        className={classes.button}
+        data-tooltip-id="hudTooltip"
+        data-tooltip-content={t('ミュート解除')}
+        data-tooltip-place="left"
+        onClick={handleClickAudio}
+      >
+        <IoVolumeMute aria-label={t('ミュート解除')} className={classes.icon} />
+      </button>
+    );
+  }
+
   const languageButton = (
     <button
       type="button"
@@ -261,6 +308,7 @@ function Hud({
     <div className={classes.hud}>
       {playButton}
       <div className={classes.spacer} />
+      {audioButton}
       {languageButton}
       {vrButton}
       {fullscreenButton}

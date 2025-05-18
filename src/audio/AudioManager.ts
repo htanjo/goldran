@@ -75,6 +75,18 @@ export default class AudioManager {
     }
   }
 
+  public mute() {
+    if (this.audioEngine) {
+      this.audioEngine.volume = 0;
+    }
+  }
+
+  public unmute() {
+    if (this.audioEngine) {
+      this.audioEngine.volume = 1;
+    }
+  }
+
   private async createAudioEngine() {
     const audioEngine = await CreateAudioEngineAsync({
       disableDefaultUI: true,

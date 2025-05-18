@@ -77,6 +77,8 @@ export default class Controller {
 
   private contentFinished = false;
 
+  private audioEnabled = true;
+
   private vrEnabled = false;
 
   private vrSwitching = false;
@@ -250,6 +252,12 @@ export default class Controller {
     });
   }
 
+  public onAudioToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('audioToggle', () => {
+      callback(this.audioEnabled);
+    });
+  }
+
   public onVrStateChange(
     callback: (enabled: boolean, switching: boolean) => void,
   ) {
@@ -336,6 +344,16 @@ export default class Controller {
 
   public togglePointerInput(enabled: boolean) {
     this.pointerInputDisabled = !enabled;
+  }
+
+  public toggleAudio(enabled: boolean) {
+    this.audioEnabled = enabled;
+    if (enabled) {
+      this.audioManager.unmute();
+    } else {
+      this.audioManager.mute();
+    }
+    this.emitter.dispatchEvent(new CustomEvent('audioToggle'));
   }
 
   public destroy() {

@@ -21,6 +21,8 @@
   "自動再生": "Autoplay",
   "一時停止": "Pause",
   "最初から再生": "Replay",
+  "ミュート": "Mute",
+  "ミュート解除": "Unmute",
   "Switch to English": "日本語に切り替え",
   "VRモードに切り替える": "Switch to VR Mode",
   "全画面表示": "Fullscreen",
