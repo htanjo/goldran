@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { animated, config, useSpring } from '@react-spring/web';
 import Logo from './Logo';
@@ -16,8 +16,8 @@ function LoadingScreen({ enabled, loadingProgress }: LoadingScreenProps) {
 
   const screenStyle = useSpring({
     opacity: enabled ? 1 : 0,
-    config: config.molasses,
-    delay: 600,
+    config: enabled ? { duration: 0 } : config.molasses,
+    delay: enabled ? 0 : 600,
     onRest: (result) => {
       if (result.value.opacity === 0) {
         setMounted(false);
@@ -28,9 +28,15 @@ function LoadingScreen({ enabled, loadingProgress }: LoadingScreenProps) {
   // Loading UI disappears faster.
   const loadingStyle = useSpring({
     opacity: enabled ? 1 : 0,
-    config: config.default,
-    delay: 400,
+    config: enabled ? { duration: 0 } : config.default,
+    delay: enabled ? 0 : 400,
   });
+
+  useEffect(() => {
+    if (enabled) {
+      setMounted(true);
+    }
+  }, [enabled]);
 
   if (!mounted) {
     return null;

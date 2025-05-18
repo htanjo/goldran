@@ -75,6 +75,14 @@ export default class AudioManager {
     }
   }
 
+  public loadAssets() {
+    Object.keys(soundUrls).forEach(async (key) => {
+      const soundUrl = soundUrls[key];
+      const sound = await CreateSoundAsync(key, soundUrl);
+      this.sounds.set(key, sound);
+    });
+  }
+
   public mute() {
     if (this.audioEngine) {
       this.audioEngine.volume = 0;
@@ -90,11 +98,6 @@ export default class AudioManager {
   private async createAudioEngine() {
     const audioEngine = await CreateAudioEngineAsync({
       disableDefaultUI: true,
-    });
-    Object.keys(soundUrls).forEach(async (key) => {
-      const soundUrl = soundUrls[key];
-      const sound = await CreateSoundAsync(key, soundUrl);
-      this.sounds.set(key, sound);
     });
     await audioEngine.unlockAsync();
     this.audioEngine = audioEngine;

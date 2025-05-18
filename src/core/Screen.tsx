@@ -24,6 +24,7 @@ import { vrMode } from '../settings/general';
 import Caption from '../ui/Caption';
 import { captions } from '../settings/captions';
 import classes from './Screen.module.scss';
+import EntranceScreen from '../ui/EntranceScreen';
 
 const Debugger = lazy(() => import('../ui/Debugger'));
 
@@ -44,7 +45,8 @@ let lastTimeout: NodeJS.Timeout;
 
 function Screen() {
   const sceneInstance = useScene();
-  const [loadingScreenEnabled, setLoadingScreenEnabled] = useState(true);
+  const [entranceScreenEnabled, setEntranceScreenEnabled] = useState(true);
+  const [loadingScreenEnabled, setLoadingScreenEnabled] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [startScreenEnabled, setStartScreenEnabled] = useState(false);
   const [startScreenProgress, setStartScreenProgress] = useState(0);
@@ -75,13 +77,17 @@ function Screen() {
   const virtualScrollLength =
     (virtualContentLength - virtualViewportLength) *
     (frameValue / maxFrameValue);
-  const hudEnabled = !loadingScreenEnabled && !vrMode;
-  const scrollbarEnabled = !loadingScreenEnabled && !vrMode;
+  const hudEnabled = !entranceScreenEnabled && !loadingScreenEnabled && !vrMode;
+  const scrollbarEnabled =
+    !entranceScreenEnabled && !loadingScreenEnabled && !vrMode;
 
   const onSceneReady = useCallback(async (scene: Scene) => {
     const engine = scene.getEngine();
     engine.enableOfflineSupport = false;
     const controller = new Controller(scene);
+    controller.onEntranceScreenToggle((enabled) =>
+      setEntranceScreenEnabled(enabled),
+    );
     controller.onLoadingScreenToggle((enabled) =>
       setLoadingScreenEnabled(enabled),
     );
@@ -142,6 +148,10 @@ function Screen() {
       lastTimeout = timeout;
     });
     controllerRef.current = controller;
+  }, []);
+
+  const enter = useCallback(() => {
+    controllerRef.current?.loadAssets();
   }, []);
 
   const play = useCallback(() => {
@@ -220,6 +230,7 @@ function Screen() {
 
   return (
     <>
+      <EntranceScreen enabled={entranceScreenEnabled} onEnter={enter} />
       <LoadingScreen
         enabled={loadingScreenEnabled}
         loadingProgress={loadingProgress}

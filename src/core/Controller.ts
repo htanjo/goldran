@@ -43,7 +43,9 @@ export default class Controller {
 
   private deviceOrientation: DeviceOrientation | null = null;
 
-  private loadingScreenEnabled = true;
+  private entranceScreenEnabled = true;
+
+  private loadingScreenEnabled = false;
 
   private loadingProgress = 0;
 
@@ -114,9 +116,6 @@ export default class Controller {
     // Set up 3D scene.
     this.sceneManager = new SceneManager(scene);
 
-    // Load glTF and textures.
-    this.sceneManager.loadAssets();
-
     // Update loading progress.
     this.sceneManager.onAssetsLoaded((remaining, total) => {
       // Add +1 for final rendering task.
@@ -163,6 +162,22 @@ export default class Controller {
         this.emitter.dispatchEvent(new CustomEvent('loadingScreenToggle'));
         this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
       }, 500);
+    });
+  }
+
+  public loadAssets() {
+    this.entranceScreenEnabled = false;
+    this.loadingScreenEnabled = true;
+    this.emitter.dispatchEvent(new CustomEvent('entranceScreenToggle'));
+    this.emitter.dispatchEvent(new CustomEvent('loadingScreenToggle'));
+    // Load glTF, textures and sounds.
+    this.sceneManager.loadAssets();
+    this.audioManager.loadAssets();
+  }
+
+  public onEntranceScreenToggle(callback: (enabled: boolean) => void) {
+    this.emitter.addEventListener('entranceScreenToggle', () => {
+      callback(this.entranceScreenEnabled);
     });
   }
 
@@ -537,8 +552,8 @@ export default class Controller {
   }
 
   private handleScroll(event: VirtualScrollEvent) {
-    // Do nothing during the loading screen.
-    if (this.loadingScreenEnabled) {
+    // Do nothing during the entrance screen or loading screen.
+    if (this.entranceScreenEnabled || this.loadingScreenEnabled) {
       return;
     }
     // Scroll event cancels autoplay.
