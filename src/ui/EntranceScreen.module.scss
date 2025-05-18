@@ -47,9 +47,9 @@
   line-height: 1;
   color: var(--text-color-accent);
   background-color: var(--background-color-disabled);
-  transition: box-shadow 400ms;
+  transition: box-shadow 500ms;
   &:hover {
-    box-shadow: 0 0 1rem var(--text-color-base);
+    box-shadow: 0 0 2rem var(--text-color-base);
   }
 }
 .subText {
