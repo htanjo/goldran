@@ -60,10 +60,10 @@ export default class AudioManager {
     this.createAudioEngine();
   }
 
-  public applyFrame(frame: number) {
+  public applyFrame(frame: number, disableAudio?: boolean) {
     this.previousFrame = this.frame;
     this.frame = frame;
-    if (this.audioEngine) {
+    if (this.audioEngine && !disableAudio) {
       sounds.forEach((sound) => {
         if (
           (this.frame >= sound.frame && this.previousFrame < sound.frame) ||

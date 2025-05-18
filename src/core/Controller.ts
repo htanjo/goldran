@@ -322,7 +322,7 @@ export default class Controller {
         return;
       }
       const frameTime = timestamp - previousTime;
-      this.handleScrollInput(-frameTime * rewindSpeed);
+      this.handleScrollInput(-frameTime * rewindSpeed, false, true);
       previousTime = timestamp;
       if (this.frame <= 0) {
         this.rewindEnabled = false;
@@ -360,7 +360,11 @@ export default class Controller {
     // }
   }
 
-  private inputMove(value: number, disableSmoothMove?: boolean) {
+  private inputMove(
+    value: number,
+    disableSmoothMove?: boolean,
+    disableAudio?: boolean,
+  ) {
     const frameIncrement = value;
     let nextContentFinished = false;
 
@@ -378,7 +382,7 @@ export default class Controller {
       }
       this.emitter.dispatchEvent(new CustomEvent('frameProgress'));
       this.sceneManager.applyFrame(this.frame, disableSmoothMove);
-      this.audioManager.applyFrame(this.frame);
+      this.audioManager.applyFrame(this.frame, disableAudio);
       if (this.contentFinished !== nextContentFinished) {
         this.contentFinished = nextContentFinished;
         if (this.contentFinished) {
@@ -402,10 +406,14 @@ export default class Controller {
       : null;
   }
 
-  private handleScrollInput(scrollLength: number, disableSmoothMove?: boolean) {
+  private handleScrollInput(
+    scrollLength: number,
+    disableSmoothMove?: boolean,
+    disableAudio?: boolean,
+  ) {
     // Update frame.
     const frameIncrement = scrollLength * this.moveSpeed;
-    this.inputMove(frameIncrement, disableSmoothMove);
+    this.inputMove(frameIncrement, disableSmoothMove, disableAudio);
 
     // Check if start screen is visible.
     const totalScrollLength = (this.frame / this.maxFrame) * this.contentHeight;
