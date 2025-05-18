@@ -163,11 +163,6 @@ export default class Controller {
         this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
       }, 500);
     });
-
-    // In VR mode, load assets immediately to skip the entrance screen.
-    if (vrMode) {
-      this.loadAssets();
-    }
   }
 
   public initializeScreen() {
