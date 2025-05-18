@@ -4,7 +4,7 @@ import ReactGA from 'react-ga4';
 import { Tooltip } from 'react-tooltip';
 import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
 import { BsBadgeVr } from 'react-icons/bs';
-import { IoIosPlayCircle } from 'react-icons/io';
+import { IoIosPlayCircle, IoMdSettings } from 'react-icons/io';
 import { IoVolumeHigh, IoVolumeMute } from 'react-icons/io5';
 import { MdPause, MdTranslate } from 'react-icons/md';
 import {
@@ -42,6 +42,7 @@ function Hud({
   onToggleFullscreen,
 }: HudProps) {
   const { i18n, t } = useTranslation();
+  const [settingsVisible, setSettingsVisible] = useState(false);
   const [vrSupported, setVrSupported] = useState(true); // Default "false" is natural, but set "true" to avoid tooltip bug.
   const playButtonDisabled = contentFinished;
 
@@ -86,6 +87,16 @@ function Hud({
     [onReplay],
   );
   /* eslint-enable @typescript-eslint/no-unused-vars */
+
+  const handleClickSettings = useCallback((event: MouseEvent) => {
+    if (event.currentTarget instanceof HTMLElement) {
+      event.currentTarget.blur();
+    }
+    if (import.meta.env.PROD) {
+      ReactGA.event({ category: 'click', action: 'click_settings' });
+    }
+    setSettingsVisible((previousValue) => !previousValue);
+  }, []);
 
   const handleClickAudio = useCallback(
     (event: MouseEvent) => {
@@ -203,6 +214,19 @@ function Hud({
     );
   }
 
+  const settingsButton = (
+    <button
+      type="button"
+      className={`${classes.button} ${classes.settingsButton}`}
+      data-tooltip-id="hudTooltip"
+      data-tooltip-content={t('設定')}
+      data-tooltip-place="left"
+      onClick={handleClickSettings}
+    >
+      <IoMdSettings aria-label={t('設定')} className={classes.icon} />
+    </button>
+  );
+
   let audioButton: ReactNode;
   if (audioEnabled) {
     audioButton = (
@@ -305,13 +329,20 @@ function Hud({
   }
 
   return (
-    <div className={classes.hud}>
+    <div
+      className={`${classes.hud} ${settingsVisible ? classes.settingsVisible : ''}`}
+    >
       {playButton}
       <div className={classes.spacer} />
-      {audioButton}
-      {languageButton}
-      {vrButton}
-      {fullscreenButton}
+      <div className={classes.settings}>
+        <div className={classes.settingsContent}>
+          {audioButton}
+          {languageButton}
+          {vrButton}
+          {fullscreenButton}
+        </div>
+        {settingsButton}
+      </div>
       {hasPointingDevice && (
         <Tooltip id="hudTooltip" className={classes.tooltip} />
       )}

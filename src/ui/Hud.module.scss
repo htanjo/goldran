@@ -20,6 +20,7 @@
 }
 .button {
   display: block;
+  padding: 0 0.2rem;
   border: none;
   line-height: 1;
   text-shadow: inherit;
@@ -54,6 +55,41 @@
     font-size: 2.4rem;
   }
 }
+.settingsButton {
+  display: none;
+}
+.settingsContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+}
+// Settings buttons for mobile devices.
+@media (max-width: 767px) {
+  .settings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .settingsButton {
+    display: block;
+    transition: rotate 150ms;
+  }
+  .settingsContent {
+    display: none;
+  }
+  .settingsVisible {
+    .settingsButton {
+      rotate: 60deg;
+    }
+    .settingsContent {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  }
+}
+
 // Disable hover effects on non-pointer devices.
 @media (hover: none) {
   .button:hover .icon {
