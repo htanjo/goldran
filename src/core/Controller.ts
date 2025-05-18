@@ -1,6 +1,7 @@
 import { Scene } from '@babylonjs/core/scene';
 import VirtualScroll, { VirtualScrollEvent } from 'virtual-scroll';
 import SceneManager from '../graphics/SceneManager';
+import AudioManager from '../audio/AudioManager';
 import {
   hasPointingDevice,
   scrollMultiplier,
@@ -82,6 +83,8 @@ export default class Controller {
 
   public sceneManager: SceneManager;
 
+  public audioManager: AudioManager;
+
   private emitter: EventTarget;
 
   private virtualScroll: VirtualScroll | null = null;
@@ -102,6 +105,9 @@ export default class Controller {
 
     // Prepare for custom events.
     this.emitter = new EventTarget();
+
+    // Setup audio engine.
+    this.audioManager = new AudioManager();
 
     // Set up 3D scene.
     this.sceneManager = new SceneManager(scene);
@@ -372,6 +378,7 @@ export default class Controller {
       }
       this.emitter.dispatchEvent(new CustomEvent('frameProgress'));
       this.sceneManager.applyFrame(this.frame, disableSmoothMove);
+      this.audioManager.applyFrame(this.frame);
       if (this.contentFinished !== nextContentFinished) {
         this.contentFinished = nextContentFinished;
         if (this.contentFinished) {
