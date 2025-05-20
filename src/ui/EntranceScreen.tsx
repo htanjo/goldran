@@ -27,7 +27,9 @@ function EntranceScreen({ enabled, onEnter }: EntranceScreenProps) {
               className={classes.enterButton}
               onClick={onEnter}
             >
-              {t('勇者を呼び出す')}
+              <span className={classes.enterButtonText}>
+                {t('勇者を呼び出す')}
+              </span>
             </button>
             <div className={classes.subText}>
               {t(
