@@ -32,9 +32,7 @@ function EntranceScreen({ enabled, onEnter }: EntranceScreenProps) {
               </span>
             </button>
             <div className={classes.subText}>
-              {t(
-                'このページでは10MB以上の通信と、サウンドの再生が発生します。',
-              )}
+              {t('このページでは10MB以上の通信と、サウンドの再生を行います。')}
             </div>
           </div>
         </div>
