@@ -161,6 +161,7 @@ export default class Controller {
         this.emitter.dispatchEvent(new CustomEvent('loadingProgress'));
         this.emitter.dispatchEvent(new CustomEvent('loadingScreenToggle'));
         this.emitter.dispatchEvent(new CustomEvent('startScreenToggle'));
+        this.audioManager.playBackgroundMusic();
       }, 500);
     });
   }

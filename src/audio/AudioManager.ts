@@ -5,6 +5,7 @@ import {
   StaticSound,
 } from '@babylonjs/core';
 import { sounds } from '../settings/sounds';
+import musicBackground from '../assets/music_background.mp3';
 import soundBoom from '../assets/sound_boom.mp3';
 import soundBoost from '../assets/sound_boost.mp3';
 import soundBoot from '../assets/sound_boot.mp3';
@@ -64,7 +65,17 @@ export default class AudioManager {
 
   private previousFrame: number = 0;
 
+  private backgroundMusicVolume: number = 0.25;
+
+  private backgroundMusicPaused: boolean = false;
+
+  private backgroundMusicTimeout: NodeJS.Timeout | null = null;
+
+  private backgroundMusicFadeOutInterval: NodeJS.Timeout | null = null;
+
   private sounds: Map<string, StaticSound> = new Map();
+
+  private backgroundMusic: StaticSound | null = null;
 
   public constructor() {
     this.createAudioEngine();
@@ -88,9 +99,22 @@ export default class AudioManager {
         }
       });
     }
+    // Clear the timeout if applyFrame is called again before it executes.
+    if (this.backgroundMusicTimeout) {
+      clearTimeout(this.backgroundMusicTimeout);
+      this.backgroundMusicTimeout = null;
+    }
+    // If background music is not playing, start it.
+    if (this.backgroundMusic && this.backgroundMusicPaused && !disableAudio) {
+      this.fadeInBackgroundMusic();
+    }
+    // Stop music if applyFrame is not called for a while.
+    this.backgroundMusicTimeout = setTimeout(() => {
+      this.fadeOutBackgroundMusic();
+    }, 5000);
   }
 
-  public loadAssets() {
+  public async loadAssets() {
     Object.keys(soundUrls).forEach(async (key) => {
       const soundUrl = soundUrls[key];
       const sound = await CreateSoundAsync(key, soundUrl, {
@@ -98,6 +122,21 @@ export default class AudioManager {
       });
       this.sounds.set(key, sound);
     });
+    const backgroundMusic = await CreateSoundAsync(
+      'background',
+      musicBackground,
+      {
+        loop: true,
+        volume: this.backgroundMusicVolume,
+      },
+    );
+    this.backgroundMusic = backgroundMusic;
+  }
+
+  public async playBackgroundMusic() {
+    if (this.audioEngine && this.backgroundMusic) {
+      this.backgroundMusic.play();
+    }
   }
 
   public mute() {
@@ -119,5 +158,48 @@ export default class AudioManager {
     });
     await audioEngine.unlockAsync();
     this.audioEngine = audioEngine;
+  }
+
+  private fadeInBackgroundMusic(duration: number = 1000) {
+    this.backgroundMusicPaused = false;
+    if (this.backgroundMusicFadeOutInterval) {
+      clearInterval(this.backgroundMusicFadeOutInterval);
+    }
+    if (this.backgroundMusic) {
+      this.backgroundMusic.resume();
+    }
+    const intervalTime = 10; // milliseconds
+    const interval = setInterval(() => {
+      if (
+        this.backgroundMusic &&
+        this.backgroundMusic.volume < this.backgroundMusicVolume
+      ) {
+        this.backgroundMusic.volume +=
+          (intervalTime / duration) * this.backgroundMusicVolume;
+      } else {
+        clearInterval(interval);
+        if (this.backgroundMusic) {
+          this.backgroundMusic.volume = this.backgroundMusicVolume;
+        }
+      }
+    }, intervalTime);
+  }
+
+  private fadeOutBackgroundMusic(duration: number = 5000) {
+    this.backgroundMusicPaused = true;
+    const intervalTime = 10; // milliseconds
+    const interval = setInterval(() => {
+      if (this.backgroundMusic && this.backgroundMusic.volume > 0) {
+        this.backgroundMusic.volume -=
+          (intervalTime / duration) * this.backgroundMusicVolume;
+      } else {
+        clearInterval(interval);
+        if (this.backgroundMusic) {
+          this.backgroundMusic.volume = 0;
+          this.backgroundMusic.pause();
+        }
+      }
+    }, intervalTime);
+    this.backgroundMusicFadeOutInterval = interval;
   }
 }
