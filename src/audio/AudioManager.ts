@@ -2,6 +2,7 @@ import {
   AudioEngineV2,
   CreateAudioEngineAsync,
   CreateSoundAsync,
+  SoundState,
   StaticSound,
 } from '@babylonjs/core';
 import { sounds } from '../settings/sounds';
@@ -133,8 +134,14 @@ export default class AudioManager {
     this.backgroundMusic = backgroundMusic;
   }
 
-  public async playBackgroundMusic() {
-    if (this.audioEngine && this.backgroundMusic) {
+  // Starts background music if it is not already playing.
+  public async startBackgroundMusic() {
+    if (
+      this.audioEngine &&
+      this.backgroundMusic &&
+      (this.backgroundMusic.state === SoundState.Stopped ||
+        this.backgroundMusic.state === SoundState.FailedToStart)
+    ) {
       this.backgroundMusic.play();
     }
   }

@@ -535,6 +535,8 @@ export default class SceneManager {
             });
             scene.registerBeforeRender(moveXrCamera);
             scene.registerBeforeRender(syncFrame);
+            this.audioManager.unmute();
+            this.audioManager.startBackgroundMusic(); // Start background music if it'S not started yet.
           }
           break;
         case WebXRState.EXITING_XR:
@@ -549,6 +551,7 @@ export default class SceneManager {
             });
             scene.unregisterBeforeRender(moveXrCamera);
             scene.unregisterBeforeRender(syncFrame);
+            this.audioManager.mute();
           }
           break;
         case WebXRState.NOT_IN_XR:
