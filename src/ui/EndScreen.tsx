@@ -6,7 +6,7 @@ import { Tooltip } from 'react-tooltip';
 import { MdArrowUpward } from 'react-icons/md';
 import {
   FaBluesky,
-  FaGetPocket,
+  FaLine,
   FaSquareFacebook,
   FaSquareXTwitter,
 } from 'react-icons/fa6';
@@ -164,14 +164,14 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 <SiHatenabookmark />
               </a>
               <a
-                href={`https://getpocket.com/edit?url=${siteUrl}`}
+                href={`https://social-plugins.line.me/lineit/share?url=${siteUrl}`}
                 target="_blank"
                 rel="noreferrer"
                 data-tooltip-id="endScreenTooltip"
-                data-tooltip-content={t('Pocketに保存')}
-                className={`${classes.shareButton} ${classes.pocket}`}
+                data-tooltip-content={t('LINEで送る')}
+                className={`${classes.shareButton} ${classes.line}`}
               >
-                <FaGetPocket />
+                <FaLine />
               </a>
             </p>
           </div>
