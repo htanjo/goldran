@@ -53,25 +53,78 @@
   vertical-align: top;
   font-size: 1.6rem;
   &.xTwitter {
+    position: relative;
     color: #ffffff;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.15rem;
+      left: 0.15rem;
+      right: 0.15rem;
+      bottom: 0.15rem;
+      z-index: -1;
+      background-color: #0f1419;
+      border-radius: 20%;
+      transition: scale 150ms;
+    }
   }
   &.bluesky {
+    position: relative;
     padding-top: 0.15rem;
     color: #1da1f2;
     font-size: 1.4rem;
   }
   &.facebook {
+    position: relative;
     color: #1877f2;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.15rem;
+      left: 0.15rem;
+      right: 0.15rem;
+      bottom: 0.12rem;
+      z-index: -1;
+      background-color: #ffffff;
+      border-radius: 20%;
+      transition: scale 150ms;
+    }
   }
   &.hatena {
+    position: relative;
     padding-top: 0.15rem;
     color: #00a4de;
     font-size: 1.4rem;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.15rem;
+      left: 0.05rem;
+      right: 0.02rem;
+      bottom: 0.05rem;
+      z-index: -1;
+      background-color: #ffffff;
+      border-radius: 20%;
+      transition: scale 150ms;
+    }
   }
   &.line {
+    position: relative;
     padding-top: 0.15rem;
     color: #06c755;
     font-size: 1.4rem;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.15rem;
+      left: 0.05rem;
+      right: 0.02rem;
+      bottom: 0.05rem;
+      z-index: -1;
+      background-color: #ffffff;
+      border-radius: 20%;
+      transition: scale 150ms;
+    }
   }
   svg {
     display: block;
@@ -79,7 +132,10 @@
   }
   &:hover svg,
   &:focus svg,
-  &.active svg {
+  &.active svg,
+  &:hover::before,
+  &:focus::before,
+  &.active::before {
     scale: 1.4;
   }
 }
