@@ -15,14 +15,19 @@ import soundDown from '../assets/sound_down.mp3';
 import soundElectric from '../assets/sound_electric.mp3';
 import soundEngine from '../assets/sound_engine.mp3';
 import soundFlash from '../assets/sound_flash.mp3';
+import soundHero from '../assets/sound_hero.mp3';
+import soundHover from '../assets/sound_hover.mp3';
 import soundImpact from '../assets/sound_impact.mp3';
+import soundLanding from '../assets/sound_landing.mp3';
 import soundLightning from '../assets/sound_lightning.mp3';
 import soundRelease from '../assets/sound_release.mp3';
 import soundReturn from '../assets/sound_return.mp3';
+import soundRise from '../assets/sound_rise.mp3';
 import soundRoar from '../assets/sound_roar.mp3';
 import soundSplash from '../assets/sound_splash.mp3';
 import soundSwing from '../assets/sound_swing.mp3';
 import soundTap from '../assets/sound_tap.mp3';
+import soundWarn from '../assets/sound_warn.mp3';
 import soundWhirl from '../assets/sound_whirl.mp3';
 
 const soundUrls: { [key: string]: string } = {
@@ -36,14 +41,19 @@ const soundUrls: { [key: string]: string } = {
   electric: soundElectric,
   engine: soundEngine,
   flash: soundFlash,
+  hero: soundHero,
+  hover: soundHover,
   impact: soundImpact,
+  landing: soundLanding,
   lightning: soundLightning,
   release: soundRelease,
   return: soundReturn,
+  rise: soundRise,
   roar: soundRoar,
   splash: soundSplash,
   swing: soundSwing,
   tap: soundTap,
+  warn: soundWarn,
   whirl: soundWhirl,
 };
 
@@ -70,7 +80,11 @@ export default class AudioManager {
             (this.frame <= sound.frame && this.previousFrame > sound.frame)) &&
           Math.abs(this.frame - this.previousFrame) < 100 * 2.5
         ) {
-          this.sounds.get(sound.name)?.play({ volume: sound.volume });
+          const targetSound = this.sounds.get(sound.name);
+          if (targetSound) {
+            targetSound.stereo.pan = sound.pan;
+            targetSound.play({ volume: sound.volume });
+          }
         }
       });
     }
@@ -79,7 +93,9 @@ export default class AudioManager {
   public loadAssets() {
     Object.keys(soundUrls).forEach(async (key) => {
       const soundUrl = soundUrls[key];
-      const sound = await CreateSoundAsync(key, soundUrl);
+      const sound = await CreateSoundAsync(key, soundUrl, {
+        stereoEnabled: true,
+      });
       this.sounds.set(key, sound);
     });
   }
