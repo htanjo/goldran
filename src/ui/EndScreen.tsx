@@ -7,7 +7,7 @@ import { MdArrowUpward } from 'react-icons/md';
 import {
   FaBluesky,
   FaLine,
-  FaSquareFacebook,
+  FaFacebook,
   FaSquareXTwitter,
 } from 'react-icons/fa6';
 import { SiHatenabookmark } from 'react-icons/si';
@@ -151,7 +151,7 @@ function EndScreen({ enabled, progress, scroll, onRewind }: EndScreenProps) {
                 data-tooltip-content={t('Facebookでシェア')}
                 className={`${classes.shareButton} ${classes.facebook}`}
               >
-                <FaSquareFacebook />
+                <FaFacebook />
               </a>
               <a
                 href={`https://b.hatena.ne.jp/add?mode=confirm&url=${siteUrl}`}

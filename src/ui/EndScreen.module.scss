@@ -50,7 +50,7 @@
   display: inline-block;
   margin-left: 0.4rem;
   margin-right: 0.4rem;
-  vertical-align: top;
+  vertical-align: middle;
   font-size: 1.6rem;
   &.xTwitter {
     position: relative;
@@ -76,17 +76,18 @@
   }
   &.facebook {
     position: relative;
+    padding-top: 0.1rem;
     color: #1877f2;
     &::before {
       content: '';
       position: absolute;
       top: 0.15rem;
-      left: 0.15rem;
-      right: 0.15rem;
-      bottom: 0.12rem;
+      left: 0.1rem;
+      right: 0.1rem;
+      bottom: 0.03rem;
       z-index: -1;
       background-color: #ffffff;
-      border-radius: 20%;
+      border-radius: 50%;
       transition: scale 150ms;
     }
   }
